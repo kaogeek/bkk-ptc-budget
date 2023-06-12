@@ -1,0 +1,223 @@
+<template>
+    <div class="container d-flex justify-content-center align-items-center" style="margin-top:16px;">
+        <div class="statuses">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation" style="margin-right:16px;">
+                    <button class="active nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab"
+                        aria-controls="all" aria-selected="true" style="width: 74px;height: 34px;">
+                        ทั้งหมด
+                    </button>
+                </li>
+                <span style="margin-right:16px;">|</span>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#ongoing" role="tab"
+                        aria-controls="all" aria-selected="true">
+                        ดำเนินอยู่
+                    </a>
+                </li>
+                <span style="margin-right:16px;">|</span>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" role="tab"
+                        aria-controls="all" aria-selected="true">
+                        เสร็จแล้ว
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;">
+        <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
+                             
+                            </div>
+                        </div>            
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:32px;">
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
+                             
+                            </div>
+                        </div>            
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ</p>
+                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
+                                <p style="font-size:14px;font-weight:400;">ชุมชน <span style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
+                             
+                            </div>
+                        </div>     
+                    </div>
+                    <div class="col-md-3">
+
+
+                    </div>
+                    <div class="col-md-3">
+
+
+                    </div>
+                    <div class="col-md-3">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    data() {
+        return {
+            statuses: [
+                { id: 1, label: 'ทั้งหมด', class: 'all' },
+                { id: 2, label: 'ดำเนินอยู่', class: 'in-progress' },
+                { id: 3, label: 'สำเร็จแล้ว', class: 'completed' }
+            ]
+        };
+    }
+};
+</script>
+
+<style scoped>
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    color: #EF4D4E;
+    background-color: var(--bs-nav-tabs-link-active-bg);
+    border: none !important;
+
+}
+
+.nav-tabs .nav-link {
+    margin-bottom: calc(-1 * var(--bs-nav-tabs-border-width));
+    border: none !important;
+    color: #606060;
+}
+
+.nav-tabs {
+    --bs-nav-tabs-border-width: var(--bs-border-width);
+    --bs-nav-tabs-border-color: var(--bs-border-color);
+    --bs-nav-tabs-border-radius: var(--bs-border-radius);
+    --bs-nav-tabs-link-hover-border-color: var(--bs-secondary-bg) var(--bs-secondary-bg) var(--bs-border-color);
+    --bs-nav-tabs-link-active-color: var(--bs-emphasis-color);
+    --bs-nav-tabs-link-active-bg: var(--bs-body-bg);
+    --bs-nav-tabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-body-bg);
+    border-bottom: none !important;
+}
+</style>
