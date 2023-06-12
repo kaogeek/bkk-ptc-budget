@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavBar/>
-        <SearchBox/>
+        <ProjectSearchBox/>
         <ProjectList/>
         <Footer/>
     </div>

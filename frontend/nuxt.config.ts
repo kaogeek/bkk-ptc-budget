@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         inject: true,
         wght: [300,400,500,600,700,800]
       }
-    }]
+    }],
   ],
   app: {
     head: {
