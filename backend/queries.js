@@ -180,6 +180,29 @@ const getZipCodeBySubDistrictId = (request, res) => {
   );
 };
 
+const postRegistUser = (request, res) => {
+  const {title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community} = request.body
+
+  pool.query(
+    "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *", 
+    [title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      const data = results.rows;
+      const status = 200;
+      const status_msg = 'OK'; 
+      const response = {
+        status: status,
+        status_msg: status_msg,
+        data: data,
+      };
+      res.status(status).json(response);
+    }
+  );
+};
+
 
 module.exports = {
   getDistrict,
@@ -189,5 +212,6 @@ module.exports = {
   getProject,
   getSubDistrict,
   getSubDistrictByDistrictId,
-  getZipCodeBySubDistrictId
+  getZipCodeBySubDistrictId,
+  postRegistUser
 };

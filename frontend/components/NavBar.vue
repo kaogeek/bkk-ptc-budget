@@ -22,7 +22,7 @@
             </a>
             <div class="col-md-3 text-end">
                 <button type="button" class="btn btn-outline-primary me-2"
-                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เพิ่มโครงการ</button>
+                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;" v-if="role==2">เพิ่มโครงการ</button>
 
                 <NuxtLink to="signin">
                     <button type="button" class="btn btn-outline-secondary me-2"
@@ -42,3 +42,6 @@
     color: #606060;
 }
 </style>
+<script>
+  const role = 0;  
+</script>
