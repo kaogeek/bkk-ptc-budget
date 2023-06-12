@@ -36,7 +36,7 @@
                                         <div class="form-outline mb-4">
                                             <select class="select form-control" v-model="districtOption"
                                                 @change="districtSelect($event)">
-                                                <option value="">อำเภอ</option>
+                                                <option value="">เขต/อำเภอ</option>
                                                 <option v-for="district in districts" :key="district.district_id"
                                                     :value="district.district_id">{{ district.name_th }}</option>
                                             </select>
@@ -44,7 +44,7 @@
                                         <div class="form-outline mb-4">
                                             <select class="select form-control" readonly v-model="subDistrictOption"
                                                 @change="subDistrictSelect($event)">
-                                                <option value="">ตำบล</option>
+                                                <option value="">แขวง/ตำบล</option>
                                                 <option v-for="subdistrict in subdistricts" :key="subdistrict.id"
                                                     :value="subdistrict.id">{{ subdistrict.name_th }}</option>
                                             </select>
@@ -85,7 +85,7 @@ export default {
     methods: {
         async fetchDistrictData() {
             try {
-                const response = await fetch('http://localhost:8090/api/districts');
+                const response = await fetch('http://bkkpb.ath.cx/api/districts');
                 const data = await response.json();
                 this.districts = data['data'];
             } catch (error) {
@@ -102,7 +102,7 @@ export default {
         },
         async fetchSubDistrictData(id) {
             try {
-                const response = await fetch('http://localhost:8090/api/subdistrict/' + id);
+                const response = await fetch('http://bkkpb.ath.cx/api/subdistrict/' + id);
                 const data = await response.json();
                 this.subdistricts = data['data'];
             } catch (error) {
@@ -111,7 +111,7 @@ export default {
         },
         async fetchZipCodeData(id) {
             try {
-                const response = await fetch('http://localhost:8090/api/zipcode/' + id);
+                const response = await fetch('http://bkkpb.ath.cx/api/zipcode/' + id);
                 const data = await response.json();
                 this.zipcode = data['data'][0];
             } catch (error) {
