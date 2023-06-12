@@ -1,5 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+swaggerJsdoc = require("swagger-jsdoc"),
+swaggerUi = require("swagger-ui-express");
 const app = express()
 const db = require('./queries')
 const port = 8090
@@ -45,6 +47,40 @@ app.post('/api/createNewUser', (req, res) => {
   const token = generateAccessToken({ username: req.body.username });
   res.json(token);
 });
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Participatory Budgeting",
+      version: "0.1.0",
+      description:
+        "Participatory Budgeting RESTFUL API",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Kaogeek",
+        url: "",
+        email: "",
+      },
+    },
+    servers: [
+      {
+        url: "http://bkkpb.ath.cx/api",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
