@@ -16,9 +16,13 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/google-fonts": "^3.0.1",
+    "@nuxtjs/toast": "^3.3.1",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.10.5",
     "node-fetch": "^3.3.1",
-    "url-join": "^5.0.0"
+    "nuxt-tailvue": "^1.0.95",
+    "sweetalert2": "^11.7.12",
+    "url-join": "^5.0.0",
+    "vue-toasted": "^1.1.28"
   }
 }
