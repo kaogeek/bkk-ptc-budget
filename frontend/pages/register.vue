@@ -70,7 +70,9 @@
                                             <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน"
                                                 v-model="form.password" />
                                         </div>
-                                        <button type="submit" class="btn btn-success btn-lg mb-1">สมัครสมาชิก</button>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -161,7 +163,7 @@ export default {
         },
         handleSubmit: async function () {
             try {
-                const response = await fetch('http://bkkpb.ath.cx/api/user/register', {
+                const response = await fetch('http://localhost:8090/api/user/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -172,6 +174,7 @@ export default {
                 if (response.ok) {
 
                     const responseData = await response.json();
+                    sessionStorage.setItem('auth-token',responseData.token)
                     Swal.fire({
                         icon: 'success',
                         title: '',
