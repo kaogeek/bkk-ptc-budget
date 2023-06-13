@@ -43,7 +43,7 @@ app.get('/api/project/status', db.getProjectStatus)
 app.get('/api/project/status/:id', db.getProjectStatusById)
 app.get('/api/project/', db.getProject)
 app.post('/api/user/register',db.postRegistUser)
-
+app.get('/api/role',db.getRole)
 app.post('/api/createNewUser', (req, res) => {
   const token = generateAccessToken({ username: req.body.username });
   res.json(token);
