@@ -27,8 +27,12 @@
                                                 v-model="form.lastname" />
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="position" class="form-control" placeholder="ตำแหน่ง"
-                                                v-model="form.position" />
+                                            <select class="select form-control" v-model="form.position">
+                                                <option value="">ตำแหน่ง</option>
+                                                <option v-for="role in roles" :key="role.id" :value="role.id">{{
+                                                    role.rolename }}
+                                                </option>
+                                            </select>
                                         </div>
                                         <div class="form-outline mb-4">
                                             <input type="text" id="phone" class="form-control" placeholder="เบอร์โทร"
@@ -62,6 +66,10 @@
                                             <input type="text" id="community" class="form-control" placeholder="ชุมชน"
                                                 v-model="form.community" />
                                         </div>
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน"
+                                                v-model="form.password" />
+                                        </div>
                                         <button type="submit" class="btn btn-success btn-lg mb-1">สมัครสมาชิก</button>
                                     </form>
                                 </div>
@@ -85,6 +93,7 @@ export default {
             zipcode: {
                 zip_code: '',
             },
+            roles: [],
             form: {
                 title: "",
                 firstname: "",
@@ -95,12 +104,14 @@ export default {
                 district: "",
                 subdistrict: "",
                 zipcode: "",
-                community: ""
+                community: "",
+                password: "",
             },
         };
     },
     mounted() {
         this.fetchDistrictData();
+        this.fetchRoleData();
     },
     methods: {
         async fetchDistrictData() {
@@ -129,6 +140,15 @@ export default {
                 console.error(error);
             }
         },
+        async fetchRoleData() {
+            try {
+                const response = await fetch('http://localhost:8090/api/role');
+                const data = await response.json();
+                this.roles = data['data'];
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async fetchZipCodeData(id) {
             try {
                 const response = await fetch('http://bkkpb.ath.cx/api/zipcode/' + id);
@@ -140,9 +160,8 @@ export default {
             }
         },
         handleSubmit: async function () {
-
             try {
-                const response = await fetch('http://bkkpb.ath.cx/api/user/register', {
+                const response = await fetch('http://localhost:8090/api/user/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -158,6 +177,8 @@ export default {
                         title: '',
                         text: 'สมัครสมาชิกเรียบร้อยแล้ว',
                         timer: 1500
+                    }).then((result) => {
+                        this.$router.push('/')
                     })
 
                 } else {

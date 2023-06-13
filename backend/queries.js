@@ -6,6 +6,7 @@ const pool = new Pool({
   password: "Admin1234!",
   port: 54327,
 });
+const bcrypt = require('bcrypt');
 const getDistrict = (request, res) => {
   pool.query(
     "SELECT * FROM district WHERE province_id=1 ORDER BY district_id ASC",
@@ -180,12 +181,10 @@ const getZipCodeBySubDistrictId = (request, res) => {
   );
 };
 
-const postRegistUser = (request, res) => {
-  const {title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community} = request.body
+const getRole = (request, res) => {
 
   pool.query(
-    "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *", 
-    [title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community],
+    "SELECT * FROM role ORDER BY id ASC",
     (error, results) => {
       if (error) {
         throw error;
@@ -203,6 +202,38 @@ const postRegistUser = (request, res) => {
   );
 };
 
+const postRegistUser = async (request, res) => {
+  const { title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password } = request.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword)
+    const query = {
+      text: "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+      values: [title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, hashedPassword]
+    };
+    const results = await pool.query(query);
+
+    const data = results.rows;
+    const status = 200;
+    const status_msg = 'OK';
+    const response = {
+      status: status,
+      status_msg: status_msg,
+      data: data,
+    };
+
+    res.status(status).json(response);
+  } catch (error) {
+    // Handle error during password hashing or database query
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+
 
 module.exports = {
   getDistrict,
@@ -213,5 +244,6 @@ module.exports = {
   getSubDistrict,
   getSubDistrictByDistrictId,
   getZipCodeBySubDistrictId,
-  postRegistUser
+  postRegistUser,
+  getRole
 };
