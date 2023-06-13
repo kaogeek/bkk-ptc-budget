@@ -1,11 +1,14 @@
 const Pool = require("pg").Pool;
 const jwt = require('jsonwebtoken');
+const dotenv = require("dotenv");
+
+dotenv.config();
 const pool = new Pool({
-  user: "Admin",
-  host: "bkkpb.ath.cx",
-  database: "pb",
-  password: "Admin1234!",
-  port: 54327,
+  user: process.env.user,
+  host: process.env.host,
+  database: process.env.database,
+  password: process.env.password,
+  port: process.env.port,
 });
 const bcrypt = require("bcrypt");
 const getDistrict = (request, res) => {
@@ -230,9 +233,7 @@ const postRegistUser = async (request, res) => {
 
     
     const data = results.rows;
-    const dotenv = require("dotenv");
-
-    dotenv.config();
+    
 
     process.env.TOKEN_SECRET;
     token = jwt.sign(
