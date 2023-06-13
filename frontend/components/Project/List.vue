@@ -29,9 +29,9 @@
     <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;">
         <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
@@ -42,8 +42,8 @@
                             </div>
                         </div>            
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -66,8 +66,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -79,9 +79,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top:32px;">
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                <div class="row justify-content-center" style="margin-top:32px;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
@@ -92,8 +92,8 @@
                             </div>
                         </div>            
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -104,8 +104,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -116,8 +116,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
@@ -133,9 +133,9 @@
         </div>
         <div class="tab-pane" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card" style="width: 18rem;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3 mb-4">
+                        <div class="card">
                             <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
@@ -146,37 +146,13 @@
                             </div>
                         </div>     
                     </div>
-                    <div class="col-md-3">
-
-
-                    </div>
-                    <div class="col-md-3">
-
-
-                    </div>
-                    <div class="col-md-3">
-
-
-                    </div>
+                  
                 </div>
             </div>
         </div>
         <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>
