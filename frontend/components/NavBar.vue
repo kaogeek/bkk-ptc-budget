@@ -57,7 +57,8 @@ export default {
     },
     methods: {
         async asyncData() {
-          const token = sessionStorage.getItem('auth-token');
+          const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlMS5jb20iLCJyb2xlIjoiMSIsImlhdCI6MTY4NjY1MDMwOCwiZXhwIjoxNjg2NjUzOTA4fQ.iswSCk3QRJmdtvmXhzD0TaPGRiosSIm-XpT6BJLemxQ';  
+         // const token = sessionStorage.getItem('auth-token');
           var decoded = jwt_decode(token);
           
           this.role = decoded.role
