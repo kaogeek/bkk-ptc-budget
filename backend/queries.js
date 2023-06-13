@@ -257,6 +257,50 @@ const postRegistUser = async (request, res) => {
   }
 };
 
+const getCommunityDistrictId = (request, res) => {
+  const id = parseInt(request.params.id);
+
+  pool.query(
+    "SELECT * FROM community WHERE district_id = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      const data = results.rows;
+      const status = 200;
+      const status_msg = "OK";
+      const response = {
+        status: status,
+        status_msg: status_msg,
+        data: data,
+      };
+      res.status(status).json(response);
+    }
+  );
+};
+
+const getCommunity = (request, res) => {
+  pool.query(
+    "SELECT * FROM community ORDER BY id",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      const data = results.rows;
+      const status = 200;
+      const status_msg = "OK";
+      const response = {
+        status: status,
+        status_msg: status_msg,
+        data: data,
+      };
+      res.status(status).json(response);
+    }
+  );
+};
+
+
 module.exports = {
   getDistrict,
   getDistrictById,
@@ -268,4 +312,6 @@ module.exports = {
   getZipCodeBySubDistrictId,
   postRegistUser,
   getRole,
+  getCommunityDistrictId,
+  getCommunity
 };
