@@ -63,8 +63,11 @@
                                                 v-model="form.zipcode" readonly />
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="community" class="form-control" placeholder="ชุมชน"
-                                                v-model="form.community" />
+                                            <select class="select form-control" readonly v-model="form.community">
+                                                <option value="">ระบุชุมชน</option>
+                                                <option v-for="community in communities" :key="community.id"
+                                                    :value="community.id">{{ community.communityname }}</option>
+                                            </select>
                                         </div>
                                         <div class="form-outline mb-4">
                                             <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน"
@@ -96,6 +99,8 @@ export default {
                 zip_code: '',
             },
             roles: [],
+            communities: [],
+            communitiesOption: '',
             form: {
                 title: "",
                 firstname: "",
@@ -128,6 +133,7 @@ export default {
         districtSelect(event) {
             this.selected = event.target.value;
             this.fetchSubDistrictData(this.selected);
+            this.fetchCommunityData(this.selected);
         },
         subDistrictSelect(event) {
             this.selected = event.target.value;
@@ -138,6 +144,15 @@ export default {
                 const response = await fetch('http://bkkpb.ath.cx/api/subdistrict/' + id);
                 const data = await response.json();
                 this.subdistricts = data['data'];
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async fetchCommunityData(id) {
+            try {
+                const response = await fetch('http://bkkpb.ath.cx/api/community/district/' + id);
+                const data = await response.json();
+                this.communities = data['data'];
             } catch (error) {
                 console.error(error);
             }
