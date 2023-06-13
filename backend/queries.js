@@ -1,4 +1,5 @@
 const Pool = require("pg").Pool;
+const jwt = require('jsonwebtoken');
 const pool = new Pool({
   user: "Admin",
   host: "bkkpb.ath.cx",
@@ -6,7 +7,7 @@ const pool = new Pool({
   password: "Admin1234!",
   port: 54327,
 });
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const getDistrict = (request, res) => {
   pool.query(
     "SELECT * FROM district WHERE province_id=1 ORDER BY district_id ASC",
@@ -16,7 +17,7 @@ const getDistrict = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -39,7 +40,7 @@ const getDistrictById = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -59,7 +60,7 @@ const getProjectStatus = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -82,7 +83,7 @@ const getProjectStatusById = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -94,45 +95,37 @@ const getProjectStatusById = (request, res) => {
 };
 
 const getProject = (request, res) => {
-
-  pool.query(
-    "SELECT * FROM project ORDER BY id ASC",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      const data = results.rows;
-      const status = 200;
-      const status_msg = 'OK'; 
-      const response = {
-        status: status,
-        status_msg: status_msg,
-        data: data,
-      };
-      res.status(status).json(response);
+  pool.query("SELECT * FROM project ORDER BY id ASC", (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    const data = results.rows;
+    const status = 200;
+    const status_msg = "OK";
+    const response = {
+      status: status,
+      status_msg: status_msg,
+      data: data,
+    };
+    res.status(status).json(response);
+  });
 };
 
 const getSubDistrict = (request, res) => {
-
-  pool.query(
-    "SELECT * FROM subdistrict ORDER BY id ASC",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      const data = results.rows;
-      const status = 200;
-      const status_msg = 'OK'; 
-      const response = {
-        status: status,
-        status_msg: status_msg,
-        data: data,
-      };
-      res.status(status).json(response);
+  pool.query("SELECT * FROM subdistrict ORDER BY id ASC", (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    const data = results.rows;
+    const status = 200;
+    const status_msg = "OK";
+    const response = {
+      status: status,
+      status_msg: status_msg,
+      data: data,
+    };
+    res.status(status).json(response);
+  });
 };
 
 const getSubDistrictByDistrictId = (request, res) => {
@@ -147,7 +140,7 @@ const getSubDistrictByDistrictId = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -170,7 +163,7 @@ const getZipCodeBySubDistrictId = (request, res) => {
       }
       const data = results.rows;
       const status = 200;
-      const status_msg = 'OK'; 
+      const status_msg = "OK";
       const response = {
         status: status,
         status_msg: status_msg,
@@ -182,58 +175,87 @@ const getZipCodeBySubDistrictId = (request, res) => {
 };
 
 const getRole = (request, res) => {
-
-  pool.query(
-    "SELECT * FROM role ORDER BY id ASC",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      const data = results.rows;
-      const status = 200;
-      const status_msg = 'OK'; 
-      const response = {
-        status: status,
-        status_msg: status_msg,
-        data: data,
-      };
-      res.status(status).json(response);
+  pool.query("SELECT * FROM role ORDER BY id ASC", (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
-};
-
-const postRegistUser = async (request, res) => {
-  const { title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password } = request.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword)
-    const query = {
-      text: "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
-      values: [title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, hashedPassword]
-    };
-    const results = await pool.query(query);
-
     const data = results.rows;
     const status = 200;
-    const status_msg = 'OK';
+    const status_msg = "OK";
     const response = {
       status: status,
       status_msg: status_msg,
       data: data,
     };
+    res.status(status).json(response);
+  });
+};
+
+const postRegistUser = async (request, res) => {
+  const {
+    title,
+    firstname,
+    lastname,
+    position,
+    phone,
+    email,
+    district,
+    subdistrict,
+    zipcode,
+    community,
+    password,
+  } = request.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const query = {
+      text: "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+      values: [
+        title,
+        firstname,
+        lastname,
+        position,
+        phone,
+        email,
+        district,
+        subdistrict,
+        zipcode,
+        community,
+        hashedPassword,
+      ],
+    };
+    const results = await pool.query(query);
+  
+
+    
+    const data = results.rows;
+    const dotenv = require("dotenv");
+
+    dotenv.config();
+
+    process.env.TOKEN_SECRET;
+    token = jwt.sign(
+      { id: data[0].id, email: data[0].email, role:data[0].position },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+  
+    const status = 200;
+    const status_msg = "OK";
+    const response = {
+      status: status,
+      status_msg: status_msg,
+      data: data,
+      token: token
+    };
 
     res.status(status).json(response);
   } catch (error) {
-    // Handle error during password hashing or database query
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-
-
 
 module.exports = {
   getDistrict,
@@ -245,5 +267,5 @@ module.exports = {
   getSubDistrictByDistrictId,
   getZipCodeBySubDistrictId,
   postRegistUser,
-  getRole
+  getRole,
 };

@@ -17,7 +17,7 @@ app.use(
     extended: true,
   })
 )
-require('crypto').randomBytes(64).toString('hex')
+
 
 const dotenv = require('dotenv');
 

@@ -22,26 +22,46 @@
             </a>
             <div class="col-md-3 text-end">
                 <button type="button" class="btn btn-outline-primary me-2"
-                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;" v-if="role==2">เพิ่มโครงการ</button>
+                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;"
+                    v-if="role == 1">เพิ่มโครงการ</button>
 
                 <NuxtLink to="signin">
                     <button type="button" class="btn btn-outline-secondary me-2"
-                    style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
-                </NuxtLink>    
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
+                </NuxtLink>
                 <NuxtLink to="register">
                     <button type="button" class="btn btn-outline-secondary me-2"
-                    style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
-                </NuxtLink>    
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
+                </NuxtLink>
             </div>
         </header>
     </div>
 </template>
 <style scoped>
-.btn-outline-secondary:hover{
+.btn-outline-secondary:hover {
     background-color: white !important;
     color: #606060;
 }
 </style>
 <script>
-  const role = 0;  
+import jwt_decode from "jwt-decode";
+export default {
+    data() {
+        return {
+            role:"",
+        };
+    },
+    mounted() {
+        this.asyncData();
+       
+    },
+    methods: {
+        async asyncData() {
+          const token = sessionStorage.getItem('auth-token');
+          var decoded = jwt_decode(token);
+          
+          this.role = decoded.role
+        }
+    }
+}
 </script>
