@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <Title>ชุมชนโปร่งใส - เข้าสู่ระบบ</Title>
+    </Head>
     <NavBar />
     <div class="container" style="margin-top:94px;">
         <p style="font-size:36px;font-weight:100;" class="text-center">เข้าสู่ระบบ</p>
@@ -19,7 +22,8 @@
                                                 v-model="form.password" />
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
+                                            <button type="submit" class="btn btn-success btn-lg mb-1 pull-right"
+                                                style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
                                         </div>
                                     </form>
                                 </div>

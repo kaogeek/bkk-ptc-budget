@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <Title>ชุมชนโปร่งใส - เพิ่มข้อมูลโครงการ</Title>
+    </Head>
     <NavBar />
     <div class="container" style="margin-top:94px;">
         <p style="font-size:36px;font-weight:100;" class="text-center">แบบฟอร์มโครงการ</p>
@@ -83,24 +86,25 @@
                         <div class="row mb-3">
                             <label for="projectgoal" class="col-sm-2 col-form-label">6. แผนปฏิบัติการ</label>
                             <div class="col-sm-10">
-                               <input type="file" class="form-control">
+                                <input type="file" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="projectbudgetamount" class="col-sm-2 col-form-label">7. งบประมาณ</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="projectbudgetamount"
-                                    placeholder="งบประมาณ" required>
+                                <input type="text" class="form-control" id="projectbudgetamount" placeholder="งบประมาณ"
+                                    required>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="projectgoal" class="col-sm-2 col-form-label">8. ความเสี่ยงของโครงการและแนวทางการบริหารความเสี่ยง</label>
+                            <label for="projectgoal" class="col-sm-2 col-form-label">8.
+                                ความเสี่ยงของโครงการและแนวทางการบริหารความเสี่ยง</label>
                             <div class="col-sm-10">
                                 <Editor api-key="811i50spa7vcrktduyzcd6684wjg8g2vsrm0sephs5g1qqaq" :init="{
                                     plugins: 'lists link image table code help wordcount textpattern'
                                 }" />
                             </div>
-                           
+
                         </div>
                         <div class="row mb-3">
                             <label for="projectgoal" class="col-sm-2 col-form-label">9. ประโยชน์ที่คาดว่าจะได้รับ</label>
@@ -109,7 +113,7 @@
                                     plugins: 'lists link image table code help wordcount textpattern'
                                 }" />
                             </div>
-                           
+
                         </div>
                         <div class="row mb-3">
                             <label for="projectgoal" class="col-sm-2 col-form-label">10. การติดตามประเมินผล</label>
@@ -118,7 +122,7 @@
                                     plugins: 'lists link image table code help wordcount textpattern'
                                 }" />
                             </div>
-                           
+
                         </div>
                         <div class="row">
                             <div class="text-center">
