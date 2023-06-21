@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <Title>ชุมชนโปร่งใส - สมัครสมาชิก</Title>
+    </Head>
     <NavBar />
     <div class="container" style="margin-top:94px;">
         <p style="font-size:36px;font-weight:100;" class="text-center">สมัครสมาชิก</p>
@@ -12,7 +15,7 @@
                                     <form class="px-md-2" @submit.prevent="handleSubmit">
                                         <div class="form-outline mb-4">
                                             <select class="select form-control" v-model="form.title">
-                                                <option value="">คำนำหน้าชื่อ</option>
+                                                <option value="">นาย นาง นางสาว</option>
                                                 <option value="นาย">นาย</option>
                                                 <option value="นาง">นาง</option>
                                                 <option value="นางสาว">นางสาว</option>
@@ -74,7 +77,8 @@
                                                 v-model="form.password" />
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
+                                            <button type="submit" class="btn btn-success btn-lg mb-1 pull-right"
+                                                style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
                                         </div>
                                     </form>
                                 </div>
@@ -189,7 +193,7 @@ export default {
                 if (response.ok) {
 
                     const responseData = await response.json();
-                    sessionStorage.setItem('auth-token',responseData.token)
+                    sessionStorage.setItem('auth-token', responseData.token)
                     Swal.fire({
                         icon: 'success',
                         title: '',

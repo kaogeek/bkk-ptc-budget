@@ -45,11 +45,12 @@
 </style>
 <script>
 import jwt_decode from "jwt-decode";
-const role = '';
+const role = 0;
+
 export default {
     data() {
         return {
-            role: ''
+            role: role
         }
     },
     mounted() {
@@ -63,6 +64,7 @@ export default {
             var decoded = jwt_decode(token);
 
             this.role = decoded.role
+           
         }
     }
 }
