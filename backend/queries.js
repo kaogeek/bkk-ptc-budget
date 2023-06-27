@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -229,29 +229,75 @@ const postRegistUser = async (request, res) => {
       ],
     };
     const results = await pool.query(query);
-  
 
-    
     const data = results.rows;
-    
 
     process.env.TOKEN_SECRET;
     token = jwt.sign(
-      { id: data[0].id, email: data[0].email, role:data[0].position },
+      { id: data[0].id, email: data[0].email, role: data[0].position },
       process.env.TOKEN_SECRET,
       { expiresIn: "1h" }
     );
-  
+
     const status = 200;
     const status_msg = "OK";
     const response = {
       status: status,
       status_msg: status_msg,
       data: data,
-      token: token
+      token: token,
     };
 
     res.status(status).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const postAuthUser = async (request, res) => {
+  const { email, password } = request.body;
+
+  try {
+    pool.query(
+      "SELECT * FROM USERS WHERE email=$1",
+      [email],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        const data = results.rows;
+
+        bcrypt.compare(password, data[0].password, (error, isMatch) => {
+          if (error) {
+            // Handle the error
+            console.error(error);
+            return;
+          }
+
+          if (isMatch) {
+            process.env.TOKEN_SECRET;
+            token = jwt.sign(
+              { id: data[0].id, email: data[0].email, role: data[0].position },
+              process.env.TOKEN_SECRET,
+              { expiresIn: "1h" }
+            );
+            const status = 200;
+            const status_msg = "OK";
+            const response = {
+              status: status,
+              status_msg: status_msg,
+              data: data,
+              token: token
+            };
+            res.status(status).json(response);
+          } else {
+            // Passwords do not match
+            console.log("Password is incorrect");
+          }
+        });
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -271,10 +317,11 @@ const getCommunityDistrictId = (request, res) => {
       const data = results.rows;
       const status = 200;
       const status_msg = "OK";
+
       const response = {
         status: status,
         status_msg: status_msg,
-        data: data,
+        data: data
       };
       res.status(status).json(response);
     }
@@ -282,27 +329,21 @@ const getCommunityDistrictId = (request, res) => {
 };
 
 const getCommunity = (request, res) => {
-  pool.query(
-    "SELECT * FROM community ORDER BY id",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      const data = results.rows;
-      const status = 200;
-      const status_msg = "OK";
-      const response = {
-        status: status,
-        status_msg: status_msg,
-        data: data,
-      };
-      res.status(status).json(response);
+  pool.query("SELECT * FROM community ORDER BY id", (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    const data = results.rows;
+    const status = 200;
+    const status_msg = "OK";
+    const response = {
+      status: status,
+      status_msg: status_msg,
+      data: data,
+    };
+    res.status(status).json(response);
+  });
 };
-
-
-
 
 module.exports = {
   getDistrict,
@@ -316,5 +357,6 @@ module.exports = {
   postRegistUser,
   getRole,
   getCommunityDistrictId,
-  getCommunity
+  getCommunity,
+  postAuthUser,
 };
