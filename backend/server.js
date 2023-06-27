@@ -46,6 +46,7 @@ app.post('/api/user/register',db.postRegistUser)
 app.get('/api/role',db.getRole)
 app.get('/api/community/district/:id',db.getCommunityDistrictId)
 app.get('/api/community/',db.getCommunity)
+app.post('/api/user/auth', db.postAuthUser)
 app.post('/api/createNewUser', (req, res) => {
   const token = generateAccessToken({ username: req.body.username });
   res.json(token);
