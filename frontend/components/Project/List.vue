@@ -26,7 +26,14 @@
         </div>
 
     </div>
-    <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;">
+    <div v-if="recordCount == 0">
+        <div class="container" style="margin-top:64px;">
+            <div class="alert alert-danger" role="alert">
+                ขณะนี้ยังไม่มีข้อมูลโครงการ !
+            </div>
+        </div>
+    </div>
+    <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;" v-else>
         <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <div class="container">
                 <div class="row justify-content-center">
@@ -163,7 +170,7 @@
                         </div>
                     </div>
                 </div>
-             
+
 
 
 
@@ -203,12 +210,25 @@
 export default {
     data() {
         return {
-            statuses: [
-                { id: 1, label: 'ทั้งหมด', class: 'all' },
-                { id: 2, label: 'ดำเนินอยู่', class: 'in-progress' },
-                { id: 3, label: 'สำเร็จแล้ว', class: 'completed' }
-            ]
+            projects: [],
+            recordCount: ''
         };
+    },
+    mounted() {
+        this.fetchProjectData();
+    },
+    methods: {
+        async fetchProjectData() {
+            try {
+                const response = await fetch('http://bkkpb.ath.cx/api/project');
+                const data = await response.json();
+                const dataLength = data.data.length;
+                this.recordCount = dataLength;
+                console.log(this.recordCount)
+            } catch (error) {
+                console.error(error);
+            }
+        },
     }
 };
 </script>
