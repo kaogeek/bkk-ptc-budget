@@ -20,25 +20,27 @@
 
                 <span style="font-size:32px;margin-left:19px;color:#606060;">ชุมชนโปร่งใส</span>
             </a>
-            <div class="col-md-3 text-end"  v-if="role == 1">
+            <div class="col-md-3 text-end" v-if="role == 1">
                 <NuxtLink to="project/add">
                     <button type="button" class="btn btn-outline-primary me-2"
-                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;"
-                   >เพิ่มโครงการ</button>
-                </NuxtLink>    
-                <NuxtLink to="signin">
+                        style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เพิ่มโครงการ</button>
+                </NuxtLink>
+                <NuxtLink to="signin" v-if="token != null">
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
+                </NuxtLink>
+                <NuxtLink to="signout" v-else>
+                    <button type="button" class="btn btn-outline-secondary me-2"
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">ออกจากระบบ</button>
                 </NuxtLink>
                 <NuxtLink to="register">
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
                 </NuxtLink>
             </div>
-            <div class="col-md-3 text-end"  v-else>
+            <div class="col-md-3 text-end" v-else>
                 <button type="button" class="btn btn-outline-primary me-2"
-                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;"
-                   >เพิ่มโครงการ</button>
+                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เพิ่มโครงการ</button>
 
                 <NuxtLink to="signin">
                     <button type="button" class="btn btn-outline-secondary me-2"
@@ -63,9 +65,10 @@ import jwt_decode from "jwt-decode";
 const role = 0;
 
 export default {
+
     data() {
         return {
-            role: role
+            role: role,
         }
     },
     mounted() {
@@ -74,12 +77,16 @@ export default {
     },
     methods: {
         async asyncData() {
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBleGFtcGxlMS5jb20iLCJyb2xlIjoiMSIsImlhdCI6MTY4NjY1MDMwOCwiZXhwIjoxNjg2NjUzOTA4fQ.iswSCk3QRJmdtvmXhzD0TaPGRiosSIm-XpT6BJLemxQ';
-            // const token = sessionStorage.getItem('auth-token');
-            var decoded = jwt_decode(token);
+            const token = sessionStorage.getItem('auth-token');
 
-            this.role = decoded.role
-           
+            if (token != null) {
+                var decoded = jwt_decode(token);
+
+                this.role = decoded.role
+                console.log(decoded)
+            }
+
+
         }
     }
 }
