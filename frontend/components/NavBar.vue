@@ -20,10 +20,25 @@
 
                 <span style="font-size:32px;margin-left:19px;color:#606060;">ชุมชนโปร่งใส</span>
             </a>
-            <div class="col-md-3 text-end">
+            <div class="col-md-3 text-end"  v-if="role == 1">
+                <NuxtLink to="project/add">
+                    <button type="button" class="btn btn-outline-primary me-2"
+                    style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;"
+                   >เพิ่มโครงการ</button>
+                </NuxtLink>    
+                <NuxtLink to="signin">
+                    <button type="button" class="btn btn-outline-secondary me-2"
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
+                </NuxtLink>
+                <NuxtLink to="register">
+                    <button type="button" class="btn btn-outline-secondary me-2"
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
+                </NuxtLink>
+            </div>
+            <div class="col-md-3 text-end"  v-else>
                 <button type="button" class="btn btn-outline-primary me-2"
                     style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;"
-                    v-if="role == 1">เพิ่มโครงการ</button>
+                   >เพิ่มโครงการ</button>
 
                 <NuxtLink to="signin">
                     <button type="button" class="btn btn-outline-secondary me-2"
