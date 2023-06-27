@@ -52,7 +52,7 @@ export default {
     methods: {
         handleSubmit: async function () {
             try {
-                const response = await fetch('http://localhost:8090/api/user/auth', {
+                const response = await fetch('http://bkkpb.ath.cx/api/user/auth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
