@@ -1,7 +1,8 @@
 <template>
     <div>
+        <AdminNavBar/>
         <div class="container">
-            Management System
+            
         </div>
     </div>
 </template>

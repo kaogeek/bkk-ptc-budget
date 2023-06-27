@@ -2,7 +2,7 @@
     <Head>
         <Title>ชุมชนโปร่งใส - เพิ่มข้อมูลโครงการ</Title>
     </Head>
-    <NavBar />
+    <ProjectNavBar />
     <div class="container" style="margin-top:94px;">
         <p style="font-size:36px;font-weight:100;" class="text-center">แบบฟอร์มโครงการ</p>
         <div class="row">
