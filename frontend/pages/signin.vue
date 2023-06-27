@@ -51,7 +51,38 @@ export default {
     },
     methods: {
         handleSubmit: async function () {
+            try {
+                const response = await fetch('http://bkkpb.ath.cx/api/user/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.form)
+                });
 
+                
+
+                if (response.ok) {
+
+                    const responseData = await response.json();
+                    sessionStorage.setItem('auth-token', responseData.token)
+                    Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: 'เข้าสู่ระบบเรียบร้อยแล้ว',
+                        timer: 1500
+                    }).then((result) => {
+                        this.$router.push('/')
+                    })
+
+                } else {
+
+                    console.error('Request failed with status', response.status);
+                }
+            } catch (error) {
+
+                console.error(error);
+            }
         }
     }
 };
