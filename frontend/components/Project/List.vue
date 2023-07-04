@@ -47,7 +47,9 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <nuxt-link :to="{ name: 'project', params: { id: id }}">
                                 <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                </nuxt-link>
                                 <p class="card-text" style="font-size:14px;font-weight:400;">
                                     {{ item.description }}
                                 </p>
