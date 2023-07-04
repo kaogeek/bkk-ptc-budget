@@ -1,5 +1,5 @@
 <template>
-    <NavBar />
+    <ProjectNavBar />
     <div class="container">
         <nav aria-label="breadcrumb" style="margin-top:47px;">
             <ol class="breadcrumb">
