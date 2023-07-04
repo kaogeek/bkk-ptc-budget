@@ -14,10 +14,12 @@
                                 <div class="card-body p-4 p-md-5">
                                     <form class="px-md-2" @submit.prevent="handleSubmit">
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">อีเมล์</label>
                                             <input type="email" id="email" class="form-control" placeholder="อีเมล์"
                                                 v-model="form.email" />
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">รหัสผ่าน</label>
                                             <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน"
                                                 v-model="form.password" />
                                         </div>
