@@ -197,9 +197,9 @@ const getRole = (request, res) => {
 const postRegistUser = async (request, res) => {
   const {
     title,
-    firstname,
-    lastname,
+    fullname,
     position,
+    address,
     phone,
     email,
     district,
@@ -208,17 +208,17 @@ const postRegistUser = async (request, res) => {
     community,
     password,
   } = request.body;
-
+ 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const query = {
-      text: "INSERT INTO users (title, firstname, lastname, position, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+      text: "INSERT INTO users (title, fullname, position, address, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
       values: [
         title,
-        firstname,
-        lastname,
+        fullname,
         position,
+        address,
         phone,
         email,
         district,

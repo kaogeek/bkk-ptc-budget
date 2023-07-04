@@ -14,6 +14,7 @@
                                 <div class="card-body p-4 p-md-5">
                                     <form class="px-md-2" @submit.prevent="handleSubmit">
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">คำนำหน้าชื่อ</label>
                                             <select class="select form-control" v-model="form.title">
                                                 <option value="">นาย นาง นางสาว</option>
                                                 <option value="นาย">นาย</option>
@@ -22,14 +23,12 @@
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="firstname" class="form-control" placeholder="ชื่อ"
-                                                v-model="form.firstname" />
+                                            <label style="margin-bottom:15px;">ชื่อ นามสกุล</label>
+                                            <input type="text" id="fullname" class="form-control" placeholder="ชื่อจริง และนามสกุล"
+                                                v-model="form.fullname" />
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="lastname" class="form-control" placeholder="นามสกุล"
-                                                v-model="form.lastname" />
-                                        </div>
-                                        <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">ตำแหน่ง</label>
                                             <select class="select form-control" v-model="form.position">
                                                 <option value="">ตำแหน่ง</option>
                                                 <option v-for="role in roles" :key="role.id" :value="role.id">{{
@@ -38,14 +37,22 @@
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
-                                            <input type="text" id="phone" class="form-control" placeholder="เบอร์โทร"
+                                            <label style="margin-bottom:15px;">ที่อยู่</label>
+                                            <textarea id="address" class="form-control" placeholder="ที่อยู่"
+                                                v-model="form.address" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">เบอร์โทรศัพท์</label>
+                                            <input type="text" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์"
                                                 v-model="form.phone" />
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">อีเมล์</label>
                                             <input type="email" id="email" class="form-control" placeholder="อีเมล์"
                                                 v-model="form.email" />
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">เขต/อำเภอ</label>
                                             <select class="select form-control" v-model="form.district"
                                                 @change="districtSelect($event)">
                                                 <option value="">เขต/อำเภอ</option>
@@ -54,6 +61,7 @@
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">แขวง/ตำบล</label>
                                             <select class="select form-control" readonly v-model="form.subdistrict"
                                                 @change="subDistrictSelect($event)">
                                                 <option value="">แขวง/ตำบล</option>
@@ -62,17 +70,20 @@
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">รหัสไปรษณีย์</label>
                                             <input type="text" id="zipcode" class="form-control" placeholder="รหัสไปรษณีย์"
                                                 v-model="form.zipcode" readonly />
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">ชุมชน</label>
                                             <select class="select form-control" readonly v-model="form.community">
-                                                <option value="">ระบุชุมชน</option>
+                                                <option value="">ชุมชน</option>
                                                 <option v-for="community in communities" :key="community.id"
                                                     :value="community.id">{{ community.communityname }}</option>
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
+                                            <label style="margin-bottom:15px;">รหัสผ่าน</label>
                                             <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน"
                                                 v-model="form.password" />
                                         </div>
@@ -107,9 +118,9 @@ export default {
             communitiesOption: '',
             form: {
                 title: "",
-                firstname: "",
-                lastname: "",
+                fullname: "",
                 position: "",
+                address: "",
                 phone: "",
                 email: "",
                 district: "",
