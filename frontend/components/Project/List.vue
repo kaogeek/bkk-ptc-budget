@@ -37,140 +37,28 @@
         <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-3 mb-4">
+                    <div class="col-sm-3 mb-4" v-for="item in projects">
                         <div class="card">
                             <div class="overlay-container">
-                                <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
+                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
+                                    alt="Card image cap">
                                 <div class="overlay">
                                     <span class="status-label">ดำเนินการอยู่</span>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
+                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
                                 <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ
-                                    โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ
+                                    {{ item.description }}
                                 </p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <div class="overlay-container">
-                                <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                                <div class="overlay">
-                                    <span class="status-label">ดำเนินการอยู่</span>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <div class="overlay-container">
-                                <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                                <div class="overlay">
-                                    <span class="status-label">ดำเนินการอยู่</span>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <div class="overlay-container">
-                                <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                                <div class="overlay">
-                                    <span class="status-label">ดำเนินการอยู่</span>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
+                                <p style="font-size:14px;font-weight:400;"></p>
+                                <p style="font-size:14px;font-weight:400;"><span
+                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center" style="margin-top:32px;">
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ
-                                    โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ
-                                </p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">ชื่อโครงการ</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">รายละเอียดโครงการ</p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">ชื่อชุมชน</span></p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
 
 
@@ -179,22 +67,7 @@
         <div class="tab-pane" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="https://picsum.photos/267/142" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">เปิดโอกาส</h5>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    โครงการนี้เน้นการสร้างโอกาสให้กับเยาวชนที่มีทักษะพิเศษหรือความสามารถพิเศษ
-                                    โดยให้การฝึกอบรมเพื่อพัฒนาทักษะและช่วยให้พวกเขามีโอกาสสร้างอนาคตที่สำเร็จในสาขาที่สนใจ
-                                </p>
-                                <p style="font-size:14px;font-weight:400;">#เด็กและเยาวชน #ก่อสร้าง</p>
-                                <p style="font-size:14px;font-weight:400;">ชุมชน <span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;">เหมืองแร่</span></p>
 
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -211,6 +84,7 @@ export default {
     data() {
         return {
             projects: [],
+            projects_ongoing: [],
             recordCount: ''
         };
     },
@@ -224,7 +98,10 @@ export default {
                 const data = await response.json();
                 const dataLength = data.data.length;
                 this.recordCount = dataLength;
-                console.log(this.recordCount)
+                this.projects = data.data;
+                this.projects_ongoing = data.data.filter(item => item.status === "2" && item.status ==="3" && item.status ==="4" && item.status ==="5");
+
+                console.log(this.projects_ongoing);
             } catch (error) {
                 console.error(error);
             }
