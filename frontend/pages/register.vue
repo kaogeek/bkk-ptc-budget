@@ -99,6 +99,7 @@
                 </div>
             </section>
         </div>
+        <Footer/>
     </div>
 </template>
 <script>
