@@ -18,6 +18,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/composition-api": "^0.33.1",
     "@nuxtjs/google-fonts": "^3.0.1",
+    "@nuxtjs/prismic": "^3.0.1",
     "@nuxtjs/toast": "^3.3.1",
     "@tinymce/tinymce-vue": "^5.1.0",
     "@tui-nuxt/editor": "^1.0.0-beta.3",
@@ -31,6 +32,7 @@
     "url-join": "^5.0.0",
     "vue-formio": "^4.0.8",
     "vue-router": "^4.2.2",
-    "vue-toasted": "^1.1.28"
+    "vue-toasted": "^1.1.28",
+    "vue3-pagination": "^1.0.16"
   }
 }
