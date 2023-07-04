@@ -23,7 +23,12 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-success btn-lg mb-1 pull-right"
-                                                style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
+                                                style="background:#EF4D4E;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;margin-right:32px;">เข้าสู่ระบบ</button>
+                                                <NuxtLink to="forgot-password">
+                                                    <button type="button" class="btn btn-lg mb-1 pull-right"
+                                                style="border-radius: 4px;color:#000000;font-size:14px;">ลืมรหัสผ่าน</button>
+                                                </NuxtLink>
+                                                
                                         </div>
                                     </form>
                                 </div>
@@ -34,6 +39,7 @@
             </section>
         </div>
     </div>
+    <Footer/>
 </template>
 <script>
 import Swal from 'sweetalert2'
