@@ -12,14 +12,21 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#ongoing" role="tab"
                         aria-controls="all" aria-selected="true">
-                        ดำเนินอยู่
+                        ดำเนินการอยู่
                     </a>
                 </li>
                 <span style="margin-right:16px;">|</span>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" role="tab"
                         aria-controls="all" aria-selected="true">
-                        เสร็จแล้ว
+                        ดำเนินการเสร็จสิ้นแล้ว
+                    </a>
+                </li>
+                <span style="margin-right:16px;">|</span>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="suspended-tab" data-bs-toggle="tab" data-bs-target="#suspended" role="tab"
+                        aria-controls="all" aria-selected="true">
+                        ระงับการดำเนินการโครงการ
                     </a>
                 </li>
             </ul>
@@ -43,7 +50,9 @@
                                 <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
                                     alt="Card image cap">
                                 <div class="overlay">
-                                    <span class="status-label">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -68,14 +77,94 @@
         <div class="tab-pane" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
             <div class="container">
                 <div class="row justify-content-center">
-
+                    <div class="col-sm-3 mb-4" v-for="item in projects_ongoing">
+                        <div class="card">
+                            <div class="overlay-container">
+                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
+                                    alt="Card image cap">
+                                <div class="overlay">
+                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <nuxt-link :to="`/project/${item.id}`">
+                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                </nuxt-link>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">
+                                    {{ item.description }}
+                                </p>
+                                <p style="font-size:14px;font-weight:400;"></p>
+                                <p style="font-size:14px;font-weight:400;"><span
+                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </div>
         <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
             <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3 mb-4" v-for="item in projects_completed">
+                        <div class="card">
+                            <div class="overlay-container">
+                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
+                                    alt="Card image cap">
+                                <div class="overlay">
+                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <nuxt-link :to="`/project/${item.id}`">
+                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                </nuxt-link>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">
+                                    {{ item.description }}
+                                </p>
+                                <p style="font-size:14px;font-weight:400;"></p>
+                                <p style="font-size:14px;font-weight:400;"><span
+                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="suspended" role="tabpanel" aria-labelledby="suspended-tab">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3 mb-4" v-for="item in projects_suspended">
+                        <div class="card">
+                            <div class="overlay-container">
+                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
+                                    alt="Card image cap">
+                                <div class="overlay">
+                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <nuxt-link :to="`/project/${item.id}`">
+                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                </nuxt-link>
+                                <p class="card-text" style="font-size:14px;font-weight:400;">
+                                    {{ item.description }}
+                                </p>
+                                <p style="font-size:14px;font-weight:400;"></p>
+                                <p style="font-size:14px;font-weight:400;"><span
+                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -86,6 +175,8 @@ export default {
         return {
             projects: [],
             projects_ongoing: [],
+            projects_completed: [],
+            projects_suspended:[],
             recordCount: ''
         };
     },
@@ -99,10 +190,12 @@ export default {
                 const data = await response.json();
                 const dataLength = data.data.length;
                 this.recordCount = dataLength;
-                this.projects = data.data;
-                this.projects_ongoing = data.data.filter(item => item.status === "2" && item.status === "3" && item.status === "4" && item.status === "5");
-
-                console.log(this.projects_ongoing);
+                this.projects = data.data;  
+                this.projects_ongoing = this.projects.filter(item => item.status_id === 2 || item.status_id === 3 || item.status_id === 4 );
+                this.projects_completed = this.projects.filter(item => item.status_id === 6);
+                this.projects_suspended = this.projects.filter(item => item.status_id === 5);
+           
+               
             } catch (error) {
                 console.error(error);
             }
