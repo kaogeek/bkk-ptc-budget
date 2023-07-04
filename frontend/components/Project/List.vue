@@ -50,21 +50,40 @@
                                 <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
                                     alt="Card image cap">
                                 <div class="overlay">
-                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <!-- Status Labels -->
+                                    <span class="status-label"
+                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <nuxt-link :to="`/project/${item.id}`">
-                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    {{ item.description }}
+                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
+                                    {{ item.short_description }}
                                 </p>
-                                <p style="font-size:14px;font-weight:400;"></p>
-                                <p style="font-size:14px;font-weight:400;"><span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                                <p style="font-size: 14px; font-weight: 400;"></p>
+                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
+                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="card-footer d-flex justify-content-between">
+                                <div class="follow-container">
+                                    <button class="btn btn-primary btn-transparent">
+                                        <span class="bi bi-person-plus"></span>
+                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                    </button>
+                                    
+                                </div>
+                                <div class="share-container">
+                                    <button class="btn btn-secondary btn-transparent">
+                                        <span class="bi bi-share"></span>
+                                        <span class="count" style="margin-left:15px;">500</span>
+                                    </button>
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,21 +102,40 @@
                                 <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
                                     alt="Card image cap">
                                 <div class="overlay">
-                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <!-- Status Labels -->
+                                    <span class="status-label"
+                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <nuxt-link :to="`/project/${item.id}`">
-                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    {{ item.description }}
+                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
+                                    {{ item.short_description }}
                                 </p>
-                                <p style="font-size:14px;font-weight:400;"></p>
-                                <p style="font-size:14px;font-weight:400;"><span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                                <p style="font-size: 14px; font-weight: 400;"></p>
+                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
+                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="card-footer d-flex justify-content-between">
+                                <div class="follow-container">
+                                    <button class="btn btn-primary btn-transparent">
+                                        <span class="bi bi-person-plus"></span>
+                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                    </button>
+                                    
+                                </div>
+                                <div class="share-container">
+                                    <button class="btn btn-secondary btn-transparent">
+                                        <span class="bi bi-share"></span>
+                                        <span class="count" style="margin-left:15px;">500</span>
+                                    </button>
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,21 +152,40 @@
                                 <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
                                     alt="Card image cap">
                                 <div class="overlay">
-                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <!-- Status Labels -->
+                                    <span class="status-label"
+                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <nuxt-link :to="`/project/${item.id}`">
-                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    {{ item.description }}
+                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
+                                    {{ item.short_description }}
                                 </p>
-                                <p style="font-size:14px;font-weight:400;"></p>
-                                <p style="font-size:14px;font-weight:400;"><span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                                <p style="font-size: 14px; font-weight: 400;"></p>
+                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
+                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="card-footer d-flex justify-content-between">
+                                <div class="follow-container">
+                                    <button class="btn btn-primary btn-transparent">
+                                        <span class="bi bi-person-plus"></span>
+                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                    </button>
+                                    
+                                </div>
+                                <div class="share-container">
+                                    <button class="btn btn-secondary btn-transparent">
+                                        <span class="bi bi-share"></span>
+                                        <span class="count" style="margin-left:15px;">500</span>
+                                    </button>
+                                   
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,9 +202,10 @@
                                 <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
                                     alt="Card image cap">
                                 <div class="overlay">
-                                    <span class="status-label" v-if="item.status_id===1 || item.status_id===2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id===5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id===6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <span class="status-label"
+                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -155,7 +213,7 @@
                                     <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
                                 <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    {{ item.description }}
+                                    {{ item.short_description }}
                                 </p>
                                 <p style="font-size:14px;font-weight:400;"></p>
                                 <p style="font-size:14px;font-weight:400;"><span
@@ -176,7 +234,7 @@ export default {
             projects: [],
             projects_ongoing: [],
             projects_completed: [],
-            projects_suspended:[],
+            projects_suspended: [],
             recordCount: ''
         };
     },
@@ -190,12 +248,12 @@ export default {
                 const data = await response.json();
                 const dataLength = data.data.length;
                 this.recordCount = dataLength;
-                this.projects = data.data;  
-                this.projects_ongoing = this.projects.filter(item => item.status_id === 2 || item.status_id === 3 || item.status_id === 4 );
+                this.projects = data.data;
+                this.projects_ongoing = this.projects.filter(item => item.status_id === 2 || item.status_id === 3 || item.status_id === 4);
                 this.projects_completed = this.projects.filter(item => item.status_id === 6);
                 this.projects_suspended = this.projects.filter(item => item.status_id === 5);
-           
-               
+
+
             } catch (error) {
                 console.error(error);
             }
