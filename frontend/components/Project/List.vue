@@ -47,8 +47,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <nuxt-link :to="{ name: 'project', params: { id: id }}">
-                                <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                <nuxt-link :to="`/project/${item.id}`">
+                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
                                 <p class="card-text" style="font-size:14px;font-weight:400;">
                                     {{ item.description }}
@@ -56,7 +56,6 @@
                                 <p style="font-size:14px;font-weight:400;"></p>
                                 <p style="font-size:14px;font-weight:400;"><span
                                         style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
-
                             </div>
                         </div>
                     </div>
@@ -101,7 +100,7 @@ export default {
                 const dataLength = data.data.length;
                 this.recordCount = dataLength;
                 this.projects = data.data;
-                this.projects_ongoing = data.data.filter(item => item.status === "2" && item.status ==="3" && item.status ==="4" && item.status ==="5");
+                this.projects_ongoing = data.data.filter(item => item.status === "2" && item.status === "3" && item.status === "4" && item.status === "5");
 
                 console.log(this.projects_ongoing);
             } catch (error) {
