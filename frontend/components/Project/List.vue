@@ -73,21 +73,29 @@
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
                                         <span class="bi bi-person-plus"></span>
-                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                        <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
-                                    
+
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
                                         <span class="bi bi-share"></span>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-                                   
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <nav class="text-center">
+
+                        <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
+                            <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
+                        </span>
+
+                    </nav>
                 </div>
+
 
 
 
@@ -125,22 +133,30 @@
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
                                         <span class="bi bi-person-plus"></span>
-                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                        <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
-                                    
+
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
                                         <span class="bi bi-share"></span>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-                                   
+
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                      <nav class="text-center">
+                   
+                            <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
+                                <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
+                            </span>
+                       
+                    </nav>
                 </div>
+
+
             </div>
         </div>
         <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
@@ -175,21 +191,27 @@
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
                                         <span class="bi bi-person-plus"></span>
-                                        <span class="count"  style="margin-left:15px;">1000</span>
+                                        <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
-                                    
+
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
                                         <span class="bi bi-share"></span>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-                                   
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <nav class="text-center">
 
+                        <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
+                            <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
+                        </span>
+
+                    </nav>
                 </div>
             </div>
         </div>
@@ -221,7 +243,13 @@
                             </div>
                         </div>
                     </div>
+                    <nav class="text-center">
 
+                        <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
+                            <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
+                        </span>
+
+                    </nav>
                 </div>
             </div>
         </div>
@@ -229,6 +257,21 @@
 </template>
 <script>
 export default {
+    computed: {
+        currentPage() {
+            return Number(this.$route.params.page) || 1;
+        },
+        totalPages() {
+            return Math.ceil(this.recordCount / 12);
+        },
+        pages() {
+            const range = [];
+            for (let i = 1; i <= this.totalPages; i++) {
+                range.push(i);
+            }
+            return range;
+        },
+    },
     data() {
         return {
             projects: [],
