@@ -7,3 +7,151 @@ body {
   border-color: transparent;
   color: inherit;
 }
+
+
+.ef {
+  animation-name: animated;
+  animation-duration: 1s;
+  /* animation-iteration-count: infinite; */
+}
+
+@keyframes animated {
+  0% {
+    transform: translateY(50px);
+    filter: blur(3px);
+  }
+
+  70% {
+    filter: blur(1px);
+  }
+}
+
+.ef-2 {
+  animation-name: animated2;
+  animation-duration: 1s;
+  /* animation-iteration-count: infinite; */
+}
+
+@keyframes animated2 {
+  0% {
+    transform: translateY(50px);
+    filter: blur(3px);
+  }
+
+  70% {
+    filter: blur(1px);
+  }
+}
+
+
+.load-1 {
+  margin: none;
+  padding: none;
+  float: left;
+  width: 100px;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #4b9cdb;
+}
+
+.load-1 {
+  animation: loadingA 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingA {
+
+  0%,
+  100% {
+    transform: translate(-80px, 0);
+  }
+
+  50% {
+    transform: translate(80px, 0);
+    background-color: #f5634a;
+    width: 25px;
+  }
+}
+
+.load-2 {
+  margin: none;
+  padding: none;
+  float: left;
+  width: 100px;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #4b9cdb;
+}
+
+.load-2 {
+  animation: loadingB 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingB {
+
+  0%,
+  100% {
+    transform: translate(80px, 0);
+  }
+
+  50% {
+    transform: translate(-80px, 0);
+    background-color: #f5634a;
+    width: 25px;
+  }
+}
+
+.load-3 {
+  margin: auto;
+  padding: auto;
+  float: left;
+  width: 100%;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #4b9cdb;
+}
+
+.load-3 {
+  animation: loadingC 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingC {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0, 0);
+    background-color: #8b8b8b;
+    width: 50px;
+  }
+}
+
+.load-4 {
+  margin: auto;
+  padding: auto;
+  float: left;
+  width: 50px;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #4b9cdb;
+}
+
+.load-4 {
+  animation: loadingD 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingD {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0, 0);
+    background-color: #c0c0c0;
+    width: 100%;
+  }
+}

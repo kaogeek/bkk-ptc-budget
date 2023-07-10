@@ -1,5 +1,36 @@
+<script>
+import jwt_decode from "jwt-decode";
+const role = 0;
+
+export default {
+
+    data() {
+        return {
+            role: role,
+        }
+    },
+    mounted() {
+        this.asyncData();
+
+    },
+    methods: {
+        async asyncData() {
+            const token = sessionStorage.getItem('auth-token');
+
+            if (token != null) {
+                var decoded = jwt_decode(token);
+
+                this.role = decoded.role
+                console.log(decoded)
+            }
+        }
+    }
+}
+</script>
+
 <template>
     <div class="container">
+
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4"
             style="margin-top:32px;">
             <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
@@ -51,40 +82,13 @@
         </header>
     </div>
 </template>
+
 <style scoped>
 .btn-outline-secondary:hover {
     background-color: white !important;
     color: #606060;
 }
-</style>
-<script>
-import jwt_decode from "jwt-decode";
-const role = 0;
-
-export default {
-
-    data() {
-        return {
-            role: role,
-        }
-    },
-    mounted() {
-        this.asyncData();
-
-    },
-    methods: {
-        async asyncData() {
-            const token = sessionStorage.getItem('auth-token');
-
-            if (token != null) {
-                var decoded = jwt_decode(token);
-
-                this.role = decoded.role
-                console.log(decoded)
-            }
-
-
-        }
-    }
+.c-1{
+    background-color:  #606060;
 }
-</script>
+</style>

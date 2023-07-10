@@ -2,9 +2,8 @@
     <div>
         <Head>
             <Title>ชุมชนโปร่งใส - หน้าหลัก</Title>
-         </Head>
+        </Head>
         <NavBar/>
-        <ProjectSearchBox/>
         <ProjectList/>
         <Footer/>
     </div>
