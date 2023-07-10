@@ -1,5 +1,36 @@
+<script>
+import jwt_decode from "jwt-decode";
+
+export default {
+
+    data() {
+        return {
+            role: 0,
+            fullname: '',
+            email: ''
+        }
+    },
+    mounted() {
+        this.asyncData();
+
+    },
+    methods: {
+        async asyncData() {
+            const token = sessionStorage.getItem('auth-token');
+
+            if (token != null) {
+                var decoded = jwt_decode(token);
+                this.role = decoded.role
+                this.fullname = decoded.fullname
+                this.email = decoded.email
+                // console.log('>>>',decoded)
+            }
+        }
+    }
+}
+</script>
 <template>
-    <div class="container">
+    <div class="container" >
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4"
             style="margin-top:32px;">
             <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
@@ -20,71 +51,46 @@
 
                 <span style="font-size:32px;margin-left:19px;color:#606060;">ชุมชนโปร่งใส</span>
             </a>
+            
             <div class="col-md-3 text-end" v-if="role == 1">
-                <NuxtLink to="project/add">
+                <button type="button" class="btn btn-outline-primary me-2" style="background:#EF4D4E; border-radius: 4px; color:#FFFFFF; border-color:#EF4D4E; font-size:14px;">
+                    <i class="bi bi-person"></i> User {{ this.fullname }}
+                </button>
+                <NuxtLink to="../project/add">
                     <button type="button" class="btn btn-outline-primary me-2"
                         style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">เพิ่มโครงการ</button>
                 </NuxtLink>
-                <NuxtLink to="signin" v-if="token != null">
-                    <button type="button" class="btn btn-outline-secondary me-2"
-                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
-                </NuxtLink>
-                <NuxtLink to="signout" v-else>
+                <NuxtLink to="../signout">
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">ออกจากระบบ</button>
                 </NuxtLink>
-                <NuxtLink to="register">
-                    <button type="button" class="btn btn-outline-secondary me-2"
-                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
-                </NuxtLink>
             </div>
+            
             <div class="col-md-3 text-end" v-else>
-                <NuxtLink to="signin">
+                <button v-if="this.email != ''" type="button" class="btn btn-outline-primary me-2" style="background:#EF4D4E; border-radius: 4px; color:#FFFFFF; border-color:#EF4D4E; font-size:14px;">
+                    <i class="bi bi-person"></i> User {{ this.fullname }}
+                </button>
+                <NuxtLink v-if="this.email === ''" to="../signin">
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">เข้าสู่ระบบ</button>
                 </NuxtLink>
-                <NuxtLink to="register">
+                <NuxtLink v-if="this.email === ''" to="../register">
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">สมัครสมาชิก</button>
                 </NuxtLink>
+                <NuxtLink v-if="this.email != ''" to="../signout">
+                    <button type="button" class="btn btn-outline-secondary me-2"
+                        style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">ออกจากระบบ</button>
+                </NuxtLink>
+            
             </div>
         </header>
     </div>
 </template>
+
 <style scoped>
 .btn-outline-secondary:hover {
     background-color: white !important;
     color: #606060;
 }
 </style>
-<script>
-import jwt_decode from "jwt-decode";
-const role = 0;
-
-export default {
-
-    data() {
-        return {
-            role: role,
-        }
-    },
-    mounted() {
-        this.asyncData();
-
-    },
-    methods: {
-        async asyncData() {
-            const token = sessionStorage.getItem('auth-token');
-
-            if (token != null) {
-                var decoded = jwt_decode(token);
-
-                this.role = decoded.role
-                console.log(decoded)
-            }
-
-
-        }
-    }
-}
-</script>
