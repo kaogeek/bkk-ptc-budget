@@ -1,8 +1,94 @@
+<script>
+import Swal from 'sweetalert2'
+// token ใช้ใน api
+const token = 'b61621e24aacca8e195d5d3baab1b644980be16a116d8333fb05bf34d22be87cbe>'
+// const link_API = 'http://bkkpb.ath.cx/'
+const link_API = 'http://localhost:8090/'
+
+
+export default {
+    data() {
+        return {
+            dev_msg: '',
+            form: {
+                email: "",
+                password: ""
+            },
+        };
+    },
+    mounted() {
+
+    },
+    methods: {
+        handleSubmit: async function () {
+            if (this.form.email != "" && this.form.password){
+                try {
+                const response = await fetch(link_API+'api/user/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.form)
+                });
+
+            
+                if (response.status === 200) {
+
+                    const res_json = await response.json();
+
+                    // เข้าสู่ระบบเรียบร้อยแล้ว
+                    if (res_json.status === 200 ){
+                        sessionStorage.setItem('auth-token', res_json.token)
+                        Swal.fire({
+                            icon: 'success',
+                            title: '',
+                            text: res_json.statusMsg,
+                            timer: 1500
+                        }).then((result) => {
+                            this.$router.push('/')
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Opos',
+                            text: res_json.statusMsg,
+                            timer: 2000
+                        })
+                    }
+
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Opos',
+                        text: '404 (584684)',
+                        timer: 2000
+                    })
+                    console.error('Request failed with status', response.status);
+                }
+                } catch (error) {
+                console.error(error);
+                }
+            }else{
+                // กรอกข้อมูลให้ครบถ้วน
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Opos',
+                    text: 'กรอกข้อมูลให้ครบถ้วน !!',
+                    timer: 2000
+                })
+            }
+        }
+    }
+};
+</script>
+
 <template>
     <Head>
         <Title>ชุมชนโปร่งใส - เข้าสู่ระบบ</Title>
     </Head>
     <NavBar />
+    <!-- test -->
+    <!-- <p class="c-1" style="color :rgba(1, 243, 102, 0.699)">dev_msg : {{ this.dev_msg }}</p> -->
     <div class="container" style="margin-top:94px;">
         <p style="font-size:36px;font-weight:100;" class="text-center">เข้าสู่ระบบ</p>
         <div class="row">
@@ -27,7 +113,7 @@
                                             <button type="submit" class="btn btn-success btn-lg mb-1 pull-right"
                                                 style="background:#EF4D4E;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;margin-right:32px;">เข้าสู่ระบบ</button>
                                                 <NuxtLink to="forgot-password">
-                                                    <button type="button" class="btn btn-lg mb-1 pull-right"
+                                                    <button type="button" class="btn btn-lg mb-1 pull-right d-none"
                                                 style="border-radius: 4px;color:#000000;font-size:14px;">ลืมรหัสผ่าน</button>
                                                 </NuxtLink>
                                                 
@@ -43,55 +129,3 @@
     </div>
     <Footer/>
 </template>
-<script>
-import Swal from 'sweetalert2'
-export default {
-    data() {
-        return {
-            form: {
-                email: "",
-                password: ""
-            },
-        };
-    },
-    mounted() {
-
-    },
-    methods: {
-        handleSubmit: async function () {
-            try {
-                const response = await fetch('http://bkkpb.ath.cx/api/user/auth', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.form)
-                });
-
-                
-
-                if (response.ok) {
-
-                    const responseData = await response.json();
-                    sessionStorage.setItem('auth-token', responseData.token)
-                    Swal.fire({
-                        icon: 'success',
-                        title: '',
-                        text: 'เข้าสู่ระบบเรียบร้อยแล้ว',
-                        timer: 1500
-                    }).then((result) => {
-                        this.$router.push('/')
-                    })
-
-                } else {
-
-                    console.error('Request failed with status', response.status);
-                }
-            } catch (error) {
-
-                console.error(error);
-            }
-        }
-    }
-};
-</script>

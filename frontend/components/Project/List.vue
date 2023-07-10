@@ -1,206 +1,373 @@
+<script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
+// token ใช้ใน api
+const token = 'b61621e24aacca8e195d5d3baab1b644980be16a116d8333fb05bf34d22be87cbe>'
+// const link_API = 'http://bkkpb.ath.cx/'
+const link_API = 'http://localhost:8090/'
+
+export default {
+    data() {
+        return {
+            search: '',
+            imageData: null,
+            dev_msg: null,
+            projects: [],
+            projects_ongoing: [],
+            projects_completed: [],
+            projects_suspended: [],
+            recordCount: false
+        };
+    },
+    watch: {
+        search(newDate) {
+            this.api_get_fetchProjectData()
+        }
+    },
+
+    mounted() {
+        setTimeout(() => { this.api_get_fetchProjectData() }, 1500)
+    },
+    computed: {
+    },
+    
+    methods: {
+        // รับข้อมูล เก็บใน projects
+        async api_get_fetchProjectData () {
+        try {
+            const url     = link_API+'api/project'
+            const params  = {}
+            const json    = {}
+            const options = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+            }
+            const res = await axios.get(url, json, options)
+
+            if (res.status === 200){
+                for (let item of res.data.data) {
+                    if (item.og_image ===''){
+                        item.image = await this.api_get_img('0');
+                    }else{
+                        item.image = await this.api_get_img(item.og_image);
+                    }
+                }
+                this.recordCount = false
+                if (this.search === ''){
+                    this.projects = res.data.data;
+                    this.projects_ongoing = this.projects.filter(item => item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4);
+                    this.projects_completed = this.projects.filter(item => item.status_id === 6);
+                    this.projects_suspended = this.projects.filter(item => item.status_id === 5);
+                    if ( res.data.data.length === 0){this.recordCount = true}
+
+                }else{
+                    const filteredItems = [];
+                    this.projects = []
+                    this.projects_ongoing = []
+                    this.projects_suspended = []
+                    for (const item of res.data.data) {
+                        if (item.name.includes(this.search) || item.communityname.includes(this.search) || item.districtname.includes(this.search)) {
+                            filteredItems.push(item);
+                        }
+                    }
+                    this.projects = filteredItems
+                    this.projects_ongoing = this.projects.filter(item => item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4);
+                    this.projects_completed = this.projects.filter(item => item.status_id === 6);
+                    this.projects_suspended = this.projects.filter(item => item.status_id === 5);
+                    if ( filteredItems.length === 0){this.recordCount = true}
+                }
+            }else{
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'api/project status : '+res.status
+                })
+            }
+
+        } catch (error) {
+            console.error(error)
+          }
+        },
+
+        async api_get_img(filename) {
+            try {
+                const url = link_API + 'api/images/' + filename;
+                const options = {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                responseType: 'blob' // กำหนดให้รับข้อมูลเป็นไบนารี
+                };
+
+                const res = await axios.get(url, options);
+
+                if (res.status === 200) {
+                    const imageUrl = URL.createObjectURL(res.data); // สร้าง URL ของรูปภาพจากข้อมูลที่ได้รับ
+                    return imageUrl
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '404 (515816)'
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }, 
+
+        click_search (){
+            this.api_get_fetchProjectData()
+        }
+    }
+};
+
+</script>
+
 <template>
+    <!-- <p>search : {{ this.projects }}</p> -->
+    <!-- ค้นหา -->
+    <div class="container" style="margin-top: 94px;">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="ชื่อโครงการ, แขวง, ชื่อชุมชน"
+                        style="font-size: 20px; color: #606060;" v-model="search">
+                    <div class="input-group-append ps-2">
+                        <button class="btn btn-primary" type="button" style="background: #EF4D4E; font-size: 14px; height: 100%;border-color:#EF4D4E;" @click="click_search">ค้นหา</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container d-flex justify-content-center align-items-center" style="margin-top:16px;">
         <div class="statuses">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation" style="margin-right:16px;">
-                    <button class="active nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab"
-                        aria-controls="all" aria-selected="true" style="width: 74px;height: 34px;">
-                        ทั้งหมด
-                    </button>
+                    <button class="active nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all" aria-selected="true" style="width: 74px;height: 34px;">ทั้งหมด</button>
+                </li>
+                <span style="margin-right:16px;">|</span>
+                <li class="nav-item" role="presentation"> 
+                    <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#ongoing" role="tab" aria-controls="all" aria-selected="true"> ดำเนินการอยู่</a>
                 </li>
                 <span style="margin-right:16px;">|</span>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#ongoing" role="tab"
-                        aria-controls="all" aria-selected="true">
-                        ดำเนินการอยู่
-                    </a>
+                    <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" role="tab" aria-controls="all" aria-selected="true"> ดำเนินการเสร็จสิ้นแล้ว </a>
                 </li>
                 <span style="margin-right:16px;">|</span>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" role="tab"
-                        aria-controls="all" aria-selected="true">
-                        ดำเนินการเสร็จสิ้นแล้ว
-                    </a>
-                </li>
-                <span style="margin-right:16px;">|</span>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="suspended-tab" data-bs-toggle="tab" data-bs-target="#suspended" role="tab"
-                        aria-controls="all" aria-selected="true">
-                        ระงับการดำเนินการโครงการ
-                    </a>
+                    <a class="nav-link" id="suspended-tab" data-bs-toggle="tab" data-bs-target="#suspended" role="tab" aria-controls="all" aria-selected="true"> ระงับการดำเนินการโครงการ </a>
                 </li>
             </ul>
         </div>
 
     </div>
-    <div v-if="recordCount == 0">
+
+    <!-- test -->
+    <!-- <p class="c-1" style="color :rgba(1, 243, 102, 0.699)">dev_msg : {{ this.projects_ongoing}}</p> -->
+
+    <div v-if="recordCount === true">
         <div class="container" style="margin-top:64px;">
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger text-center" role="alert">
                 ขณะนี้ยังไม่มีข้อมูลโครงการ !
             </div>
         </div>
     </div>
-    <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;" v-else>
+    
+    <!-- load projects.length === 0 -->
+    <div v-if="this.projects.length === 0 && recordCount != true"  class="border-grey bg-white p-3 tab-content" style="margin-top:64px;">
         <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-sm-3 mb-4" v-for="item in projects">
-                        <div class="card">
-                            <div class="overlay-container">
-                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
-                                    alt="Card image cap">
-                                <div class="overlay">
-                                    <!-- Status Labels -->
-                                    <span class="status-label"
-                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
-                                </div>
+                    <div class="col-sm-3 mb-4" v-for="i in 1">
+                        <div class="card ef">
+                            <div class="overlay-container p-2">
+                                <i class="load-3"></i><br>
+                                <i class="load-4"></i><br>
+                                <i class="load-3"></i><br>
+                                <i class="load-4"></i><br>
+                                <i class="load-3"></i><br>
+                                <i class="load-4"></i><br>
+                                <i class="load-3"></i><br>
+                                <i class="load-4"></i><br>
                             </div>
-                            <div class="card-body">
-                                <nuxt-link :to="`/project/${item.id}`">
-                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
-                                </nuxt-link>
-                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
-                                    {{ item.short_description }}
-                                </p>
+                            <div class="card-body"> 
+                                <p class="card-text" style="font-size: 14px; font-weight: 400;"><i class="load-3"></i></p>
                                 <p style="font-size: 14px; font-weight: 400;"></p>
-                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
-                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p style="font-size: 14px; font-weight: 400;"><i class="load-4"></i><span style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
                             </div>
                             <!-- Card Footer -->
                             <div class="card-footer d-flex justify-content-between">
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
-                                        <span class="bi bi-person-plus"></span>
+                                        <i class="load-1"></i>
+                                    </button>
+
+                                </div>
+                                <div class="share-container">
+                                    <button class="btn btn-secondary btn-transparent">
+                                        <i class="load-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- projects.length != 0 -->
+    <div class="border-grey bg-white p-3 tab-content" style="margin-top:64px;" v-if="this.projects.length != 0">
+        
+        <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3 mb-4" v-for="item in projects">
+                        <div class="card ef">
+                            <div class="overlay-container">
+                                <img style="height: 200px" class="card-img-top" :src="item.image" alt="Card image cap ">
+                                <div class="overlay">
+                                    <!-- Status Labels -->
+                                    <span class="status-label" v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้น</span>
+                                </div>
+                            </div>
+                            <div class="card-body"> 
+                                <nuxt-link :to="`/project/${item.id}`">
+                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
+                                </nuxt-link>
+                                <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px;">{{ item.short_description}}</p>
+                                <p class="fw-bolder" style="font-size: 15px; font-weight: 400;">{{ item.hashtag}}<span style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="fw-bolder" style="font-size: 14px; font-weight: 400;">{{item.communityname}}<span class="fw-normal ps-1"> {{item.districtname}}</span></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="card-footer d-flex justify-content-between d-none">
+                                <div class="follow-container">
+                                    <button class="btn btn-primary btn-transparent">
+                                        <i class="bi bi-person-plus"></i>
                                         <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
 
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
-                                        <span class="bi bi-share"></span>
+                                        <i class="bi bi-share"></i>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                     <nav class="text-center">
-
                         <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
                             <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
                         </span>
-
                     </nav>
                 </div>
-
-
-
-
             </div>
         </div>
+        
         <div class="tab-pane" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
             <div class="container">
                 <div class="row justify-content-center">
+                    
+                    <div v-if="this.projects_ongoing.length == 0" class="container ef" style="margin-top:64px;">
+                        <div class="alert alert-danger text-center" role="alert">
+                            ขณะนี้ยังไม่มีข้อมูลโครงการ !
+                        </div>
+                    </div>
+
                     <div class="col-sm-3 mb-4" v-for="item in projects_ongoing">
-                        <div class="card">
+                        <div class="card ef">
                             <div class="overlay-container">
-                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
-                                    alt="Card image cap">
+                                <img style="height: 200px" class="card-img-top" :src="item.image" alt="Card image cap ">
                                 <div class="overlay">
                                     <!-- Status Labels -->
-                                    <span class="status-label"
-                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <span class="status-label" v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้น</span>
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <nuxt-link :to="`/project/${item.id}`">
                                     <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
-                                    {{ item.short_description }}
-                                </p>
-                                <p style="font-size: 14px; font-weight: 400;"></p>
-                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
-                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px;">{{ item.short_description}}</p>
+                                <p class="fw-bolder" style="font-size: 15px; font-weight: 400;">{{ item.hashtag}}<span style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="fw-bolder" style="font-size: 14px; font-weight: 400;">{{item.communityname}}<span class="fw-normal ps-1"> {{item.districtname}}</span></p>
                             </div>
                             <!-- Card Footer -->
-                            <div class="card-footer d-flex justify-content-between">
+                            <div class="card-footer d-flex justify-content-between d-none">
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
-                                        <span class="bi bi-person-plus"></span>
+                                        <i class="bi bi-person-plus"></i>
                                         <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
 
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
-                                        <span class="bi bi-share"></span>
+                                        <i class="bi bi-share"></i>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                       <nav class="text-center">
-                   
                             <span v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
                                 <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
                             </span>
-                       
                     </nav>
                 </div>
-
-
             </div>
         </div>
+       
         <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
             <div class="container">
                 <div class="row justify-content-center">
+                    <div v-if="this.projects_completed.length == 0" class="container ef" style="margin-top:64px;">
+                        <div class="alert alert-danger text-center" role="alert">
+                            ขณะนี้ยังไม่มีข้อมูลโครงการ !
+                        </div>
+                    </div>
                     <div class="col-sm-3 mb-4" v-for="item in projects_completed">
-                        <div class="card">
+                        <div class="card ef">
                             <div class="overlay-container">
-                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
-                                    alt="Card image cap">
+                                <img style="height: 200px" class="card-img-top" :src="item.image" alt="Card image cap ">
                                 <div class="overlay">
                                     <!-- Status Labels -->
-                                    <span class="status-label"
-                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <span class="status-label" v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้น</span>
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <nuxt-link :to="`/project/${item.id}`">
                                     <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size: 14px; font-weight: 400;">
-                                    {{ item.short_description }}
-                                </p>
-                                <p style="font-size: 14px; font-weight: 400;"></p>
-                                <p style="font-size: 14px; font-weight: 400;">ชุมชน<span
-                                        style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px;">{{ item.short_description}}</p>
+                                <p class="fw-bolder" style="font-size: 15px; font-weight: 400;">{{ item.hashtag}}<span style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="fw-bolder" style="font-size: 14px; font-weight: 400;">{{item.communityname}}<span class="fw-normal ps-1"> {{item.districtname}}</span></p>
                             </div>
                             <!-- Card Footer -->
-                            <div class="card-footer d-flex justify-content-between">
+                            <div class="card-footer d-flex justify-content-between d-none">
                                 <div class="follow-container">
                                     <button class="btn btn-primary btn-transparent">
-                                        <span class="bi bi-person-plus"></span>
+                                        <i class="bi bi-person-plus"></i>
                                         <span class="count" style="margin-left:15px;">1000</span>
                                     </button>
 
                                 </div>
                                 <div class="share-container">
                                     <button class="btn btn-secondary btn-transparent">
-                                        <span class="bi bi-share"></span>
+                                        <i class="bi bi-share"></i>
                                         <span class="count" style="margin-left:15px;">500</span>
                                     </button>
-
                                 </div>
                             </div>
                         </div>
@@ -215,31 +382,49 @@
                 </div>
             </div>
         </div>
+        
         <div class="tab-pane" id="suspended" role="tabpanel" aria-labelledby="suspended-tab">
             <div class="container">
                 <div class="row justify-content-center">
+                    <div v-if="this.projects_suspended.length == 0" class="container ef" style="margin-top:64px;">
+                        <div class="alert alert-danger text-center" role="alert">
+                            ขณะนี้ยังไม่มีข้อมูลโครงการ !
+                        </div>
+                    </div>
                     <div class="col-sm-3 mb-4" v-for="item in projects_suspended">
-                        <div class="card">
+                        <div class="card ef">
                             <div class="overlay-container">
-                                <img class="card-img-top" src="https://placehold.co/267x142?text=No+Image"
-                                    alt="Card image cap">
+                                <img style="height: 200px" class="card-img-top" :src="item.image" alt="Card image cap ">
                                 <div class="overlay">
-                                    <span class="status-label"
-                                        v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
-                                    <span class="status-label" v-if="item.status_id === 5">ระงับการดำเนินการโครงการ</span>
-                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้นแล้ว</span>
+                                    <!-- Status Labels -->
+                                    <span class="status-label" v-if="item.status_id === 1 || item.status_id === 2 || item.status_id === 3 || item.status_id === 4">ดำเนินการอยู่</span>
+                                    <span class="status-label" v-if="item.status_id === 5">ระงับโครงการ</span>
+                                    <span class="status-label" v-if="item.status_id === 6">ดำเนินการเสร็จสิ้น</span>
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <nuxt-link :to="`/project/${item.id}`">
-                                    <h5 class="card-title" style="font-size:20px;font-weight: 700;">{{ item.name }}</h5>
+                                    <h5 class="card-title" style="font-size: 20px; font-weight: 700;">{{ item.name }}</h5>
                                 </nuxt-link>
-                                <p class="card-text" style="font-size:14px;font-weight:400;">
-                                    {{ item.short_description }}
-                                </p>
-                                <p style="font-size:14px;font-weight:400;"></p>
-                                <p style="font-size:14px;font-weight:400;"><span
-                                        style="color:#B8B8B8;font-size:14px;font-weight:400;"></span></p>
+                                <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px;">{{ item.short_description}}</p>
+                                <p class="fw-bolder" style="font-size: 15px; font-weight: 400;">{{ item.hashtag}}<span style="color: #B8B8B8; font-size: 14px; font-weight: 400;"></span></p>
+                                <p class="fw-bolder" style="font-size: 14px; font-weight: 400;">{{item.communityname}}<span class="fw-normal ps-1"> {{item.districtname}}</span></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="card-footer d-flex justify-content-between d-none">
+                                <div class="follow-container">
+                                    <button class="btn btn-primary btn-transparent">
+                                        <i class="bi bi-person-plus"></i>
+                                        <span class="count" style="margin-left:15px;">1000</span>
+                                    </button>
+
+                                </div>
+                                <div class="share-container">
+                                    <button class="btn btn-secondary btn-transparent">
+                                        <i class="bi bi-share"></i>
+                                        <span class="count" style="margin-left:15px;">500</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -253,59 +438,15 @@
                 </div>
             </div>
         </div>
+
     </div>
+
 </template>
-<script>
-export default {
-    computed: {
-        currentPage() {
-            return Number(this.$route.params.page) || 1;
-        },
-        totalPages() {
-            return Math.ceil(this.recordCount / 12);
-        },
-        pages() {
-            const range = [];
-            for (let i = 1; i <= this.totalPages; i++) {
-                range.push(i);
-            }
-            return range;
-        },
-    },
-    data() {
-        return {
-            projects: [],
-            projects_ongoing: [],
-            projects_completed: [],
-            projects_suspended: [],
-            recordCount: ''
-        };
-    },
-    mounted() {
-        this.fetchProjectData();
-    },
-    methods: {
-        async fetchProjectData() {
-            try {
-                const response = await fetch('http://bkkpb.ath.cx/api/project');
-                const data = await response.json();
-                const dataLength = data.data.length;
-                this.recordCount = dataLength;
-                this.projects = data.data;
-                this.projects_ongoing = this.projects.filter(item => item.status_id === 2 || item.status_id === 3 || item.status_id === 4);
-                this.projects_completed = this.projects.filter(item => item.status_id === 6);
-                this.projects_suspended = this.projects.filter(item => item.status_id === 5);
-
-
-            } catch (error) {
-                console.error(error);
-            }
-        },
-    }
-};
-</script>
 
 <style scoped>
+.c-1{
+    background-color: #494949
+}
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
     color: #EF4D4E;
