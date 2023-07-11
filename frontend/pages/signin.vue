@@ -1,9 +1,7 @@
 <script>
 import Swal from 'sweetalert2'
-// token ใช้ใน api
-const token = '***REMOVED***>'
-// const link_API = 'http://bkkpb.ath.cx/'
-const link_API = process.env.BASE_URL
+
+import {baseUrl} from '../lib/config'
 
 
 export default {
@@ -23,7 +21,7 @@ export default {
         handleSubmit: async function () {
             if (this.form.email != "" && this.form.password){
                 try {
-                const response = await fetch(link_API+'api/user/auth', {
+                const response = await fetch(baseUrl+'api/user/auth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

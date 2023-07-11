@@ -5,10 +5,7 @@ import Swal from 'sweetalert2'
 import update from './update.vue'
 import docs from './docs.vue'
 
-// token ใช้ใน api
-const token = '***REMOVED***>'
-// const link_API = 'http://bkkpb.ath.cx/'
-const link_API = process.env.BASE_URL
+import {token, baseUrl} from '../lib/config'
 
 export default {
     data() {
@@ -56,7 +53,7 @@ export default {
 
         async api_get_img(filename) {
             try {
-                const url = link_API + 'api/images/' + filename;
+                const url = baseUrl + 'api/images/' + filename;
                 const options = {
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -85,7 +82,7 @@ export default {
         // รับข้อมูล เก็บใน projects
         async api_get_project_id () {
             try {
-                const url     = link_API+'api/project/'+this.id
+                const url     = baseUrl+'api/project/'+this.id
                 const params  = {}
                 const json    = {}
                 const options = {
@@ -136,7 +133,7 @@ export default {
         // update status_id
         async api_update_status_id (row_id,status_id,status_note,note) {
         try {
-            const url     = link_API+'api/update/status_id'
+            const url     = baseUrl+'api/update/status_id'
             const params  = {}
             const json    = {"row_id" : row_id, "status_id" : status_id, "status_note": status_note,"note": note}
             const options = {
