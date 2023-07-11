@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import update from './update.vue'
 import docs from './docs.vue'
 
-import {token, baseUrl} from '../lib/config'
+import {token, baseUrl} from '../../lib/config'
 
 export default {
     data() {
