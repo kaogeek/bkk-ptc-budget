@@ -21,7 +21,7 @@ export default {
     ],
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:8090',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:8090',
   },
   app: {
     head: {
