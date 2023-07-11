@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-export default {
+export default defineNuxtConfig({
   mode: 'universal',
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
@@ -20,9 +20,15 @@ export default {
       },
     ],
   ],
-  env: {
-    BASE_URL: process.env.BASE_URL || 'http://localhost:8090',
+
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.BASE_URL || 'http://localhost:8090',
+      token:
+        'b61621e24aacca8e195d5d3baab1b644980be16a116d8333fb05bf34d22be87cbe>',
+    },
   },
+
   app: {
     head: {
       script: [
@@ -34,4 +40,4 @@ export default {
     },
   },
   devtools: {enabled: true},
-}
+})
