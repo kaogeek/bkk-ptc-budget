@@ -1,10 +1,8 @@
 <script>
-import Swal from 'sweetalert2'
-// token ใช้ใน api
-const token = 'b61621e24aacca8e195d5d3baab1b644980be16a116d8333fb05bf34d22be87cbe>'
-// const link_API = 'http://bkkpb.ath.cx/'
-const link_API = process.env.BASE_URL
 
+import Swal from 'sweetalert2'
+
+import {baseUrl} from '../lib/config'
 
 export default {
     data() {
@@ -43,7 +41,7 @@ export default {
         // api/districts
         async fetchDistrictData() {
             try {
-                const response = await fetch(link_API+'api/districts');
+                const response = await fetch(baseUrl + 'api/districts');
                 const data = await response.json();
                 this.districts = data['data'];
             } catch (error) {
@@ -62,7 +60,7 @@ export default {
         },
         async fetchSubDistrictData(id) {
             try {
-                const response = await fetch(link_API+'api/subdistrict/' + id);
+                const response = await fetch(baseUrl+'api/subdistrict/' + id);
                 const data = await response.json();
                 this.subdistricts = data['data'];
             } catch (error) {
@@ -72,7 +70,7 @@ export default {
         // ชุมชน
         async fetchCommunityData(id) {
             try {
-                const response = await fetch(link_API+'api/community/district/' + id);
+                const response = await fetch(baseUrl+'api/community/district/' + id);
                 const data = await response.json();
                 this.communities = data['data'];
             } catch (error) {
@@ -83,7 +81,7 @@ export default {
         // ตำแหน่ง
         async fetchRoleData() {
             try {
-                const response = await fetch(link_API+'api/role');
+                const response = await fetch(baseUrl+'api/role');
                 const data = await response.json();
                 this.roles = data['data'];
             } catch (error) {
@@ -94,7 +92,7 @@ export default {
         // รหัสไปรษณีย์
         async fetchZipCodeData(id) {
             try {
-                const response = await fetch(link_API+'api/zipcode/' + id);
+                const response = await fetch(baseUrl+'api/zipcode/' + id);
                 const data = await response.json();
                 this.form.zipcode = data['data'][0].zip_code;
 
@@ -113,7 +111,7 @@ export default {
                 && this.form.zipcode != "" && this.form.community != "" 
                 && this.form.password != ""){
                 try {
-                const response = await fetch(link_API+'api/user/register', {
+                const response = await fetch(baseUrl+'api/user/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -173,7 +171,7 @@ export default {
     }
 };
 
-</script>'
+</script>
 
 <template>
     <Head>

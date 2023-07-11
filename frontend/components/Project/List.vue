@@ -1,10 +1,8 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-// token ใช้ใน api
-const token = 'b61621e24aacca8e195d5d3baab1b644980be16a116d8333fb05bf34d22be87cbe>'
-// const link_API = 'http://bkkpb.ath.cx/'
-const link_API = process.env.BASE_URL
+
+import {token, baseUrl} from '../../lib/config'
 
 export default {
     data() {
@@ -35,7 +33,7 @@ export default {
         // รับข้อมูล เก็บใน projects
         async api_get_fetchProjectData () {
         try {
-            const url     = link_API+'api/project'
+            const url     = baseUrl+'api/project'
             const params  = {}
             const json    = {}
             const options = {
@@ -43,6 +41,7 @@ export default {
                 'Authorization': 'Bearer ' + token
             }
             }
+
             const res = await axios.get(url, json, options)
 
             if (res.status === 200){
@@ -92,7 +91,7 @@ export default {
 
         async api_get_img(filename) {
             try {
-                const url = link_API + 'api/images/' + filename;
+                const url = baseUrl + 'api/images/' + filename;
                 const options = {
                 headers: {
                     'Authorization': 'Bearer ' + token
