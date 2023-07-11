@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 // token ใช้ใน api
 const token = '***REMOVED***>'
 // const link_API = 'http://bkkpb.ath.cx/'
-const link_API = 'http://localhost:8090/'
+const link_API = process.env.BASE_URL
 
 export default {
     data() {
