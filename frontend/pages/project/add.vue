@@ -4,7 +4,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import Editor from '@tinymce/tinymce-vue'
 
-import {token, baseUrl} from '../lib/config'
+import {token, baseUrl} from '../../lib/config'
 
 export default {
 	data() {
