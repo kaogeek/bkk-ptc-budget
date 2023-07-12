@@ -512,4 +512,8 @@ export default {
 
     color: #FFFFFF;
 }
+
+.card-img-top {
+		object-fit: cover;
+}
 </style>
