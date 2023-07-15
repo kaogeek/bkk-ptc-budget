@@ -29,6 +29,7 @@ export default {
     }
 }
 </script>
+
 <template>
     <div class="container" >
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4"
@@ -52,9 +53,9 @@ export default {
                 <span style="font-size:32px;margin-left:19px;color:#606060;">ชุมชนโปร่งใส</span>
             </a>
             
-            <div class="col-md-3 text-end" v-if="role == 1">
+            <div class="col-md-auto text-end" v-if="role == 1 || role == 5">
                 <button type="button" class="btn btn-outline-primary me-2" style="background:#EF4D4E; border-radius: 4px; color:#FFFFFF; border-color:#EF4D4E; font-size:14px;">
-                    <i class="bi bi-person"></i> User {{ this.fullname }}
+                    <i class="bi bi-person"></i> User {{ this.fullname }} 
                 </button>
                 <NuxtLink to="../project/add">
                     <button type="button" class="btn btn-outline-primary me-2"
@@ -66,7 +67,7 @@ export default {
                 </NuxtLink>
             </div>
             
-            <div class="col-md-3 text-end" v-else>
+            <div class="col-md-auto text-end" v-else>
                 <button v-if="this.email != ''" type="button" class="btn btn-outline-primary me-2" style="background:#EF4D4E; border-radius: 4px; color:#FFFFFF; border-color:#EF4D4E; font-size:14px;">
                     <i class="bi bi-person"></i> User {{ this.fullname }}
                 </button>
@@ -82,7 +83,6 @@ export default {
                     <button type="button" class="btn btn-outline-secondary me-2"
                         style="border:none;color:#606060;border-color:#EF4D4E;font-size:14px;">ออกจากระบบ</button>
                 </NuxtLink>
-            
             </div>
         </header>
     </div>

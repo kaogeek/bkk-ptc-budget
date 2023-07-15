@@ -3,25 +3,22 @@
   import axios from 'axios'
   import Swal from 'sweetalert2'
   import Editor from '@tinymce/tinymce-vue'
-
+  
   export default {
+    props: {
+      data_list_props: {type: Array, required: true}
+    },
     data() {
       return {
+        id                : null,
         role              : null,
         create_email      : null,
+        hashtag           : '',
         selectedFile      : null,
         owner_id          : null,
-        status_id         : '1',
-        hashtag           : '',
         name              : '',
         short_description : '',
         og_image          : '',
-        description       : '',
-        participation     : '',
-        evaluation        : '',
-        financial_plan    : '',
-        communityname     : '',
-        districtname      : '',
         api_url           : '',
         api_token         : '',
         editorConfig      : {
@@ -29,10 +26,18 @@
         }
       }
     },
+    created() {
+      this.name = this.data_list_props.name
+      this.hashtag = this.data_list_props.hashtag
+      this.short_description = this.data_list_props.short_description
+      this.description = this.data_list_props.description
+    },
     mounted(){
-      this.asyncData()
+      this.asyncData();
+      this.id        = this.$route.params.id;
       this.api_url   = this.$config.public.BASE_API_URL
       this.api_token = this.$config.public.TOKEN_API
+
     },
     components: {
       Editor
@@ -40,37 +45,25 @@
     methods: {
       async asyncData() {
             const token = sessionStorage.getItem('auth-token');
-
             if (token != null) {
                 var decoded = jwt_decode(token);
                 this.role = decoded.role
                 this.owner_id = decoded.role
                 this.create_email = decoded.email
-                this.api_get_community (decoded.community)
-                this.api_get_district (decoded.district)
-                console.log('decoded ',decoded)
+                // console.log('decoded ',decoded)
             }
       },
-      async api_add_project () {
+      async api_upload_project (row_id) {
           try {
-              const url = this.api_url+'api/add/project'
+              const url = this.api_url+'api/upload/project'
               const params = {}
               const json = {
-                "status_id": this.status_id,
-                "owner_id": this.owner_id,
                 "name": this.name,
-                "short_description": this.short_description,
-                "og_image": this.og_image,
-                "description": this.description,
-                "participation": this.participation,
-                "evaluation": this.evaluation,
-                "financial_plan": this.financial_plan,
                 "hashtag" : this.hashtag,
-                "create_email" : this.create_email,
-                "note" : {"note":"","date":""},
-                "status_note" : {"note":"","fullname":""},
-                "communityname" : this.communityname,
-                "districtname" : this.districtname,
+                "short_description": this.short_description,
+                "description": this.description,
+                "og_image": this.og_image,
+                "row_id": row_id
               }
               const options = {
               headers: {
@@ -85,9 +78,8 @@
                       title: '',
                       text: res.data.statusMsg,
                       timer: 1500
-                  }).then((result) => {
-                          this.$router.push('../project/'+res.data.data[0].id)
-                      })                 
+                  })
+                  setTimeout(() => {location.reload()}, 1500)              
               }else{
                   Swal.fire({
                       icon: 'error',
@@ -95,46 +87,6 @@
                       text: res.data.statusMsg,
                       timer: 2000
                   })
-              }
-          } catch (error) {
-              console.error(error)
-          }
-      },
-      // api/get/community/id
-      async api_get_community (id) {
-          try {
-              const url = this.api_url+'api/get/community/id'
-              const params = {}
-              const json = {"id" : id}
-              const options = {
-              headers: {
-                  'Authorization': 'Bearer ' + this.api_token
-              }
-              }
-              const res = await axios.post(url, json, options)
-              if (res.status === 200 ){
-                this.communityname = res.data.data[0].communityname
-                  
-              }
-          } catch (error) {
-              console.error(error)
-          }
-      },
-      // get district name by id
-      async api_get_district (id) {
-          try {
-              const url = this.api_url+'api/get/district/id'
-              const params = {}
-              const json = {"id" : 1003}
-              const options = {
-              headers: {
-                  'Authorization': 'Bearer ' + this.api_token
-              }
-              }
-              const res = await axios.post(url, json, options)
-              if (res.status === 200 ){
-                this.districtname = res.data.data[0].name_th
-                  
               }
           } catch (error) {
               console.error(error)
@@ -163,7 +115,7 @@
                 })
               }
               // add_project
-              this.api_add_project ()
+              this.api_upload_project (this.id)
             })
             .catch(error => {
               // Handle the error
@@ -171,24 +123,19 @@
             });
           }else{
             // add_project
-            this.api_add_project ()
+            this.api_upload_project (this.id)
           }
       },
       onFileChange(event) {
         this.selectedFile = event.target.files[0];
-      }
+      }, 
     }
   }
 </script>
 
 <template>
     <div>
-      <Head>
-        <Title>ชุมชนโปร่งใส - เพิ่มข้อมูลโครงการ</Title>
-      </Head>
-      <NavBar/>
-      <div class="container" style="margin-top:94px;">
-        <p style="font-size:36px;font-weight:100;" class="text-center">แบบฟอร์มโครงการ</p>
+      <div class="container" style="margin-top:10px;">
         <div class="row">
           <div class="card">
             <div class="card-body">
@@ -202,7 +149,7 @@
                 <div class="row mb-3">
                   <label for="projectbudgetyear" class="col-sm-2 col-form-label">ปีงบประมาณ</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="projectbudgetyear" placeholder="ปีงบประมาณ" required min="0">
+                    <input type="text" class="form-control" id="projectbudgetyear" placeholder="ปีงบประมาณ" required>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -232,7 +179,7 @@
                 </div>
                 <div class="row">
                   <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">ยื่นแบบฟอร์มโครงการ</button>
+                    <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">แก้ไขฟอร์มโครงการ</button>
                   </div>
                 </div>
   
