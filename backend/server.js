@@ -1414,12 +1414,13 @@ const gracefulShutdown = () => {
   console.log('SIGTERM signal received: closing HTTP server');
   // stop http request
   server.close(() => {
-    console.log('HTTP server closed');
+    console.log('HTTP connection', 'closed');
     // clean up connections
     pool.end(() => {
       console.log('PG pool:', 'closed');
     });
     // done normal exit
+    console.log('Process:', 'closed');
     process.exit(0);
   });
 
