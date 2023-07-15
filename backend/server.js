@@ -1416,12 +1416,9 @@ const gracefulShutdown = () => {
   server.close(() => {
     console.log('HTTP server closed');
     // clean up connections
-    pool.end()
-      .then(() => {
-        console.log('PG pool:', 'closed');
-      }).cache((err) => {
-        console.error('PG pool:', err)
-      });
+    pool.end(() => {
+      console.log('PG pool:', 'closed');
+    });
     // done normal exit
     process.exit(0);
   });
