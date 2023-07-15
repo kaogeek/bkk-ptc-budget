@@ -1,12 +1,11 @@
 <script>
 import Swal from 'sweetalert2'
 
-import {baseUrl} from '../lib/config'
-
-
 export default {
     data() {
         return {
+            api_url     : '',
+            api_token   : '',
             dev_msg: '',
             form: {
                 email: "",
@@ -15,13 +14,14 @@ export default {
         };
     },
     mounted() {
-
+        this.api_url = this.$config.public.BASE_API_URL
+        this.api_token = this.$config.public.TOKEN_API
     },
     methods: {
         handleSubmit: async function () {
             if (this.form.email != "" && this.form.password){
                 try {
-                const response = await fetch(baseUrl+'api/user/auth', {
+                const response = await fetch(this.api_url+'api/user/auth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

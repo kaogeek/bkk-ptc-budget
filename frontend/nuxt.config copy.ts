@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-// https://api.dev.pb.grtn.org/
+
 export default ({
   mode: "universal",
   css: ["bootstrap/dist/css/bootstrap.min.css",
@@ -26,12 +26,6 @@ export default ({
       ],
     },
   },
-  devtools: { enabled: true 
-  },
-  runtimeConfig: {
-    public: {
-      BASE_API_URL: 'https://api.dev.pb.grtn.org/',
-      TOKEN_API: 'http://***REMOVED***>:8090/'
-    }
-  },
+  devtools: { enabled: true }
+  
 })

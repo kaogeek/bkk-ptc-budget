@@ -17,19 +17,18 @@ body {
 
 @keyframes animated {
   0% {
-    transform: translateY(50px);
-    filter: blur(3px);
+    transform: translateY(10px);
+    filter: blur(2px);
   }
 
-  70% {
+  40% {
     filter: blur(1px);
   }
 }
 
 .ef-2 {
-  animation-name: animated2;
+  animation-name: animated;
   animation-duration: 1s;
-  /* animation-iteration-count: infinite; */
 }
 
 @keyframes animated2 {
