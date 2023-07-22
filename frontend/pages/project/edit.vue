@@ -222,7 +222,7 @@ export default {
                 >
                 <div class="col-sm-10">
                   <Editor
-                    api-key="***REMOVED***"
+                    api-key="editorToken"
                     v-model="description"
                     :init="editorConfig"
                   />
