@@ -1,16 +1,16 @@
-const express      = require('express');
-const multer       = require('multer');
-const path         = require('path');
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi    = require('swagger-ui-express');
-const app          = express();
-const cors         = require('cors');
-const jwt          = require('jsonwebtoken');
-const Pool         = require("pg").Pool;
-const bcrypt       = require("bcrypt");
-const fs           = require('fs');
-const dotenv       = require('dotenv');
-const port         = 8090;
+const swaggerUi = require('swagger-ui-express');
+const app = express();
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const Pool = require("pg").Pool;
+const bcrypt = require("bcrypt");
+const fs = require('fs');
+const dotenv = require('dotenv');
+const port = 8090;
 
 if (!fs.existsSync('.env')) {
   console.error('ไม่พบไฟล์ .env');
@@ -159,9 +159,9 @@ app.get('/api/images/:filename', (req, res) => {
   const filePath = path.join(__dirname, 'uploads/img', filename);
 
   if (fs.existsSync(filePath)) {
-    if (filename === '0'){
+    if (filename === '0') {
       res.sendFile(path.join(__dirname, 'uploads/img', 'og_image.png'));
-    }else{
+    } else {
       res.sendFile(path.join(__dirname, 'uploads/img', filename));
     }
   } else {
@@ -189,7 +189,7 @@ app.get('/api/get/chart_img/:filename', (req, res) => {
 
 // delete/doc
 app.delete('/api/delete/chart_img/:filename', (req, res) => {
- 
+
   const filename = req.params.filename;
   const filePath = path.join(__dirname, 'uploads/chart_img', filename);
 
@@ -407,10 +407,10 @@ app.post('/api/user/auth', (request, response) => {
       (error, results) => {
         if (error) {
           throw error;
-          
+
         }
         const data = results.rows;
-        if (data.length > 0){
+        if (data.length > 0) {
           bcrypt.compare(password, data[0].password, (error, isMatch) => {
             if (error) {
               // Handle the error
@@ -420,16 +420,16 @@ app.post('/api/user/auth', (request, response) => {
 
             if (isMatch) {
               process.env.TOKEN_SECRET;
-              token = jwt.sign({ 
-                id: data[0].id, 
-                email: data[0].email, 
-                role: data[0].position, 
+              token = jwt.sign({
+                id: data[0].id,
+                email: data[0].email,
+                role: data[0].position,
                 fullname: data[0].fullname,
                 district: data[0].district,
                 zipcode: data[0].zipcode,
                 community: data[0].community,
                 subdistrict: data[0].subdistrict,
-                },
+              },
                 process.env.TOKEN_SECRET,
                 { expiresIn: "1h" }
               );
@@ -442,23 +442,25 @@ app.post('/api/user/auth', (request, response) => {
               };
               response.status(200).json(res_json);
             } else {
-                // Passwords do not match
-                response.status(200).json({       
+              // Passwords do not match
+              response.status(200).json({
                 status: 401,
                 statusMsg: "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
                 data: [],
-                token: '', });
-                console.log("Password is incorrect");
+                token: '',
+              });
+              console.log("Password is incorrect");
             }
           });
 
-        }else{
-              response.status(200).json({       
-              status: 401,
-              statusMsg: "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
-              data: [],
-              token: '', });
-              console.log("Email is incorrect");
+        } else {
+          response.status(200).json({
+            status: 401,
+            statusMsg: "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+            data: [],
+            token: '',
+          });
+          console.log("Email is incorrect");
         }
       }
     );
@@ -599,9 +601,9 @@ app.post('/api/add/project', async (request, response) => {
 
   let thaiDate = `${day} ${thaiMonths[month - 1]} ${year + 543}`;
   // console.log(`วันที่ปัจจุบัน: ${thaiDate}`);
-  let list_update = {"data": []}
-  let file_doc = {"data": []}
-  let list_budget = {"data": []}
+  let list_update = { "data": [] }
+  let file_doc = { "data": [] }
+  let list_budget = { "data": [] }
 
   try {
     const query = {
@@ -658,7 +660,7 @@ app.post('/api/upload/project', async (request, response) => {
     og_image,
     row_id,
   } = request.body;
-  
+
   let currentDate = new Date();
   let year = currentDate.getFullYear();
   let month = currentDate.getMonth() + 1;
@@ -700,8 +702,8 @@ app.post('/api/upload/project', async (request, response) => {
         row_id
       ],
     };
-    
-    
+
+
     const results = await pool.query(query);
     const data = results.rows;
 
@@ -711,14 +713,14 @@ app.post('/api/upload/project', async (request, response) => {
       data: data,
       token: '',
     };
-  
+
     response.status(200).json(res_json);
 
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: "Internal Server Error" });
   }
-  
+
 });
 
 // api/upload/img
@@ -773,7 +775,7 @@ app.post('/api/upload/doc', upload_doc.single('file'), (req, res) => {
 // api/upload/image
 const storage_image = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/chart_img'); 
+    cb(null, 'uploads/chart_img');
   },
   filename: function (req, file, cb) {
     // กำหนดชื่อไฟล์ใหม่
@@ -782,7 +784,7 @@ const storage_image = multer.diskStorage({
 });
 
 const upload_image = multer({ storage: storage_image });
-app.post('/api/upload/image',  upload_image.single('file'), (req, res) => {
+app.post('/api/upload/image', upload_image.single('file'), (req, res) => {
   if (req.file) {
 
     const filename = req.file.filename;
@@ -822,7 +824,7 @@ app.post('/api/update/status_id', (request, response) => {
 
   pool.query(
     "UPDATE project SET status_id = $1, status_note =$2 WHERE id = $3",
-    [status_id, status_note,  row_id],
+    [status_id, status_note, row_id],
     (error, results) => {
       if (error) {
         throw error;
@@ -842,7 +844,7 @@ app.post('/api/update/status_id', (request, response) => {
 
 // update note_id
 app.post('/api/update/note_id', (request, response) => {
-  const {row_id, note } = request.body;
+  const { row_id, note } = request.body;
 
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -894,7 +896,7 @@ app.post('/api/update/note_id', (request, response) => {
 
 // update status_id
 app.post('/api/update/status_id', (request, response) => {
-  const {status_id, row_id, status_note, note } = request.body;
+  const { status_id, row_id, status_note, note } = request.body;
 
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -953,11 +955,11 @@ app.post('/api/update/chat_id', async (request, response) => {
     let result = '';
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-  
+
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-  
+
     return result;
   }
 
@@ -1020,7 +1022,7 @@ app.post('/api/update/chat_id', async (request, response) => {
 
 // update edit chat_id
 app.post('/api/edit/chat_id', async (request, response) => {
-  const {id, title, content, img_name, row_id,} = request.body;
+  const { id, title, content, img_name, row_id, } = request.body;
 
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -1064,7 +1066,7 @@ app.post('/api/edit/chat_id', async (request, response) => {
     }
   });
 
-  let new_list_update = {"data": data_list}
+  let new_list_update = { "data": data_list }
 
   pool.query(
     "UPDATE project SET list_update = $1 WHERE id = $2",
@@ -1235,17 +1237,17 @@ app.post('/api/get/community/id', (request, response) => {
 
 // เพิ่ม รายการ ตารางแผนการใช้เงินสำหรับโครงการ
 app.post('/api/add/list_budget', async (request, response) => {
-  const {list_name, budget, row_id} = request.body;
+  const { list_name, budget, row_id } = request.body;
 
   function generateRandomString(length) {
     let result = '';
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
-  
+
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-  
+
     return result;
   }
 
@@ -1281,9 +1283,9 @@ app.post('/api/add/list_budget', async (request, response) => {
   const results = await pool.query(query);
   let data_list = results.rows[0].list_budget.data;
 
-  data_list.push({"id":generateRandomString(20), "list_name":list_name,"budget":budget, "date":thaiDateWithTime});
-  
-  let new_list_update = {"data": data_list}
+  data_list.push({ "id": generateRandomString(20), "list_name": list_name, "budget": budget, "date": thaiDateWithTime });
+
+  let new_list_update = { "data": data_list }
 
   pool.query(
     "UPDATE project SET list_budget = $1 WHERE id = $2",
@@ -1303,12 +1305,12 @@ app.post('/api/add/list_budget', async (request, response) => {
       response.status(status).json(res_data);
     }
   );
-  
+
 });
 
 // แก้ไข รายการ ตารางแผนการใช้เงินสำหรับโครงการ
 app.post('/api/edit/list_budget', async (request, response) => {
-  const {id, list_name, budget, row_id} = request.body;
+  const { id, list_name, budget, row_id } = request.body;
 
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -1350,7 +1352,7 @@ app.post('/api/edit/list_budget', async (request, response) => {
     }
   });
 
-  let new_list_update = {"data": data_list}
+  let new_list_update = { "data": data_list }
 
   pool.query(
     "UPDATE project SET list_budget = $1 WHERE id = $2",
@@ -1370,7 +1372,7 @@ app.post('/api/edit/list_budget', async (request, response) => {
       response.status(status).json(res_data);
     }
   );
-  
+
 });
 
 

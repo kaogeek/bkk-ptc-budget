@@ -208,7 +208,7 @@ const postRegistUser = async (request, res) => {
     community,
     password,
   } = request.body;
- 
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
