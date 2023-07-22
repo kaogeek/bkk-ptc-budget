@@ -1,0 +1,64 @@
+x-default: &default-env
+  TZ: Asia/Bangkok
+  TOKEN_SECRET: ""
+x-db: &db-env
+  POSTGRES_HOST: db
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ""
+  POSTGRES_DB: postgres
+x-backend: &backend-env
+  DB_TYPE: postgres
+  DB_HOST: db
+  DB_PORT: 5432
+  DB_USER: "postgres"
+  DB_PASSWD: ""
+  DB_NAME: "postgres"
+x-frontend: &frontend-env
+  BASE_API_URL: "http://backend:8090"
+  NUXT_BASE_URL: "http://backend:8090"
+
+services:
+  traefik:
+    depends_on:
+      - frontend
+    image: traefik:latest
+    restart: unless-stopped
+    environment:
+      <<: [*default-env, *app-env]
+
+  frontend:
+    depends_on:
+      - backend
+    image: mfp/bkk-pb-frontend
+    restart: unless-stopped
+    environment:
+      <<: [*default-env, *frontend-env]
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+
+  backend:
+    depends_on:
+      - db
+    image: mfp/bkk-pb-backend
+    restart: unless-stopped
+    environment:
+      <<: [*default-env, *backend-env]
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    volumes:
+      - app-upload:/app/uploads
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      <<: [*default-env, *db-env]
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+volumes:
+  pg-data:
+  app-upload:
