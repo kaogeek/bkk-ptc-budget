@@ -9,6 +9,14 @@ export default {
       projects_ongoing: [],
       projects_completed: [],
       projects_suspended: [],
+      projectStatus: [
+        { id: 1, name: "ยื่นข้อเสนอโครงการ" },
+        { id: 2, name: "กำลังพิจารณา" },
+        { id: 3, name: "ปรับปรุงเอกสารเสนอโครงการ" },
+        { id: 4, name: "ดำเนินการโครงการ" },
+        { id: 5, name: "ระงับการดำเนินการโครงการ" },
+        { id: 6, name: "ดำเนินการโครงการเสร็จสิ้น" },
+      ],
       imageData: null,
       recordCount: false,
       search: "",
@@ -438,24 +446,9 @@ export default {
                   />
                   <div class="overlay">
                     <!-- Status Labels -->
-                    <span class="status-label" v-if="item.status_id === 1"
-                      >ยื่นข้อเสนอโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 2"
-                      >กำลังพิจารณา</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 3"
-                      >ปรับปรุงเอกสารเสนอโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 4"
-                      >ดำเนินการโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 5"
-                      >ระงับการดำเนินการโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 6"
-                      >ดำเนินการโครงการเสร็จสิ้น</span
-                    >
+                    <span class="status-label">{{
+                      projectStatus[item.status_id - 1].name
+                    }}</span>
                   </div>
                 </div>
                 <div class="card-body">
@@ -525,24 +518,9 @@ export default {
                   />
                   <div class="overlay">
                     <!-- Status Labels -->
-                    <span class="status-label" v-if="item.status_id === 1"
-                      >ยื่นข้อเสนอโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 2"
-                      >กำลังพิจารณา</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 3"
-                      >ปรับปรุงเอกสารเสนอโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 4"
-                      >ดำเนินการโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 5"
-                      >ระงับการดำเนินการโครงการ</span
-                    >
-                    <span class="status-label" v-if="item.status_id === 6"
-                      >ดำเนินการโครงการเสร็จสิ้น</span
-                    >
+                    <span class="status-label">{{
+                      projectStatus[item.status_id - 1].name
+                    }}</span>
                   </div>
                 </div>
                 <div class="card-body">
