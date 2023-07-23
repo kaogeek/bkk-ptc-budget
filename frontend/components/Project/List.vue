@@ -483,6 +483,7 @@ export default {
                     ></span>
                   </p>
                   <p
+                    v-if="item.communityname"
                     class="fw-bolder"
                     style="font-size: 14px; font-weight: 400"
                   >
