@@ -4,7 +4,8 @@
   import Swal from 'sweetalert2'
   export default {
     props: {
-      data_list_props: {type: Array, required: true}
+    data_list_props: { type: Array, required: true },
+    projectOwnerId: { type: Number, required: true },
     },
     data() {
       return {
@@ -391,9 +392,10 @@
           </div>
           
           <template v-if="this.edit == false">
-              <div v-if="this.role == 4 || this.role == 5 || this.role == 1" class="col-md-10 p-2">
-              <div class="p-2" style="background-color: rgb(221, 221, 221); border-radius: 10px">
-                <input type="email" class="form-control" id="floatingInput" placeholder="หัวข้อ" v-model="title">
+          <div
+            v-if="this.user_id === this.projectOwnerId"
+            class="col-md-10 p-2"
+          >
                 <div class="form-floating pt-2">
                   <textarea style="height :150px" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" v-model="content"></textarea>
                   <label for="floatingTextarea">เนื้อหา</label>

@@ -9,21 +9,22 @@ import edit       from './edit.vue'
 export default {
     data() {
         return {
-            projects    : [],
-            imageData   : null, 
-            id          : null,
-            dev_msg     : null,
-            edit        : false,
-            page        : 1,
-            role        : 0,
-            selected    : '',
-            status_text : '',
-            note        : '',
-            status_note : '',
-            api_url     : '',
-            api_token   : '',
-            email       : '',
-            fullname    : '',
+      projects: [],
+      imageData: null,
+      id: null,
+      dev_msg: null,
+      edit: false,
+      page: 1,
+      role: 0,
+      selected: "",
+      status_text: "",
+      note: "",
+      status_note: "",
+      api_url: "",
+      api_token: "",
+      email: "",
+      fullname: "",
+      projectOwnerId: null,
         };
     },
     mounted() {
@@ -92,11 +93,13 @@ export default {
 
                 if (res.status === 200){
                     this.projects = res.data.data[0];
-                    this.note = this.projects.note.note
-                    if(this.projects.og_image != ''){
-                        this.api_get_img(this.projects.og_image)
-                    }else{
-                        this.api_get_img('0')
+          this.projectOwnerId = this.projects.owner_id;
+
+          this.note = this.projects.note.note;
+          if (this.projects.og_image != "") {
+            this.api_get_img(this.projects.og_image);
+          } else {
+            this.api_get_img("0");
                     }
                     
                     if( this.projects.status_id === 1){
@@ -312,7 +315,11 @@ export default {
                     <edit v-if='this.edit == true' class="ef" :data_list_props="this.projects"></edit>
                 </template>
                 <!-- อัปเดต -->
-                <update v-if="page == 2" :data_list_props="this.projects.list_update.data"></update>
+        <update
+          v-if="page == 2"
+          :data_list_props="this.projects.list_update.data"
+          :projectOwnerId="this.projectOwnerId"
+        ></update>
                 <!-- เอกสารโครงการ และ แผนการใช้เงิน -->
                 <docs v-if="page == 3" :data_list_props="this.projects"></docs>
 
