@@ -81,7 +81,6 @@ export default {
             } else {
               let new_items = [];
               for (let item of res.data.data) {
-                console.log("status_id", item.status_id);
                 if (item.status_id == this.status) {
                   new_items.push(item);
                 }
