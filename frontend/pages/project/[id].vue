@@ -25,6 +25,7 @@ export default {
       email: "",
       fullname: "",
       projectOwnerId: null,
+      currentUserId: null,
         };
     },
     mounted() {
@@ -46,9 +47,10 @@ export default {
             if (token != null) {
                 var decoded = jwt_decode(token);
 
-                this.role = decoded.role
-                this.email = decoded.email
-                this.fullname = decoded.fullname
+        this.role = decoded.role;
+        this.email = decoded.email;
+        this.fullname = decoded.fullname;
+        this.currentUserId = decoded.id;
             }
         },
         async api_get_img(filename) {
@@ -338,9 +340,7 @@ export default {
                         <p class="m-0 p-0">{{ this.projects.note.date }}</p>
                     </template>
 
-                    <!-- role == 1 or role 5 -->
-                    <template  v-if="this.role == 1 || this.role == 5 ">
-                        <template  v-if="this.projects.create_email == this.email ">
+          <template v-if="this.currentUserId === this.projectOwnerId">
                             <div class="mb-3">
                             <textarea class="form-control" rows="3"  v-model="note">{{this.projects.note.note}}</textarea>
                             </div>
