@@ -432,8 +432,7 @@ export default {
               <div class="card ef">
                 <div class="overlay-container">
                   <img
-                    style="height: 300px"
-                    class="card-img-top"
+                    class="card-img-top card-image"
                     :src="item.image"
                     alt="Card image cap "
                   />
@@ -695,6 +694,11 @@ export default {
 
 .overlay-container {
   position: relative;
+}
+
+.card-image {
+  height: 300px;
+  object-fit: cover;
 }
 
 .overlay {
