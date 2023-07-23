@@ -179,11 +179,10 @@ export default {
         <Title>ชุมชนโปร่งใส - สมัครสมาชิก</Title>
     </Head>
     <NavBar />
-    <div class="container" style="margin-top:94px;">
-        <!-- test -->
-        <p class="c-1" style="color :rgba(1, 243, 102, 0.699)">dev_msg : {{ this.form }}</p>
-
-        <p style="font-size:36px;font-weight:100;" class="text-center">สมัครสมาชิก</p>
+  <div class="container" style="margin-top: 94px">
+    <p style="font-size: 36px; font-weight: 100" class="text-center">
+      สมัครสมาชิก
+    </p>
         <div class="row">
             <section class="h-100 h-custom">
                 <div class="container py-5 h-100">
