@@ -682,15 +682,15 @@ export default {
 
 .overlay {
   position: absolute;
-  width: 105px;
-  height: 26px;
-  right: 4px;
-  top: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.65);
   border-radius: 4px;
+  top: 50%;
+  right: 1%;
+  padding: 0.25rem;
+  max-width: 150px;
 }
 
 .status-label {
