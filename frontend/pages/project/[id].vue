@@ -468,7 +468,11 @@ export default {
           :projectOwnerId="this.projectOwnerId"
         ></update>
         <!-- เอกสารโครงการ และ แผนการใช้เงิน -->
-        <docs v-if="page == 3" :data_list_props="this.projects"></docs>
+        <docs
+          v-if="page == 3"
+          :data_list_props="this.projects"
+          :project-owner-id="projectOwnerId"
+        ></docs>
       </div>
 
       <div class="col-md-4">
