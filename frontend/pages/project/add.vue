@@ -123,7 +123,7 @@ export default {
       try {
         const url = this.api_url + "api/get/district/id";
         const params = {};
-        const json = { id: 1003 };
+        const json = { id: id };
         const options = {
           headers: {
             Authorization: "Bearer " + this.api_token,
