@@ -24,6 +24,7 @@ export default {
       districtname: "",
       api_url: "",
       api_token: "",
+      editorToken: "",
       editorConfig: {
         plugins: "lists link image table code help wordcount textpattern",
       },
@@ -33,6 +34,7 @@ export default {
     this.asyncData();
     this.api_url = this.$config.public.BASE_API_URL;
     this.api_token = this.$config.public.TOKEN_API;
+    this.editorToken = this.$config.public.EDITOR_TOKEN;
   },
   components: {
     Editor,
@@ -271,7 +273,7 @@ export default {
                 >
                 <div class="col-sm-10">
                   <Editor
-                    api-key="811i50spa7vcrktduyzcd6684wjg8g2vsrm0sephs5g1qqaq"
+                    :api-key="editorToken"
                     v-model="description"
                     :init="editorConfig"
                   />
