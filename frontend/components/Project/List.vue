@@ -148,8 +148,18 @@ export default {
   computed: {
     currentPageProjects() {
       const currentProjects = this.filteredProjects
-        ? [...this.filteredProjects]
-        : [...this.projects];
+        ? [
+            ...this.filteredProjects.filter((project) => {
+              if (this.status === 0) return project;
+              return project.status_id === this.status;
+            }),
+          ]
+        : [
+            ...this.projects.filter((project) => {
+              if (this.status === 0) return project;
+              return project.status_id === this.status;
+            }),
+          ];
 
       if (!currentProjects) {
         this.recordCount = true;
@@ -311,6 +321,14 @@ export default {
     <div class="container" style="margin-top: 64px">
       <div class="alert alert-danger text-center" role="alert">
         ขณะนี้ยังไม่มีข้อมูลโครงการ !
+      </div>
+    </div>
+  </div>
+
+  <div v-show="this.status && currentProjectsCount <= 0">
+    <div class="container" style="margin-top: 64px">
+      <div class="alert alert-danger text-center" role="alert">
+        ขณะนี้ยังไม่มีโครงการใดที่อยู่ในขั้นตอนนี้!
       </div>
     </div>
   </div>
