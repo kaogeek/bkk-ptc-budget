@@ -80,7 +80,7 @@ export default {
             font-size: 14px;
           "
         >
-          <i class="bi bi-person"></i> User {{ this.fullname }}
+          <i class="bi bi-person"></i> {{ this.fullname }}
         </button>
         <NuxtLink to="../project/add">
           <button
