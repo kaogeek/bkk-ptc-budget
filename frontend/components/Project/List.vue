@@ -482,7 +482,7 @@ export default {
                 <div class="overlay-container">
                   <img
                     style="height: 300px"
-                    class="card-img-top"
+                    class="card-img-top card-image"
                     :src="item.image"
                     alt="Card image cap "
                   />
