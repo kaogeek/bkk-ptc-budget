@@ -1,6 +1,8 @@
 <script>
+import { ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { NPagination } from "naive-ui";
 
 export default {
   data() {
@@ -27,26 +29,35 @@ export default {
       show_items_set: 6,
       show_items_start: 0,
       show_items_end: 6,
+      page: ref(1),
+      pageSize: ref(6),
+      pageSizes: [6, 12, 18],
+      filteredProjects: null,
+      isLoading: false,
+      currentProjectsCount: 0,
     };
   },
   watch: {
-    search(newDate) {
-      this.api_get_fetchProjectData();
-    },
-    status(newDate) {
-      this.projects = [];
-      this.api_get_fetchProjectData();
+    search() {
+      if (!this.search) {
+        this.filteredProjects = null;
+        this.recordCount = false;
+      }
     },
   },
-
   mounted() {
     setTimeout(() => {
       this.api_get_fetchProjectData();
-    }, 1500);
+    }, 0);
+    this.currentProjectsCount = this.projects.length;
     this.api_url = this.$config.public.BASE_API_URL;
     this.api_token = this.$config.public.TOKEN_API;
-  },
 
+    if (this.projects) this.projectsCount = this.projects.length;
+  },
+  components: {
+    NPagination,
+  },
   methods: {
     // รับข้อมูล เก็บใน projects
     async api_get_fetchProjectData() {
@@ -60,6 +71,8 @@ export default {
           },
         };
 
+        this.isLoading = true;
+
         const res = await axios.get(url, json, options);
 
         if (res.status === 200) {
@@ -71,64 +84,8 @@ export default {
             }
           }
           this.recordCount = false;
-
-          if (this.search === "") {
-            if (this.status == 0) {
-              this.projects = res.data.data.slice(
-                this.show_items_start,
-                this.show_items_end
-              );
-            } else {
-              let new_items = [];
-              for (let item of res.data.data) {
-                if (item.status_id == this.status) {
-                  new_items.push(item);
-                }
-              }
-              this.projects = new_items.slice(
-                this.show_items_start,
-                this.show_items_end
-              );
-            }
-
-            if (this.projects.length === 0) {
-              this.recordCount = true;
-            }
-          } else {
-            const filteredItems = [];
-            this.projects = [];
-            if (this.status == 0) {
-              this.projects = res.data.data.slice(
-                this.show_items_start,
-                this.show_items_end
-              );
-            } else {
-              let new_items = [];
-              for (let item of res.data.data) {
-                console.log("status_id", item.status_id);
-                if (item.status_id == this.status) {
-                  new_items.push(item);
-                }
-              }
-              this.projects = new_items.slice(
-                this.show_items_start,
-                this.show_items_end
-              );
-            }
-            for (const item of this.projects) {
-              if (
-                item.name.includes(this.search) ||
-                item.communityname.includes(this.search) ||
-                item.districtname.includes(this.search)
-              ) {
-                filteredItems.push(item);
-              }
-            }
-            this.projects = filteredItems;
-            if (filteredItems.length === 0) {
-              this.recordCount = true;
-            }
-          }
+          this.isLoading = false;
+          this.projects = res.data.data;
         } else {
           Swal.fire({
             icon: "error",
@@ -167,45 +124,41 @@ export default {
       }
     },
     click_search() {
-      this.api_get_fetchProjectData();
-    },
-    previous() {
-      if (this.show_items_start - this.show_items_set >= 0) {
-        this.projects = [];
-        this.projects_ongoing = [];
-        this.projects_completed = [];
-        this.projects_suspended = [];
-        this.show_items_start = this.show_items_start - this.show_items_set;
-        this.show_items_end = this.show_items_end - this.show_items_set;
-        if (this.show_items_now >= 0) {
-          this.show_items_now = this.show_items_now - 1;
-        }
-        this.api_get_fetchProjectData();
-      }
-    },
-    next() {
-      if (this.projects.length != 0) {
-        this.projects = [];
-        this.projects_ongoing = [];
-        this.projects_completed = [];
-        this.projects_suspended = [];
-        this.show_items_start = this.show_items_end;
-        this.show_items_end = this.show_items_end + this.show_items_set;
-        this.show_items_now = this.show_items_now + 1;
-        this.api_get_fetchProjectData();
-      }
-    },
-    goToPage(pageNumber) {
-      this.projects = [];
-      this.projects_ongoing = [];
-      this.projects_completed = [];
-      this.projects_suspended = [];
-      this.show_items_start = (pageNumber - 1) * this.show_items_set;
-      this.show_items_end = pageNumber * this.show_items_set;
-      this.api_get_fetchProjectData();
+      this.isLoading = true;
+      const result = this.projects.filter((project) =>
+        this.search.length
+          ? this.search
+              .toLowerCase()
+              .split("")
+              .every((v) => project.name.toLowerCase().includes(v))
+          : true
+      );
+
+      this.recordCount = result.length > 0 ? false : true;
+      this.filteredProjects = result;
+      this.isLoading = false;
     },
     bun_status(i) {
       this.status = i;
+    },
+    onChangePage(page) {
+      this.pageOfProjects = page;
+    },
+  },
+  computed: {
+    currentPageProjects() {
+      const currentProjects = this.filteredProjects
+        ? [...this.filteredProjects]
+        : [...this.projects];
+
+      if (!currentProjects) {
+        this.recordCount = true;
+      }
+
+      this.currentProjectsCount = currentProjects.length;
+      const startIndex = this.pageSize * (this.page - 1);
+      const endIndex = startIndex + this.pageSize;
+      return currentProjects.slice(startIndex, endIndex);
     },
   },
 };
@@ -218,7 +171,7 @@ export default {
       <div class="col-sm-8 col-md-6">
         <div class="input-group">
           <input
-            type="text"
+            type="search"
             class="form-control"
             placeholder="ชื่อโครงการ, แขวง, ชื่อชุมชน"
             style="font-size: 20px; color: #606060"
@@ -251,7 +204,7 @@ export default {
     <div class="statuses">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <!-- ทั้งหมด -->
-        <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentfation">
           <button
             class="active nav-link"
             id="all-tab"
@@ -354,7 +307,7 @@ export default {
     </div>
   </div>
 
-  <div v-if="recordCount === true">
+  <div v-show="recordCount">
     <div class="container" style="margin-top: 64px">
       <div class="alert alert-danger text-center" role="alert">
         ขณะนี้ยังไม่มีข้อมูลโครงการ !
@@ -364,7 +317,7 @@ export default {
 
   <!-- load projects.length === 0 -->
   <div
-    v-if="this.projects.length === 0 && recordCount != true"
+    v-if="currentPageProjects.length <= 0 && isLoading"
     class="border-grey bg-white p-3 tab-content"
     style="margin-top: 64px"
   >
@@ -424,7 +377,7 @@ export default {
   <div
     class="border-grey bg-white p-3 tab-content"
     style="margin-top: 64px"
-    v-if="this.projects.length != 0"
+    v-if="projects"
   >
     <div
       class="tab-pane active"
@@ -433,9 +386,9 @@ export default {
       aria-labelledby="all-tab"
     >
       <div class="container">
-        <div class="row justify-content-center">
-          <template v-for="item in projects">
-            <div v-if="this.status == 0" class="col-sm-4 mb-4">
+        <div class="row">
+          <template v-for="item in currentPageProjects">
+            <div v-if="this.status === 0" class="col-sm-4 mb-4">
               <div class="card ef">
                 <div class="overlay-container">
                   <img
@@ -504,7 +457,7 @@ export default {
             </div>
 
             <div
-              v-if="this.status != 0 && item.status_id == this.status"
+              v-if="this.status > 0 && item.status_id == this.status"
               class="col-sm-4 mb-4"
             >
               <div class="card ef">
@@ -516,7 +469,6 @@ export default {
                     alt="Card image cap "
                   />
                   <div class="overlay">
-                    <!-- Status Labels -->
                     <span class="status-label">{{
                       projectStatus[item.status_id - 1].name
                     }}</span>
@@ -556,7 +508,6 @@ export default {
                     >
                   </p>
                 </div>
-                <!-- Card Footer -->
                 <div class="card-footer d-flex justify-content-between d-none">
                   <div class="follow-container">
                     <button class="btn btn-primary btn-transparent">
@@ -574,7 +525,7 @@ export default {
               </div>
             </div>
           </template>
-          <nav class="text-center">
+          <!-- <nav class="text-center">
             <span
               v-for="page in pages"
               :key="page"
@@ -582,46 +533,21 @@ export default {
             >
               <nuxt-link :to="`/${page}`">{{ page }}</nuxt-link>
             </span>
-          </nav>
+          </nav> -->
         </div>
       </div>
     </div>
   </div>
 
   <div class="text-center">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled" @click="previous()">
-          <a class="page-link m-2" href="#" tabindex="-1" aria-disabled="true"
-            >Previous</a
-          >
-        </li>
-        <li class="page-item">
-          <a
-            class="page-link m-2"
-            href="#"
-            @click="goToPage(show_items_now - 1)"
-            >{{ this.show_items_now - 1 }}</a
-          >
-        </li>
-        <li class="page-item">
-          <a class="page-link m-2" href="#" @click="goToPage(show_items_now)">{{
-            this.show_items_now
-          }}</a>
-        </li>
-        <li class="page-item">
-          <a
-            class="page-link m-2"
-            href="#"
-            @click="goToPage(show_items_now + 1)"
-            >{{ this.show_items_now + 1 }}</a
-          >
-        </li>
-        <li class="page-item">
-          <a class="page-link m-2" @click="next()">Next</a>
-        </li>
-      </ul>
-    </nav>
+    <n-pagination
+      class="justify-content-center"
+      v-model:page="page"
+      v-model:page-size="pageSize"
+      :item-count="currentProjectsCount"
+      :page-sizes="pageSizes"
+      show-size-picker
+    />
   </div>
 </template>
 
@@ -631,7 +557,7 @@ export default {
 }
 
 .nav {
-  align-items: baseline;
+  align-items: center;
 }
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
