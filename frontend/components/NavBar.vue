@@ -126,7 +126,7 @@ export default {
             font-size: 14px;
           "
         >
-          <i class="bi bi-person"></i>{{ this.fullname }}
+          <i class="bi bi-person"></i> {{ this.fullname }}
         </button>
         <NuxtLink v-if="this.email === ''" to="../signin">
           <button
