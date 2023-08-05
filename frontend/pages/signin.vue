@@ -1,6 +1,8 @@
 <script>
 import Swal from "sweetalert2";
 
+const runtimeConfig = useRuntimeConfig();
+
 export default {
   data() {
     return {
@@ -14,8 +16,9 @@ export default {
     };
   },
   mounted() {
-    this.api_url = this.$config.public.BASE_API_URL;
-    this.api_token = this.$config.public.TOKEN_API;
+    const runtimeConfig = useRuntimeConfig();
+    this.api_url = runtimeConfig.public.BASE_API_URL;
+    this.api_token = runtimeConfig.public.TOKEN_API;
   },
   methods: {
     handleSubmit: async function () {

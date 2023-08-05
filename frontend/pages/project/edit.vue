@@ -1,195 +1,254 @@
 <script>
-  import jwt_decode from "jwt-decode";
-  import axios from 'axios'
-  import Swal from 'sweetalert2'
-  import Editor from '@tinymce/tinymce-vue'
-  
-  export default {
-    props: {
-      data_list_props: {type: Array, required: true}
-    },
-    data() {
-      return {
-        id                : null,
-        role              : null,
-        create_email      : null,
-        hashtag           : '',
-        selectedFile      : null,
-        owner_id          : null,
-        name              : '',
-        short_description : '',
-        og_image          : '',
-        api_url           : '',
-        api_token         : '',
-        editorConfig      : {
-          plugins: 'lists link image table code help wordcount textpattern'
-        }
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import Swal from "sweetalert2";
+import Editor from "@tinymce/tinymce-vue";
+
+const runtimeConfig = useRuntimeConfig();
+
+export default {
+  props: {
+    data_list_props: { type: Array, required: true },
+  },
+  data() {
+    return {
+      id: null,
+      role: null,
+      create_email: null,
+      hashtag: "",
+      selectedFile: null,
+      owner_id: null,
+      name: "",
+      short_description: "",
+      og_image: "",
+      api_url: "",
+      api_token: "",
+      editorConfig: {
+        plugins: "lists link image table code help wordcount textpattern",
+      },
+    };
+  },
+  created() {
+    this.name = this.data_list_props.name;
+    this.hashtag = this.data_list_props.hashtag;
+    this.short_description = this.data_list_props.short_description;
+    this.description = this.data_list_props.description;
+  },
+  mounted() {
+    this.asyncData();
+    const runtimeConfig = useRuntimeConfig();
+    this.api_url = runtimeConfig.public.BASE_API_URL;
+    this.api_token = runtimeConfig.public.TOKEN_API;
+    this.id = this.$route.params.id;
+  },
+  components: {
+    Editor,
+  },
+  methods: {
+    async asyncData() {
+      const token = sessionStorage.getItem("auth-token");
+      if (token != null) {
+        var decoded = jwt_decode(token);
+        this.role = decoded.role;
+        this.owner_id = decoded.role;
+        this.create_email = decoded.email;
+        // console.log('decoded ',decoded)
       }
     },
-    created() {
-      this.name = this.data_list_props.name
-      this.hashtag = this.data_list_props.hashtag
-      this.short_description = this.data_list_props.short_description
-      this.description = this.data_list_props.description
+    async api_upload_project(row_id) {
+      try {
+        const url = this.api_url + "api/upload/project";
+        const params = {};
+        const json = {
+          name: this.name,
+          hashtag: this.hashtag,
+          short_description: this.short_description,
+          description: this.description,
+          og_image: this.og_image,
+          row_id: row_id,
+        };
+        const options = {
+          headers: {
+            Authorization: "Bearer " + this.api_token,
+          },
+        };
+        const res = await axios.post(url, json, options);
+        // console.log('response', res.data.data[0])
+        if (res.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "",
+            text: res.data.statusMsg,
+            timer: 1500,
+          });
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Opos",
+            text: res.data.statusMsg,
+            timer: 2000,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
-    mounted(){
-      this.asyncData();
-      this.id        = this.$route.params.id;
-      this.api_url   = this.$config.public.BASE_API_URL
-      this.api_token = this.$config.public.TOKEN_API
+    handleFormSubmit() {
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append("file", this.selectedFile);
 
-    },
-    components: {
-      Editor
-    },
-    methods: {
-      async asyncData() {
-            const token = sessionStorage.getItem('auth-token');
-            if (token != null) {
-                var decoded = jwt_decode(token);
-                this.role = decoded.role
-                this.owner_id = decoded.role
-                this.create_email = decoded.email
-                // console.log('decoded ',decoded)
+        axios
+          .post(this.api_url + "api/upload/img", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            // Handle the response from the server
+            if (response.status === 200) {
+              this.og_image = response.data.filename;
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Opos",
+                text: "อัพโหลดรูปภาพล้มเหลว",
+                timer: 2000,
+              });
             }
-      },
-      async api_upload_project (row_id) {
-          try {
-              const url = this.api_url+'api/upload/project'
-              const params = {}
-              const json = {
-                "name": this.name,
-                "hashtag" : this.hashtag,
-                "short_description": this.short_description,
-                "description": this.description,
-                "og_image": this.og_image,
-                "row_id": row_id
-              }
-              const options = {
-              headers: {
-                  'Authorization': 'Bearer ' + this.api_token
-              }
-              }
-              const res = await axios.post(url, json, options)
-              // console.log('response', res.data.data[0])
-              if (res.status === 200 ){
-                  Swal.fire({
-                      icon: 'success',
-                      title: '',
-                      text: res.data.statusMsg,
-                      timer: 1500
-                  })
-                  setTimeout(() => {location.reload()}, 1500)              
-              }else{
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Opos',
-                      text: res.data.statusMsg,
-                      timer: 2000
-                  })
-              }
-          } catch (error) {
-              console.error(error)
-          }
-      },
-      handleFormSubmit() {
-          if (this.selectedFile){
-            const formData = new FormData();
-            formData.append('file', this.selectedFile);
-
-            axios.post(this.api_url+'api/upload/img', formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            })
-            .then(response => {
-              // Handle the response from the server
-              if (response.status === 200){
-                this.og_image = response.data.filename
-              }else{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Opos',
-                    text: 'อัพโหลดรูปภาพล้มเหลว',
-                    timer: 2000
-                })
-              }
-              // add_project
-              this.api_upload_project (this.id)
-            })
-            .catch(error => {
-              // Handle the error
-              console.error(error);
-            });
-          }else{
             // add_project
-            this.api_upload_project (this.id)
-          }
-      },
-      onFileChange(event) {
-        this.selectedFile = event.target.files[0];
-      }, 
-    }
-  }
+            this.api_upload_project(this.id);
+          })
+          .catch((error) => {
+            // Handle the error
+            console.error(error);
+          });
+      } else {
+        // add_project
+        this.api_upload_project(this.id);
+      }
+    },
+    onFileChange(event) {
+      this.selectedFile = event.target.files[0];
+    },
+  },
+};
 </script>
 
 <template>
-    <div>
-      <div class="container" style="margin-top:10px;">
-        <div class="row">
-          <div class="card">
-            <div class="card-body">
-              <form action="#" @submit.prevent="handleFormSubmit">
-                <div class="row mb-3">
-                  <label for="projectname" class="col-sm-2 col-form-label">ชื่อโครงการ</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="projectname" placeholder="ชื่อโครงการ" required v-model="name">
-                  </div>
+  <div>
+    <div class="container" style="margin-top: 10px">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <form action="#" @submit.prevent="handleFormSubmit">
+              <div class="row mb-3">
+                <label for="projectname" class="col-sm-2 col-form-label"
+                  >ชื่อโครงการ</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="projectname"
+                    placeholder="ชื่อโครงการ"
+                    required
+                    v-model="name"
+                  />
                 </div>
-                <div class="row mb-3">
-                  <label for="projectbudgetyear" class="col-sm-2 col-form-label">ปีงบประมาณ</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="projectbudgetyear" placeholder="ปีงบประมาณ" required>
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <label for="projectbudgetyear" class="col-sm-2 col-form-label"
+                  >ปีงบประมาณ</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="projectbudgetyear"
+                    placeholder="ปีงบประมาณ"
+                    required
+                  />
                 </div>
-                <div class="row mb-3">
-                  <label for="projectname" class="col-sm-2 col-form-label">แฮชแท็ก</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="projectname" placeholder="แฮชแท็ก" required v-model="hashtag">
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <label for="projectname" class="col-sm-2 col-form-label"
+                  >แฮชแท็ก</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="projectname"
+                    placeholder="แฮชแท็ก"
+                    required
+                    v-model="hashtag"
+                  />
                 </div>
-                <div class="row mb-3">
-                    <label for="projectgoal" class="col-sm-2 col-form-label">รุปภาพ</label>
-                    <div class="col-sm-10">
-                      <input type="file" class="form-control" accept="image/*" @change="onFileChange">
-                    </div>
+              </div>
+              <div class="row mb-3">
+                <label for="projectgoal" class="col-sm-2 col-form-label"
+                  >รุปภาพ</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="file"
+                    class="form-control"
+                    accept="image/*"
+                    @change="onFileChange"
+                  />
                 </div>
-                <div class="row mb-3">
-                  <label for="projectname" class="col-sm-2 col-form-label">รายละเอียดโครงการย่อ</label>
-                  <div class="col-sm-10">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="short_description"></textarea>
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <label for="projectname" class="col-sm-2 col-form-label"
+                  >รายละเอียดโครงการย่อ</label
+                >
+                <div class="col-sm-10">
+                  <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    v-model="short_description"
+                  ></textarea>
                 </div>
-                
-                <div class="row mb-3">
-                  <label for="projectscope" class="col-sm-2 col-form-label">รายละเอียดโครงการเต็ม</label>
-                  <div class="col-sm-10">
-                    <Editor api-key="***REMOVED***" v-model="description" :init="editorConfig" />
-                  </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="projectscope" class="col-sm-2 col-form-label"
+                  >รายละเอียดโครงการเต็ม</label
+                >
+                <div class="col-sm-10">
+                  <Editor
+                    api-key="***REMOVED***"
+                    v-model="description"
+                    :init="editorConfig"
+                  />
                 </div>
-                <div class="row">
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg mb-1 pull-right" style="background:#EF4D4E;;border-radius: 4px;color:#FFFFFF;border-color:#EF4D4E;font-size:14px;">แก้ไขฟอร์มโครงการ</button>
-                  </div>
+              </div>
+              <div class="row">
+                <div class="text-center">
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-lg mb-1 pull-right"
+                    style="
+                      background: #ef4d4e;
+                      border-radius: 4px;
+                      color: #ffffff;
+                      border-color: #ef4d4e;
+                      font-size: 14px;
+                    "
+                  >
+                    แก้ไขฟอร์มโครงการ
+                  </button>
                 </div>
-  
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
-  
         </div>
       </div>
     </div>
-  </template>
-  
-  
+  </div>
+</template>

@@ -1,20 +1,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // https://api.dev.pb.grtn.org/
-export default ({
+export default {
   mode: "universal",
-  css: ["bootstrap/dist/css/bootstrap.min.css",
-  "/assets/scss/main.css",
-  'bootstrap-icons/font/bootstrap-icons.css'
+  css: [
+    "bootstrap/dist/css/bootstrap.min.css",
+    "/assets/scss/main.css",
+    "bootstrap-icons/font/bootstrap-icons.css",
   ],
   modules: [
-    ['@nuxtjs/google-fonts', {
-      families: {
-        'Sarabun': true,
-        download: true,
-        inject: true,
-        wght: [300,400,500,600,700,800]
-      }
-    }]
+    [
+      "@nuxtjs/google-fonts",
+      {
+        families: {
+          Sarabun: true,
+          download: true,
+          inject: true,
+          wght: [300, 400, 500, 600, 700, 800],
+        },
+      },
+    ],
   ],
   app: {
     head: {
@@ -26,12 +30,12 @@ export default ({
       ],
     },
   },
-  devtools: { enabled: true 
-  },
+  devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      BASE_API_URL: 'https://api.dev.pb.grtn.org/',
-      TOKEN_API: 'http://***REMOVED***>:8090/'
-    }
+      BASE_API_URL: process.env.NUXT_BASE_API_URL,
+      TOKEN_API: process.env.NUXT_TOKEN_API,
+      EDITOR_TOKEN: process.env.NUXT_EDITOR_TOKEN,
+    },
   },
-})
+};
