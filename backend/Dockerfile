@@ -1,5 +1,5 @@
 # base image
-FROM node:lts-slim AS base
+FROM node:16-slim AS base
 
 ARG timezone=Asia/Bangkok
 
@@ -13,7 +13,7 @@ WORKDIR /app
 
 # get dependencies stage
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 
 # pack image
 FROM gcr.io/distroless/nodejs20:nonroot
