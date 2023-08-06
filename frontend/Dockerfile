@@ -1,11 +1,11 @@
 # base image
-FROM node:lts-slim AS base
+FROM node:16-slim AS base
 
 ARG timezone=Asia/Bangkok
 
 ENV TZ $timezone
-ENV NPM_HOME="/npm"
-ENV PATH="$NPM_HOME:$PATH"
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
 COPY . /app
@@ -13,12 +13,11 @@ WORKDIR /app
 
 # build stage
 FROM base AS builder
-RUN apt-get update && apt-get install -y git
-RUN --mount=type=cache,id=npm,target=/npm/store npm install --legacy-peer-deps
-RUN npm run build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN pnpm run build
 
 # pack image
-FROM node:lts-slim
+FROM base
 
 ARG	timezone=Asia/Bangkok
 
@@ -30,4 +29,4 @@ COPY --from=builder /app/.output/ /app
 
 EXPOSE 3000
 
-CMD [ "node", "/app/server/index.mjs" ]
+CMD [ "pnpm", "/app/server/index.mjs" ]
