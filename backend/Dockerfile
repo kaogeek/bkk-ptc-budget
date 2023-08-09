@@ -13,7 +13,7 @@ WORKDIR /app
 
 # get dependencies stage
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 
 # pack image
 FROM gcr.io/distroless/nodejs20:nonroot
