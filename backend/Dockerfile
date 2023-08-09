@@ -1,5 +1,5 @@
 # base image
-FROM node:16-slim AS base
+FROM node:lts-slim AS base
 
 ARG timezone=Asia/Bangkok
 

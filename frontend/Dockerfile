@@ -1,5 +1,5 @@
 # base image
-FROM node:16-slim AS base
+FROM node:lts-slim AS base
 
 ARG timezone=Asia/Bangkok
 
@@ -14,6 +14,7 @@ WORKDIR /app
 
 # build stage
 FROM base AS builder
+RUN apt-get update && apt-get install -y git
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 RUN pnpm run build
 
