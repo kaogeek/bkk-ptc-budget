@@ -1,5 +1,5 @@
 # base image
-FROM node:16-slim AS base
+FROM node:lts-slim AS base
 
 ARG timezone=Asia/Bangkok
 
@@ -13,11 +13,12 @@ WORKDIR /app
 
 # build stage
 FROM base AS builder
+RUN apt-get update && apt-get install -y git
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 RUN pnpm run build
 
 # pack image
-FROM base
+FROM node:lts-slim
 
 ARG	timezone=Asia/Bangkok
 
@@ -29,4 +30,4 @@ COPY --from=builder /app/.output/ /app
 
 EXPOSE 3000
 
-CMD [ "pnpm", "/app/server/index.mjs" ]
+CMD [ "node", "/app/server/index.mjs" ]
