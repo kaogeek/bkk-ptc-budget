@@ -24,7 +24,7 @@ export default {
     head: {
       script: [
         {
-          src: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
+          src: "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js",
           type: "text/javascript",
         },
       ],
@@ -38,4 +38,23 @@ export default {
       EDITOR_TOKEN: process.env.NUXT_EDITOR_TOKEN,
     },
   },
-};
+  build: {
+    transpile:
+      process.env.NODE_ENV === 'production'
+        ? [
+            'naive-ui',
+            'vueuc',
+            '@css-render/vue3-ssr',
+            '@juggle/resize-observer'
+          ]
+        : ['@juggle/resize-observer']
+  },
+  vite: {
+    optimizeDeps: {
+      include:
+        process.env.NODE_ENV === 'development'
+          ? ['naive-ui', 'vueuc', 'date-fns-tz/esm/formatInTimeZone']
+          : []
+    }
+  }
+}
