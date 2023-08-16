@@ -1,0 +1,32 @@
+x-user: &user
+  user: "${UID}:${GID}"
+x-default: &deafult-env
+  TZ: Asia/Bangkok
+x-pgsql: &pgsql-env
+  POSTGRES_PASSWORD: "Your Super Secret"
+  # POSTGRES_USER:
+
+services:
+  backend:
+    depends_on:
+      - pgsql
+    restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      <<: [*deafult-env]
+  frontend:
+    depends_on:
+      - backend
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      <<: [*deafult-env]
+  pgsql:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      <<: [*deafult-env, *pgsql-env]
