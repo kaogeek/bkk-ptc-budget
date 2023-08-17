@@ -3,8 +3,20 @@ x-user: &user
 x-default: &deafult-env
   TZ: Asia/Bangkok
 x-pgsql: &pgsql-env
-  POSTGRES_PASSWORD: "Your Super Secret"
+  POSTGRES_PASSWORD: "Your DB Secret"
   # POSTGRES_USER:
+x-app-env: &app-env
+  TOKEN_SECRET: "Your Token Secret"
+  NODE_ENV: "development"
+x-backend-env: &backend-env
+  user: "postgres"
+  host: "pgsql"
+  database: "postgres"
+  password: "Your DB Secret"
+  port: 5432
+x-frontend-env: &frontend-env
+  NUXT_BASE_API_URL: "http://localhost:8090/"
+  NUXT_TOKEN_API: "http://backend:8090/"
 
 services:
   backend:
@@ -15,7 +27,12 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      <<: [*deafult-env]
+      <<: [*deafult-env, *app-env, *backend-env]
+    volumes:
+      - ./backend/uploads:/app/uploads
+    ports:
+      - 8090:8090
+
   frontend:
     depends_on:
       - backend
@@ -24,7 +41,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      <<: [*deafult-env]
+      <<: [*deafult-env, *app-env, *frontend-env]
+    ports:
+      - 3000:3000
+
   pgsql:
     image: postgres
     restart: unless-stopped
