@@ -69,6 +69,9 @@ export default {
       </a>
 
       <div class="col-md-auto text-end" v-if="role == 1 || role == 5">
+        <NuxtLink to="/manage-projects" class="btn me-2">
+          จัดการโครงการ
+        </NuxtLink>
         <button
           type="button"
           class="btn btn-outline-primary me-2"
