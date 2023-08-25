@@ -52,10 +52,13 @@ export default {
       this.fetchSubDistrictData(this.selected);
       this.fetchCommunityData(this.selected);
     },
+
     subDistrictSelect(event) {
       this.selected = event.target.value;
       this.fetchZipCodeData(this.selected);
     },
+
+
     async fetchSubDistrictData(id) {
       try {
         const response = await fetch(link_API + "api/subdistrict/" + id);
@@ -65,6 +68,7 @@ export default {
         console.error(error);
       }
     },
+    
     // ชุมชน
     async fetchCommunityData(id) {
       try {

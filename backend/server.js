@@ -540,7 +540,7 @@ app.post("/api/user/register", async (request, response) => {
 
       const res_json = {
         status: 200,
-        statusMsg: "สมัครสมาชิกสำเสร็จ",
+        statusMsg: "สมัครสมาชิกสำเร็จ",
         data: data,
         token: token,
       };
