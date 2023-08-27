@@ -3,8 +3,6 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const runtimeConfig = useRuntimeConfig();
-
 export default {
   props: {
     data_list_props: { type: Array, required: true },

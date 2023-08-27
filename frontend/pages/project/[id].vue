@@ -6,8 +6,6 @@ import update from "./update.vue";
 import docs from "./docs.vue";
 import edit from "./edit.vue";
 
-const runtimeConfig = useRuntimeConfig();
-
 export default {
   data() {
     return {
@@ -492,9 +490,9 @@ export default {
           <!-- role != 1 -->
           <p
             v-if="
-              (this.role != 1 &&
-                this.role != 5 &&
-                this.projects.note.note == '') ||
+              (this.role != 1 && this.role != 5) ||
+              this.currentUserId === this.projectOwnerId ||
+              this.projects.note.note == '' ||
               this.projects.note.note == 'ไม่มีโน๊ต'
             "
           >
@@ -503,10 +501,10 @@ export default {
 
           <template
             v-if="
-              this.role != 1 &&
-              this.role != 5 &&
-              this.projects.note.note != 'ไม่มีโน๊ต' &&
-              this.projects.note.note != ''
+              (this.role != 1 && this.role != 5) ||
+              this.currentUserId === this.projectOwnerId ||
+              (this.projects.note.note != 'ไม่มีโน๊ต' &&
+                this.projects.note.note != '')
             "
           >
             <p>{{ this.projects.note.note }}</p>
@@ -579,7 +577,7 @@ export default {
           </p>
           <!-- ระงับการดำเนินการโครงการ -->
           <div
-            v-if="this.projects.status_note.note != ''"
+            v-if="this.projects.status_note.note"
             style="background-color: #3f3f3f; color: white"
             class="alert mt-2 ef"
             role="alert"

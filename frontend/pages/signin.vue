@@ -1,8 +1,6 @@
 <script>
 import Swal from "sweetalert2";
 
-const runtimeConfig = useRuntimeConfig();
-
 export default {
   data() {
     return {
