@@ -18,7 +18,7 @@ RUN --mount=type=cache,id=npm,target=/npm/store npm install --legacy-peer-deps
 RUN npm run build
 
 # pack image
-FROM node:lts-slim
+FROM gcr.io/distroless/nodejs20:nonroot
 
 ARG	timezone=Asia/Bangkok
 
@@ -30,4 +30,4 @@ COPY --from=builder /app/.output/ /app
 
 EXPOSE 3000
 
-CMD [ "node", "/app/server/index.mjs" ]
+CMD [ "/app/server/index.mjs" ]
