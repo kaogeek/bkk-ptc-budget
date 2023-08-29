@@ -34,6 +34,6 @@
     "vue-formio": "^4.0.8",
     "vue-router": "^4.2.2",
     "vue-toasted": "^1.1.28",
-    "vue3-pagination": "^1.0.16"
+    "@hennge/vue3-pagination": "^1.0.17"
   }
 }
