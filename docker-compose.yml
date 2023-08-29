@@ -2,26 +2,26 @@ x-user: &user
   user: "${UID}:${GID}"
 x-default: &deafult-env
   TZ: Asia/Bangkok
-x-pgsql: &pgsql-env
-  POSTGRES_PASSWORD: "Your DB Secret"
-  # POSTGRES_USER:
+x-postgres: &postgres-env
+  POSTGRES_USER: "${DB_USER}"
+  POSTGRES_PASSWORD: "${DB_PASSWORD}"
 x-app-env: &app-env
-  TOKEN_SECRET: "Your Token Secret"
-  NODE_ENV: "development"
+  NODE_ENV: "${NODE_ENV}"
+  TOKEN_SECRET: "${TOKEN_SECRET}"
 x-backend-env: &backend-env
-  user: "postgres"
-  host: "pgsql"
-  database: "postgres"
-  password: "Your DB Secret"
-  port: 5432
+  DB_USER: "${DB_USER}"
+  DB_HOST: "${DB_HOST}"
+  DB_NAME: "${DB_NAME}"
+  DB_PASSWORD: "${DB_PASSWORD}"
+  DB_PORT: ${DB_PORT}
 x-frontend-env: &frontend-env
-  NUXT_BASE_API_URL: "http://localhost:8090/"
-  NUXT_TOKEN_API: "http://backend:8090/"
+  NUXT_BASE_API_URL: "${NUXT_BASE_API_URL}"
+  NUXT_TOKEN_API: "${NUXT_TOKEN_API}"
 
 services:
   backend:
     depends_on:
-      - pgsql
+      - postgres
     restart: unless-stopped
     build:
       context: ./backend
@@ -45,8 +45,13 @@ services:
     ports:
       - 3000:3000
 
-  pgsql:
+  postgres:
     image: postgres
     restart: unless-stopped
     environment:
-      <<: [*deafult-env, *pgsql-env]
+      <<: [*deafult-env, *postgres-env]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

@@ -23,6 +23,7 @@ ARG	timezone=Asia/Bangkok
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TZ $timezone
+ENV NODE_ENV production
 
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=base /app /app

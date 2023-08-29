@@ -1,16 +1,15 @@
-const Pool = require("pg").Pool;
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+import { Pool } from "pg";
+import { sign } from "jsonwebtoken";
+import { env } from 'node:process';
 
-dotenv.config();
 const pool = new Pool({
-  user: process.env.user,
-  host: process.env.host,
-  database: process.env.database,
-  password: process.env.password,
-  port: process.env.port,
+  user: env.DB_USER,
+  host: env.DB_HOST,
+  database: env.DB_NAME,
+  password: env.DB_PASSWORD,
+  port: env.DB_PORT,
 });
-const bcrypt = require("bcrypt");
+import { hash, compare } from "bcrypt";
 const getDistrict = (request, res) => {
   pool.query(
     "SELECT * FROM district WHERE province_id=1 ORDER BY district_id ASC",
@@ -208,9 +207,9 @@ const postRegistUser = async (request, res) => {
     community,
     password,
   } = request.body;
- 
+
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hash(password, 10);
 
     const query = {
       text: "INSERT INTO users (title, fullname, position, address, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
@@ -232,10 +231,10 @@ const postRegistUser = async (request, res) => {
 
     const data = results.rows;
 
-    process.env.TOKEN_SECRET;
-    token = jwt.sign(
+    env.TOKEN_SECRET;
+    token = sign(
       { id: data[0].id, email: data[0].email, role: data[0].position },
-      process.env.TOKEN_SECRET,
+      env.TOKEN_SECRET,
       { expiresIn: "1h" }
     );
 
@@ -268,7 +267,7 @@ const postAuthUser = async (request, res) => {
         }
         const data = results.rows;
 
-        bcrypt.compare(password, data[0].password, (error, isMatch) => {
+        compare(password, data[0].password, (error, isMatch) => {
           if (error) {
             // Handle the error
             console.error(error);
@@ -276,10 +275,10 @@ const postAuthUser = async (request, res) => {
           }
 
           if (isMatch) {
-            process.env.TOKEN_SECRET;
-            token = jwt.sign(
+            env.TOKEN_SECRET;
+            token = sign(
               { id: data[0].id, email: data[0].email, role: data[0].position },
-              process.env.TOKEN_SECRET,
+              env.TOKEN_SECRET,
               { expiresIn: "1h" }
             );
             const status = 200;
@@ -345,7 +344,7 @@ const getCommunity = (request, res) => {
   });
 };
 
-module.exports = {
+export default {
   getDistrict,
   getDistrictById,
   getProjectStatus,

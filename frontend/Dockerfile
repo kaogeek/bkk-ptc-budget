@@ -25,6 +25,7 @@ ARG	timezone=Asia/Bangkok
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TZ $timezone
+ENV NODE_ENV production
 
 COPY --from=builder /app/.output/ /app
 
