@@ -8,6 +8,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
+RUN apt-get update && apt-get -y install git
 COPY . /app
 WORKDIR /app
 
