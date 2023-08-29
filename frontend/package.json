@@ -11,7 +11,7 @@
   "devDependencies": {
     "@css-render/vue3-ssr": "^0.15.12",
     "@nuxt/devtools": "latest",
-    "@types/node": "^18.17.12",
+    "@types/node": "^20.5.7",
     "naive-ui": "^2.34.4",
     "nuxt": "^3.7.0"
   },
@@ -23,16 +23,15 @@
     "@nuxtjs/prismic": "^3.0.1",
     "@nuxtjs/toast": "^3.3.1",
     "@tinymce/tinymce-vue": "^5.1.1",
-    "@tui-nuxt/editor": "1.0.0-beta.3",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
+    "defu": "^6.1.2",
     "formiojs": "^4.16.0",
     "jwt-decode": "^3.1.2",
     "node-fetch": "^3.3.2",
     "nuxt-tailvue": "^1.0.95",
     "sweetalert2": "^11.7.27",
     "url-join": "^5.0.0",
-    "vue-formio": "^4.0.8",
     "vue-router": "^4.2.4",
     "vue-toasted": "^1.1.28"
   }
