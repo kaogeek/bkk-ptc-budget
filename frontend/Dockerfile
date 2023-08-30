@@ -30,6 +30,8 @@ ENV NODE_ENV $node_env
 
 WORKDIR /app
 
+WORKDIR /app
+
 COPY --from=builder /app/.output/ /app
 
 EXPOSE 3000

@@ -29,6 +29,8 @@ ENV NODE_ENV $node_env
 
 WORKDIR /app
 
+WORKDIR /app
+
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=base /app /app
 
