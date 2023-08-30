@@ -22,6 +22,7 @@ const projectStatus = [
 export default {
   async setup() {
     const runtimeConfig = useRuntimeConfig();
+    
     const createColumns = (): DataTableColumns<ProjectDetails> => {
       return [
         {

@@ -27,11 +27,13 @@ export default  {
         }
     },
 
-    mounted() {
-        setTimeout(() => { this.api_get_fetchProjectData() }, 1500)
+    setup() {
         this.api_url = this.$config.public.BASE_API_URL
         this.api_token = this.$config.public.TOKEN_API
- 
+    },
+
+    mounted() {
+        setTimeout(() => { this.api_get_fetchProjectData() }, 1500) 
     },
 
     methods: {

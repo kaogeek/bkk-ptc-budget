@@ -51,7 +51,7 @@ export default {
         var decoded = jwt_decode(token);
 
         this.role = decoded.role;
-        this.email = decoded.email;
+        this.email = decoded.email || '';
         this.fullname = decoded.fullname;
         this.currentUserId = decoded.id;
       }

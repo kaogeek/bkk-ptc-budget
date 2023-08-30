@@ -48,7 +48,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.owner_id = decoded.role;
-        this.create_email = decoded.email;
+        this.create_email = decoded.email || '';
         this.api_get_community(decoded.community);
         this.api_get_district(decoded.district);
       }

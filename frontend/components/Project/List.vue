@@ -49,6 +49,7 @@ export default {
     const runtimeConfig = useRuntimeConfig();
     this.api_url = runtimeConfig.public.BASE_API_URL;
     this.api_token = runtimeConfig.public.TOKEN_API;
+    
     setTimeout(() => {
       this.api_get_fetchProjectData();
     }, 0);
@@ -129,9 +130,9 @@ export default {
       const result = this.projects.filter((project) =>
         this.search.length
           ? this.search
-              .toLowerCase()
-              .split("")
-              .every((v) => project.name.toLowerCase().includes(v))
+            .toLowerCase()
+            .split("")
+            .every((v) => project.name.toLowerCase().includes(v))
           : true
       );
 
@@ -150,17 +151,17 @@ export default {
     currentPageProjects() {
       const currentProjects = this.filteredProjects
         ? [
-            ...this.filteredProjects.filter((project) => {
-              if (this.status === 0) return project;
-              return project.status_id === this.status;
-            }),
-          ]
+          ...this.filteredProjects.filter((project) => {
+            if (this.status === 0) return project;
+            return project.status_id === this.status;
+          }),
+        ]
         : [
-            ...this.projects.filter((project) => {
-              if (this.status === 0) return project;
-              return project.status_id === this.status;
-            }),
-          ];
+          ...this.projects.filter((project) => {
+            if (this.status === 0) return project;
+            return project.status_id === this.status;
+          }),
+        ];
 
       if (!currentProjects) {
         this.recordCount = true;
@@ -181,25 +182,15 @@ export default {
     <div class="row justify-content-center">
       <div class="col-sm-8 col-md-6">
         <div class="input-group">
-          <input
-            type="search"
-            class="form-control"
-            placeholder="ชื่อโครงการ, แขวง, ชื่อชุมชน"
-            style="font-size: 20px; color: #606060"
-            v-model="search"
-          />
+          <input type="search" class="form-control" placeholder="ชื่อโครงการ, แขวง, ชื่อชุมชน"
+            style="font-size: 20px; color: #606060" v-model="search" />
           <div class="input-group-append ps-2">
-            <button
-              class="btn btn-primary"
-              type="button"
-              style="
+            <button class="btn btn-primary" type="button" style="
                 background: #ef4d4e;
                 font-size: 14px;
                 height: 100%;
                 border-color: #ef4d4e;
-              "
-              @click="click_search"
-            >
+              " @click="click_search">
               ค้นหา
             </button>
           </div>
@@ -208,24 +199,13 @@ export default {
     </div>
   </div>
 
-  <div
-    class="container d-flex justify-content-center align-items-center"
-    style="margin-top: 16px"
-  >
+  <div class="container d-flex justify-content-center align-items-center" style="margin-top: 16px">
     <div class="statuses">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <!-- ทั้งหมด -->
         <li class="nav-item" role="presentfation">
-          <button
-            class="active nav-link"
-            id="all-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(0)"
-          >
+          <button class="active nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab"
+            aria-controls="all" aria-selected="true" @click="bun_status(0)">
             ทั้งหมด
           </button>
         </li>
@@ -233,33 +213,16 @@ export default {
         <!-- กำลังพิจารณา -->
         <span>|</span>
         <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="ongoing-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(2)"
-          >
-            กำลังพิจารณา</a
-          >
+          <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all"
+            aria-selected="true" @click="bun_status(2)">
+            กำลังพิจารณา</a>
         </li>
 
         <!-- ปรับปรุงเอกสารเสนอโครงการ -->
         <span>|</span>
         <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="completed-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(3)"
-          >
+          <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all"
+            aria-selected="true" @click="bun_status(3)">
             ปรับปรุงเอกสารเสนอโครงการ
           </a>
         </li>
@@ -267,16 +230,8 @@ export default {
         <!-- ดำเนินการโครงการ -->
         <span>|</span>
         <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="suspended-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(4)"
-          >
+          <a class="nav-link" id="suspended-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all"
+            aria-selected="true" @click="bun_status(4)">
             ดำเนินการโครงการ
           </a>
         </li>
@@ -284,16 +239,8 @@ export default {
         <!-- ดำเนินการเสร็จสิ้นแล้ว -->
         <span>|</span>
         <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="completed-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(5)"
-          >
+          <a class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all"
+            aria-selected="true" @click="bun_status(5)">
             ดำเนินการเสร็จสิ้นแล้ว
           </a>
         </li>
@@ -301,18 +248,9 @@ export default {
         <!-- ระงับการดำเนินโครงการ -->
         <span>|</span>
         <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="ongoing-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#all"
-            role="tab"
-            aria-controls="all"
-            aria-selected="true"
-            @click="bun_status(6)"
-          >
-            ระงับการดำเนินโครงการ</a
-          >
+          <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#all" role="tab" aria-controls="all"
+            aria-selected="true" @click="bun_status(6)">
+            ระงับการดำเนินโครงการ</a>
         </li>
       </ul>
     </div>
@@ -335,17 +273,9 @@ export default {
   </div>
 
   <!-- load projects.length === 0 -->
-  <div
-    v-if="currentPageProjects.length <= 0 && isLoading"
-    class="border-grey bg-white p-3 tab-content"
-    style="margin-top: 64px"
-  >
-    <div
-      class="tab-pane active"
-      id="all"
-      role="tabpanel"
-      aria-labelledby="all-tab"
-    >
+  <div v-if="currentPageProjects.length <= 0 && isLoading" class="border-grey bg-white p-3 tab-content"
+    style="margin-top: 64px">
+    <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-sm-3 mb-4" v-for="i in 1">
@@ -366,10 +296,7 @@ export default {
                 </p>
                 <p style="font-size: 14px; font-weight: 400"></p>
                 <p style="font-size: 14px; font-weight: 400">
-                  <i class="load-4"></i
-                  ><span
-                    style="color: #b8b8b8; font-size: 14px; font-weight: 400"
-                  ></span>
+                  <i class="load-4"></i><span style="color: #b8b8b8; font-size: 14px; font-weight: 400"></span>
                 </p>
               </div>
               <!-- Card Footer -->
@@ -393,28 +320,15 @@ export default {
   </div>
 
   <!-- projects.length != 0 -->
-  <div
-    class="border-grey bg-white p-3 tab-content"
-    style="margin-top: 64px"
-    v-if="projects"
-  >
-    <div
-      class="tab-pane active"
-      id="all"
-      role="tabpanel"
-      aria-labelledby="all-tab"
-    >
+  <div class="border-grey bg-white p-3 tab-content" style="margin-top: 64px" v-if="projects">
+    <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab">
       <div class="container">
         <div class="row">
           <template v-for="item in currentPageProjects">
             <div v-if="this.status === 0" class="col-sm-4 mb-4">
               <div class="card ef">
                 <div class="overlay-container">
-                  <img
-                    class="card-img-top card-image"
-                    :src="item.image"
-                    alt="Card image cap "
-                  />
+                  <img class="card-img-top card-image" :src="item.image" alt="Card image cap " />
                   <div class="overlay">
                     <!-- Status Labels -->
                     <span class="status-label">{{
@@ -424,37 +338,21 @@ export default {
                 </div>
                 <div class="card-body">
                   <nuxt-link :to="`/project/${item.id}`">
-                    <h5
-                      class="card-title"
-                      style="font-size: 20px; font-weight: 700"
-                    >
+                    <h5 class="card-title" style="font-size: 20px; font-weight: 700">
                       {{ item.name }}
                     </h5>
                   </nuxt-link>
-                  <p
-                    class="card-text"
-                    style="font-size: 14px; font-weight: 400; height: 100px"
-                  >
+                  <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px">
                     {{ item.short_description }}
                   </p>
-                  <p
-                    class="fw-bolder"
-                    style="font-size: 15px; font-weight: 400"
-                  >
+                  <p class="fw-bolder" style="font-size: 15px; font-weight: 400">
                     {{ item.hashtag
-                    }}<span
-                      style="color: #b8b8b8; font-size: 14px; font-weight: 400"
-                    ></span>
+                    }}<span style="color: #b8b8b8; font-size: 14px; font-weight: 400"></span>
                   </p>
-                  <p
-                    v-if="item.communityname"
-                    class="fw-bolder"
-                    style="font-size: 14px; font-weight: 400"
-                  >
+                  <p v-if="item.communityname" class="fw-bolder" style="font-size: 14px; font-weight: 400">
                     {{ item.communityname
                     }}<span class="fw-normal ps-1">
-                      {{ item.districtname }}</span
-                    >
+                      {{ item.districtname }}</span>
                   </p>
                 </div>
                 <!-- Card Footer -->
@@ -475,18 +373,10 @@ export default {
               </div>
             </div>
 
-            <div
-              v-if="this.status > 0 && item.status_id == this.status"
-              class="col-sm-4 mb-4"
-            >
+            <div v-if="this.status > 0 && item.status_id == this.status" class="col-sm-4 mb-4">
               <div class="card ef">
                 <div class="overlay-container">
-                  <img
-                    style="height: 300px"
-                    class="card-img-top card-image"
-                    :src="item.image"
-                    alt="Card image cap "
-                  />
+                  <img style="height: 300px" class="card-img-top card-image" :src="item.image" alt="Card image cap " />
                   <div class="overlay">
                     <span class="status-label">{{
                       projectStatus[item.status_id - 1].name
@@ -495,36 +385,21 @@ export default {
                 </div>
                 <div class="card-body">
                   <nuxt-link :to="`/project/${item.id}`">
-                    <h5
-                      class="card-title"
-                      style="font-size: 20px; font-weight: 700"
-                    >
+                    <h5 class="card-title" style="font-size: 20px; font-weight: 700">
                       {{ item.name }}
                     </h5>
                   </nuxt-link>
-                  <p
-                    class="card-text"
-                    style="font-size: 14px; font-weight: 400; height: 100px"
-                  >
+                  <p class="card-text" style="font-size: 14px; font-weight: 400; height: 100px">
                     {{ item.short_description }}
                   </p>
-                  <p
-                    class="fw-bolder"
-                    style="font-size: 15px; font-weight: 400"
-                  >
+                  <p class="fw-bolder" style="font-size: 15px; font-weight: 400">
                     {{ item.hashtag
-                    }}<span
-                      style="color: #b8b8b8; font-size: 14px; font-weight: 400"
-                    ></span>
+                    }}<span style="color: #b8b8b8; font-size: 14px; font-weight: 400"></span>
                   </p>
-                  <p
-                    class="fw-bolder"
-                    style="font-size: 14px; font-weight: 400"
-                  >
+                  <p class="fw-bolder" style="font-size: 14px; font-weight: 400">
                     {{ item.communityname
                     }}<span class="fw-normal ps-1">
-                      {{ item.districtname }}</span
-                    >
+                      {{ item.districtname }}</span>
                   </p>
                 </div>
                 <div class="card-footer d-flex justify-content-between d-none">
@@ -559,14 +434,8 @@ export default {
   </div>
 
   <div class="text-center">
-    <n-pagination
-      class="justify-content-center"
-      v-model:page="page"
-      v-model:page-size="pageSize"
-      :item-count="currentProjectsCount"
-      :page-sizes="pageSizes"
-      show-size-picker
-    />
+    <n-pagination class="justify-content-center" v-model:page="page" v-model:page-size="pageSize"
+      :item-count="currentProjectsCount" :page-sizes="pageSizes" show-size-picker />
   </div>
 </template>
 
@@ -578,6 +447,7 @@ export default {
 .nav {
   align-items: center;
 }
+
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
   color: #ef4d4e;
@@ -596,12 +466,10 @@ export default {
   --bs-nav-tabs-border-width: var(--bs-border-width);
   --bs-nav-tabs-border-color: var(--bs-border-color);
   --bs-nav-tabs-border-radius: var(--bs-border-radius);
-  --bs-nav-tabs-link-hover-border-color: var(--bs-secondary-bg)
-    var(--bs-secondary-bg) var(--bs-border-color);
+  --bs-nav-tabs-link-hover-border-color: var(--bs-secondary-bg) var(--bs-secondary-bg) var(--bs-border-color);
   --bs-nav-tabs-link-active-color: var(--bs-emphasis-color);
   --bs-nav-tabs-link-active-bg: var(--bs-body-bg);
-  --bs-nav-tabs-link-active-border-color: var(--bs-border-color)
-    var(--bs-border-color) var(--bs-body-bg);
+  --bs-nav-tabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-body-bg);
   border-bottom: none !important;
 }
 

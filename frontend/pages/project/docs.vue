@@ -37,11 +37,11 @@ export default {
     this.data_list = this.data_list_props;
   },
   mounted() {
-    this.asyncData();
-    this.id = this.$route.params.id;
     const runtimeConfig = useRuntimeConfig();
     this.api_url = runtimeConfig.public.BASE_API_URL;
     this.api_token = runtimeConfig.public.TOKEN_API;
+    this.asyncData();
+    this.id = this.$route.params.id;
   },
   watch: {
     data_list(newDate) {
@@ -60,7 +60,7 @@ export default {
       if (token != null) {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
-        this.create_email = decoded.email;
+        this.create_email = decoded.email || '';
         this.fullname = decoded.fullname;
         this.userId = decoded.owner_id;
         // console.log("decoded ", decoded);

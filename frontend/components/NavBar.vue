@@ -20,7 +20,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.fullname = decoded.fullname;
-        this.email = decoded.email;
+        this.email = decoded.email || '';
         // console.log('>>>',decoded)
       }
     },
