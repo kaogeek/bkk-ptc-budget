@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 export default {
   props: {
     data_list_props: { type: Array, required: true },
-    projectOwnerId: { type: Number, required: true },
+    ownerEmail: { type: Number, required: true },
   },
   data() {
     return {
@@ -658,7 +658,7 @@ export default {
           v-if="
             this.showInput == false &&
             this.data_list.file_doc.data.length <= 4 &&
-            projectOwnerId === userId
+            ownerEmail === create_email
           "
           type="button"
           class="btn btn-primary"
