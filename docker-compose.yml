@@ -17,6 +17,7 @@ x-backend-env: &backend-env
 x-frontend-env: &frontend-env
   NUXT_BASE_API_URL: "${NUXT_BASE_API_URL}"
   NUXT_TOKEN_API: "${NUXT_TOKEN_API}"
+  NUXT_EDITOR_TOKEN: "${NUXT_EDITOR_TOKEN}"
 
 services:
   backend:

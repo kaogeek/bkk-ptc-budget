@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // https://api.dev.pb.grtn.org/
-export default {
-  mode: "universal",
+export default defineNuxtConfig({
   css: [
     "bootstrap/dist/css/bootstrap.min.css",
     "/assets/scss/main.css",
@@ -57,4 +56,4 @@ export default {
           : []
     }
   }
-}
+})
