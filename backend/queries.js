@@ -5,12 +5,17 @@ import { env } from 'node:process';
 const { Pool } = pg;
 const { sign } = jsonwebtoken;
 
+if (!env.DB_NAME || !env.TOKEN_SECRET) {
+  console.error("need environment parameters");
+  process.exit(1);
+}
+
 const pool = new Pool({
-  user: env.DB_USER,
-  host: env.DB_HOST,
-  database: env.DB_NAME,
+  user: env.DB_USER || postgres,
+  host: env.DB_HOST || localhost,
+  database: env.DB_NAME || postgres,
   password: env.DB_PASSWORD,
-  port: env.DB_PORT,
+  port: env.DB_PORT || 5432,
 });
 
 import { hash, compare } from "bcrypt";

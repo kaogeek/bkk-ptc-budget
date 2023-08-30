@@ -26,10 +26,13 @@ ENV LC_ALL C.UTF-8
 ENV TZ $timezone
 ENV NODE_ENV production
 
+WORKDIR /app
+
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=base /app /app
+
 VOLUME [ "/app/uploads" ]
 
 EXPOSE 8090
 
-CMD [ "server.js" ]
+CMD [ "/app/server.js" ]

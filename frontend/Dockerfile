@@ -27,6 +27,8 @@ ENV LC_ALL C.UTF-8
 ENV TZ $timezone
 ENV NODE_ENV production
 
+WORKDIR /app
+
 COPY --from=builder /app/.output/ /app
 
 EXPOSE 3000

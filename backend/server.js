@@ -14,7 +14,7 @@ const app = express();
 const { Pool } = pg;
 const { sign } = jsonwebtoken;
 
-if (!env.database || !env.TOKEN_SECRET) {
+if (!env.DB_NAME || !env.TOKEN_SECRET) {
   console.error("need environment parameters");
   process.exit(1);
 }
@@ -22,12 +22,13 @@ if (!env.database || !env.TOKEN_SECRET) {
 const port = env.PORT || 8090;
 
 const pool = new Pool({
-  user: env.DB_USER,
-  host: env.DB_HOST,
-  database: env.DB_NAME,
+  user: env.DB_USER || postgres,
+  host: env.DB_HOST || localhost,
+  database: env.DB_NAME || postgres,
   password: env.DB_PASSWORD,
-  port: env.DB_PORT,
+  port: env.DB_PORT || 5432,
 });
+
 env.TOKEN_SECRET;
 
 app.use(cors());
