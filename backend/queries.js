@@ -1,6 +1,9 @@
-import { Pool } from "pg";
-import { sign } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
+import pg from "pg";
 import { env } from 'node:process';
+
+const { Pool } = pg;
+const { sign } = jsonwebtoken;
 
 const pool = new Pool({
   user: env.DB_USER,
@@ -9,6 +12,7 @@ const pool = new Pool({
   password: env.DB_PASSWORD,
   port: env.DB_PORT,
 });
+
 import { hash, compare } from "bcrypt";
 const getDistrict = (request, res) => {
   pool.query(

@@ -3,19 +3,23 @@ import multer, { diskStorage } from "multer";
 import { join, extname } from "path";
 import swaggerJsdoc from "swagger-jsdoc";
 import { serve, setup } from "swagger-ui-express";
-const app = express();
 import cors from "cors";
-import { sign } from "jsonwebtoken";
-import { Pool } from "pg";
+import jsonwebtoken from "jsonwebtoken";
+import pg from "pg";
 import { compare, hash } from "bcrypt";
 import { existsSync, unlink } from "fs";
 import { env } from 'node:process';
-const port = 8090;
+
+const app = express();
+const { Pool } = pg;
+const { sign } = jsonwebtoken;
 
 if (!env.database || !env.TOKEN_SECRET) {
   console.error("need environment parameters");
   process.exit(1);
 }
+
+const port = env.PORT || 8090;
 
 const pool = new Pool({
   user: env.DB_USER,
@@ -428,18 +432,18 @@ app.post("/api/user/auth", (request, response) => {
 
               const res_json = accountIsActive
                 ? {
-                    status: 200,
-                    statusMsg: "เข้าสู่ระบบสำเร็จ",
-                    data: data,
-                    token: token,
-                  }
+                  status: 200,
+                  statusMsg: "เข้าสู่ระบบสำเร็จ",
+                  data: data,
+                  token: token,
+                }
                 : {
-                    status: 401,
-                    statusMsg:
-                      "บัญชีของคุณยังไม่ถูกเปิดใช้งาน ทีมงานของเรากำลังดำเนินการเปิดใช้งานบัญชีภายใน 5-10 นาที โปรดเข้าสู่ระบบอีกครั้ง หรือติดต่อเจ้าหน้าที่ได้ที่ช่องทาง [ใดๆ]",
-                    data: data,
-                    token: token,
-                  };
+                  status: 401,
+                  statusMsg:
+                    "บัญชีของคุณยังไม่ถูกเปิดใช้งาน ทีมงานของเรากำลังดำเนินการเปิดใช้งานบัญชีภายใน 5-10 นาที โปรดเข้าสู่ระบบอีกครั้ง หรือติดต่อเจ้าหน้าที่ได้ที่ช่องทาง [ใดๆ]",
+                  data: data,
+                  token: token,
+                };
               response.status(200).json(res_json);
             } else {
               // Passwords do not match
@@ -670,9 +674,8 @@ app.post("/api/upload/project", async (request, response) => {
     "ธันวาคม",
   ];
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   let date = thaiDateWithTime;
 
@@ -858,9 +861,8 @@ app.post("/api/update/note_id", (request, response) => {
     "ธันวาคม",
   ];
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   note.date = thaiDateWithTime;
 
@@ -913,9 +915,8 @@ app.post("/api/update/status_id", (request, response) => {
 
   let thaiDate = `${day} ${thaiMonths[month - 1]} ${year + 543}`;
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   note.date = thaiDateWithTime;
 
@@ -978,9 +979,8 @@ app.post("/api/update/chat_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   list_update.date = thaiDateWithTime;
   list_update.id = generateRandomString(20);
@@ -1041,9 +1041,8 @@ app.post("/api/edit/chat_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_update FROM project WHERE id = $1",
@@ -1146,9 +1145,8 @@ app.post("/api/update/doc_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   // add date
   list_update.date = thaiDateWithTime;
@@ -1270,9 +1268,8 @@ app.post("/api/add/list_budget", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_budget FROM project WHERE id = $1",
@@ -1337,9 +1334,8 @@ app.post("/api/edit/list_budget", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_budget FROM project WHERE id = $1",
