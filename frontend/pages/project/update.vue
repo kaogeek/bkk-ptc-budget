@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 export default {
   props: {
     data_list_props: { type: Array, required: true },
-    projectOwnerId: { type: Number, required: true },
+    ownerEmail: { type: String, required: true },
   },
   data() {
     return {
@@ -38,11 +38,6 @@ export default {
     this.api_url = runtimeConfig.public.BASE_API_URL;
     this.api_token = runtimeConfig.public.TOKEN_API;
     this.fetchChartImages();
-  },
-  setup() {
-    const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
   },
   watch: {
     data_list(newDate) {
@@ -457,10 +452,7 @@ export default {
         </div>
 
         <template v-if="this.edit == false">
-          <div
-            v-if="this.user_id === this.projectOwnerId"
-            class="col-md-10 p-2"
-          >
+          <div v-if="create_email === ownerEmail" class="col-md-10 p-2">
             <div
               class="p-2"
               style="background-color: rgb(221, 221, 221); border-radius: 10px"

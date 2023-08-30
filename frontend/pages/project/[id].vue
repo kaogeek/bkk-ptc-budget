@@ -24,7 +24,7 @@ export default {
       api_token: "",
       email: "",
       fullname: "",
-      projectOwnerId: null,
+      ownerEmail: null,
       currentUserId: null,
     };
   },
@@ -98,7 +98,8 @@ export default {
 
         if (res.status === 200) {
           this.projects = res.data.data[0];
-          this.projectOwnerId = this.projects.owner_id;
+          console.log(this.projects);
+          this.ownerEmail = this.projects.create_email;
 
           this.note = this.projects.note.note;
           if (this.projects.og_image != "") {
@@ -466,13 +467,13 @@ export default {
         <update
           v-if="page == 2"
           :data_list_props="this.projects.list_update.data"
-          :projectOwnerId="this.projectOwnerId"
+          :ownerEmail="ownerEmail"
         ></update>
         <!-- เอกสารโครงการ และ แผนการใช้เงิน -->
         <docs
           v-if="page == 3"
           :data_list_props="this.projects"
-          :project-owner-id="projectOwnerId"
+          :ownerEmail="ownerEmail"
         ></docs>
       </div>
 
@@ -491,7 +492,7 @@ export default {
           <p
             v-if="
               (this.role != 1 && this.role != 5) ||
-              this.currentUserId === this.projectOwnerId ||
+              this.currentUserId === this.ownerEmail ||
               this.projects.note.note == '' ||
               this.projects.note.note == 'ไม่มีโน๊ต'
             "
@@ -502,7 +503,7 @@ export default {
           <template
             v-if="
               (this.role != 1 && this.role != 5) ||
-              this.currentUserId === this.projectOwnerId ||
+              this.currentUserId === this.ownerEmail ||
               (this.projects.note.note != 'ไม่มีโน๊ต' &&
                 this.projects.note.note != '')
             "
@@ -515,7 +516,7 @@ export default {
             <p class="m-0 p-0">{{ this.projects.note.date }}</p>
           </template>
 
-          <template v-if="this.currentUserId === this.projectOwnerId">
+          <template v-if="this.currentUserId === this.ownerEmail">
             <div class="mb-3">
               <textarea class="form-control" rows="3" v-model="note">{{
                 this.projects.note.note
