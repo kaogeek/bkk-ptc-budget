@@ -1,6 +1,6 @@
 x-user: &user
   user: "${UID}:${GID}"
-x-default: &deafult-env
+x-default: &default-env
   TZ: Asia/Bangkok
 x-postgres: &postgres-env
   POSTGRES_USER: "${DB_USER}"
@@ -28,7 +28,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      <<: [*deafult-env, *app-env, *backend-env]
+      <<: [*default-env, *app-env, *backend-env]
     volumes:
       - ./backend/uploads:/app/uploads
     ports:
@@ -42,7 +42,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      <<: [*deafult-env, *app-env, *frontend-env]
+      <<: [*default-env, *app-env, *frontend-env]
     ports:
       - 3000:3000
 
@@ -50,7 +50,7 @@ services:
     image: postgres
     restart: unless-stopped
     environment:
-      <<: [*deafult-env, *postgres-env]
+      <<: [*default-env, *postgres-env]
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
