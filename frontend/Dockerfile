@@ -21,11 +21,12 @@ RUN pnpm run build
 FROM gcr.io/distroless/nodejs20:nonroot
 
 ARG	timezone=Asia/Bangkok
+ARG node_env=production
 
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TZ $timezone
-ENV NODE_ENV production
+ENV NODE_ENV $node_env
 
 WORKDIR /app
 
