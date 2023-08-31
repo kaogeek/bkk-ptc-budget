@@ -9,6 +9,7 @@ x-app-env: &app-env
   NODE_ENV: "${NODE_ENV}"
   TOKEN_SECRET: "${TOKEN_SECRET}"
 x-backend-env: &backend-env
+  API_PORT: "${API_PORT}"
   DB_USER: "${DB_USER}"
   DB_HOST: "${DB_HOST}"
   DB_NAME: "${DB_NAME}"

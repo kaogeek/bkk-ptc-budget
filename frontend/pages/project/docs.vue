@@ -39,7 +39,7 @@ export default {
   mounted() {
     const runtimeConfig = useRuntimeConfig();
     this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
+    this.api_token = runtimeConfig.TOKEN_API;
     this.asyncData();
     this.id = this.$route.params.id;
   },

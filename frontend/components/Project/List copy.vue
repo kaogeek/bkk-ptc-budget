@@ -29,7 +29,7 @@ export default  {
 
     setup() {
         this.api_url = this.$config.public.BASE_API_URL
-        this.api_token = this.$config.public.TOKEN_API
+        this.api_token = this.$config.TOKEN_API
     },
 
     mounted() {

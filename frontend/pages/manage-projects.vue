@@ -79,7 +79,7 @@ export default {
 
         const response = await axios.get<Blob>(imageURL, {
           headers: {
-            Authorization: "Bearer " + runtimeConfig.public.TOKEN_API,
+            Authorization: "Bearer " + runtimeConfig.TOKEN_API,
           },
           responseType: "blob",
         });

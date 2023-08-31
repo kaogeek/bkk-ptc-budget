@@ -19,7 +19,7 @@ if (!env.DB_NAME || !env.TOKEN_SECRET) {
   process.exit(1);
 }
 
-const port = env.PORT || 8090;
+const port = env.API_PORT || 8090;
 
 const pool = new Pool({
   user: env.DB_USER || postgres,
