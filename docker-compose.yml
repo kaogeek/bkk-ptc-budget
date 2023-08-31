@@ -54,7 +54,7 @@ services:
     environment:
       <<: [*default-env, *postgres-env]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-U $$POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
