@@ -16,9 +16,9 @@ x-backend-env: &backend-env
   DB_PASSWORD: "${DB_PASSWORD}"
   DB_PORT: ${DB_PORT}
 x-frontend-env: &frontend-env
-  NUXT_BASE_API_URL: "${NUXT_BASE_API_URL}"
+  NUXT_PUBLIC_BASE_API_URL: "${NUXT_PUBLIC_BASE_API_URL}"
   NUXT_TOKEN_API: "${NUXT_TOKEN_API}"
-  NUXT_EDITOR_TOKEN: "${NUXT_EDITOR_TOKEN}"
+  NUXT_PUBLIC_EDITOR_TOKEN: "${NUXT_PUBLIC_EDITOR_TOKEN}"
 
 services:
   backend:

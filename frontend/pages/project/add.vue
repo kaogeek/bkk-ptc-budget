@@ -32,9 +32,9 @@ export default {
   },
   mounted() {
     const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.TOKEN_API;
-    this.editorToken = runtimeConfig.public.EDITOR_TOKEN;
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
+    this.editorToken = runtimeConfig.public.editorToken;
     this.asyncData();
   },
   components: {

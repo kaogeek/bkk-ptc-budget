@@ -75,11 +75,11 @@ export default {
 
     async function getImage(filename: string): Promise<string> {
       try {
-        const imageURL = `${runtimeConfig.public.BASE_API_URL}api/images/${filename}`;
+        const imageURL = `${runtimeConfig.public.baseApiUrl}api/images/${filename}`;
 
         const response = await axios.get<Blob>(imageURL, {
           headers: {
-            Authorization: "Bearer " + runtimeConfig.TOKEN_API,
+            Authorization: "Bearer " + runtimeConfig.tokenApi,
           },
           responseType: "blob",
         });
@@ -93,7 +93,7 @@ export default {
 
     const columns = createColumns();
     const projects: Array<ProjectDetails> = await axios
-      .get(`${runtimeConfig.public.BASE_API_URL}api/project/`)
+      .get(`${runtimeConfig.public.baseApiUrl}api/project/`)
       .then((response) => {
         return response.data.data.map((project: any) => {
           return {

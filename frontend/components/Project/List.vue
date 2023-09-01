@@ -47,8 +47,8 @@ export default {
   },
   mounted() {
     const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.TOKEN_API;
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
     
     setTimeout(() => {
       this.api_get_fetchProjectData();
