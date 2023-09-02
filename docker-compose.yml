@@ -50,7 +50,7 @@ services:
       test: ["CMD", "wget", "-c", "http://localhost:8081/ping"]
       timeout: 3s
     volumes:
-      - "letsencrypt:/letsencrypt"
+      - "letsencrypt-data:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
       - default
@@ -119,6 +119,7 @@ services:
       - 127.0.0.1:5432:5432
 
 volumes:
+  letsencrypt-data:
   postgres-data:
 
 networks:
