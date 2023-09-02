@@ -444,7 +444,7 @@ export default {
             v-if="
               (this.edit_table == false &&
                 this.edit_item == false &&
-                this.data_list.create_email == this.create_email) ||
+                this.ownerEmail == this.create_email) ||
               this.role == 4
             "
           >
@@ -518,13 +518,7 @@ export default {
                 </template>
 
                 <!--เพิ่มรายการ-->
-                <template
-                  v-if="
-                    (this.edit_table == false &&
-                      this.data_list.create_email == this.create_email) ||
-                    this.role == 4
-                  "
-                >
+                <template v-if="this.edit_table == false && this.role == 4">
                   <tr class="small" style="font-size: 17px">
                     <th style="width: 70%">
                       <input
