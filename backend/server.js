@@ -9,6 +9,11 @@ import pg from "pg";
 import { compare, hash } from "bcrypt";
 import { existsSync, unlink } from "fs";
 import { env } from 'node:process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const { Pool } = pg;
