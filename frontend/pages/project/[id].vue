@@ -25,7 +25,6 @@ export default {
       email: "",
       fullname: "",
       ownerEmail: null,
-      currentUserId: null,
     };
   },
   mounted() {
@@ -51,9 +50,8 @@ export default {
         var decoded = jwt_decode(token);
 
         this.role = decoded.role;
-        this.email = decoded.email || '';
+        this.email = decoded.email || "";
         this.fullname = decoded.fullname;
-        this.currentUserId = decoded.id;
       }
     },
     async api_get_img(filename) {
@@ -492,7 +490,7 @@ export default {
           <p
             v-if="
               (this.role != 1 && this.role != 5) ||
-              this.currentUserId === this.ownerEmail ||
+              email === ownerEmail ||
               this.projects.note.note == '' ||
               this.projects.note.note == 'ไม่มีโน๊ต'
             "
@@ -503,7 +501,7 @@ export default {
           <template
             v-if="
               (this.role != 1 && this.role != 5) ||
-              this.currentUserId === this.ownerEmail ||
+              email === ownerEmail ||
               (this.projects.note.note != 'ไม่มีโน๊ต' &&
                 this.projects.note.note != '')
             "
@@ -516,7 +514,7 @@ export default {
             <p class="m-0 p-0">{{ this.projects.note.date }}</p>
           </template>
 
-          <template v-if="email === ownerEmail">
+          <template v-if="(role === 1 || role === 5) && email === ownerEmail">
             <div class="mb-3">
               <textarea class="form-control" rows="3" v-model="note">{{
                 this.projects.note.note
