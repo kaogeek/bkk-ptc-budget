@@ -212,36 +212,6 @@ export default {
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="projectbudgetyear" class="col-sm-2 col-form-label"
-                  >ปีงบประมาณ</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="projectbudgetyear"
-                    placeholder="ปีงบประมาณ"
-                    required
-                    min="0"
-                  />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="projectname" class="col-sm-2 col-form-label"
-                  >แฮชแท็ก</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="projectname"
-                    placeholder="แฮชแท็ก"
-                    required
-                    v-model="hashtag"
-                  />
-                </div>
-              </div>
-              <div class="row mb-3">
                 <label for="projectgoal" class="col-sm-2 col-form-label"
                   >รุปภาพ</label
                 >
