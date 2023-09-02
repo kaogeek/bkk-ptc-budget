@@ -21,7 +21,46 @@ x-frontend-env: &frontend-env
   NUXT_PUBLIC_EDITOR_TOKEN: "${NUXT_PUBLIC_EDITOR_TOKEN}"
 
 services:
+  traefik:
+    image: traefik
+    restart: unless-stopped
+    command:
+      - --ping=true
+      - --ping.entryPoint=ping
+      # providers docker
+      - --providers.docker=true
+      - --providers.docker.watch=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.defaultRule="Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+      - --serversTransport.insecureSkipVerify=true
+      - --providers.docker.network=traefik_proxy
+      - --entryPoints.ping.address=:8081
+      - --entrypoints.web-80.address=:80
+      - --entrypoints.web-443.address=:443
+      - --entrypoints.web-443.http.tls.certresolver=letsencrypt
+      - --entrypoints.web-80.http.redirections.entryPoint.to=web-443
+      - --entrypoints.web-80.http.redirections.entryPoint.scheme=https
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web-80
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.email=info@pb.grtn.org
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+    healthcheck:
+      retries: 3
+      test: ["CMD", "wget", "-c", "http://localhost:8081/ping"]
+      timeout: 3s
+    volumes:
+      - "letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - default
+      - traefik_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+
   backend:
+    user: "${UID}:${GID}"
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,10 +72,17 @@ services:
       <<: [*default-env, *app-env, *backend-env]
     volumes:
       - ./backend/uploads:/app/uploads
-    ports:
-      - 8090:8090
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.backend.loadbalancer.server.port=8090
+      - "traefik.http.routers.backend.rule=Host(`api.dev.pb.grtn.org`)"
+      - traefik.http.routers.backend.entrypoints=web-443
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - traefik_proxy
 
   frontend:
+    user: "${UID}:${GID}"
     depends_on:
       backend:
         condition: service_started
@@ -46,8 +92,14 @@ services:
       dockerfile: Dockerfile
     environment:
       <<: [*default-env, *app-env, *frontend-env]
-    ports:
-      - 3000:3000
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.frontend.loadbalancer.server.port=3000
+      - "traefik.http.routers.frontend.rule=Host(`dev.pb.grtn.org`)"
+      - traefik.http.routers.frontend.entrypoints=web-443
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - traefik_proxy
 
   postgres:
     image: postgres
@@ -61,6 +113,14 @@ services:
       retries: 5
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - traefik_proxy
+    ports:
+      - 127.0.0.1:5432:5432
 
 volumes:
   postgres-data:
+
+networks:
+  traefik_proxy:
+    name: traefik_proxy
