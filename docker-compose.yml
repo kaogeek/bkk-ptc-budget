@@ -57,7 +57,8 @@ services:
       - traefik_proxy
     ports:
       - "80:80"
-      - "443:443"
+      - "443:443/tcp"
+      - "443:443/udp"
 
   backend:
     user: "${UID}:${GID}"
