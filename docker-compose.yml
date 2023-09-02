@@ -77,6 +77,11 @@ services:
       - traefik.http.services.backend.loadbalancer.server.port=8090
       - "traefik.http.routers.backend.rule=Host(`api.dev.pb.grtn.org`)"
       - traefik.http.routers.backend.entrypoints=web-443
+      - traefik.http.routers.backend.middlewares=cors-backend
+      - "traefik.http.middlewares.cors-backend.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
+      - "traefik.http.middlewares.cors-backend.headers.accesscontrolallowheaders=*"
+      - traefik.http.middlewares.cors-backend.headers.addvaryheader=true
+      - "traefik.http.middlewares.cors-backend.headers.accesscontrolalloworiginlist=*"
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - traefik_proxy
@@ -97,6 +102,11 @@ services:
       - traefik.http.services.frontend.loadbalancer.server.port=3000
       - "traefik.http.routers.frontend.rule=Host(`dev.pb.grtn.org`)"
       - traefik.http.routers.frontend.entrypoints=web-443
+      - traefik.http.routers.frontend.middlewares=cors-frontend
+      - "traefik.http.middlewares.cors-frontend.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
+      - "traefik.http.middlewares.cors-frontend.headers.accesscontrolallowheaders=*"
+      - traefik.http.middlewares.cors-frontend.headers.addvaryheader=true
+      - "traefik.http.middlewares.cors-frontend.headers.accesscontrolalloworiginlist=*"
       - com.centurylinklabs.watchtower.enable=true
     networks:
       - traefik_proxy
