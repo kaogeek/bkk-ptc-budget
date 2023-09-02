@@ -32,9 +32,9 @@ export default {
   },
   mounted() {
     const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
-    this.editorToken = runtimeConfig.public.EDITOR_TOKEN;
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
+    this.editorToken = runtimeConfig.public.editorToken;
     this.asyncData();
   },
   components: {
@@ -48,7 +48,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.owner_id = decoded.role;
-        this.create_email = decoded.email;
+        this.create_email = decoded.email || '';
         this.api_get_community(decoded.community);
         this.api_get_district(decoded.district);
       }

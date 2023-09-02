@@ -1,38 +1,42 @@
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
-const app = express();
-const cors = require("cors");
-const jwt = require("jsonwebtoken");
-const Pool = require("pg").Pool;
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const dotenv = require("dotenv");
-const port = 8090;
+import express, { json, urlencoded } from "express";
+import multer, { diskStorage } from "multer";
+import { join, extname } from "path";
+import swaggerJsdoc from "swagger-jsdoc";
+import { serve, setup } from "swagger-ui-express";
+import cors from "cors";
+import jsonwebtoken from "jsonwebtoken";
+import pg from "pg";
+import { compare, hash } from "bcrypt";
+import { existsSync, unlink } from "fs";
+import { env } from 'node:process';
 
-if (!fs.existsSync(".env")) {
-  console.error("ไม่พบไฟล์ .env");
+const app = express();
+const { Pool } = pg;
+const { sign } = jsonwebtoken;
+
+if (!env.DB_NAME || !env.TOKEN_SECRET) {
+  console.error("need environment parameters");
   process.exit(1);
 }
 
-dotenv.config();
+const port = env.API_PORT || 8090;
+
 const pool = new Pool({
-  user: process.env.user,
-  host: process.env.host,
-  database: process.env.database,
-  password: process.env.password,
-  port: process.env.port,
+  user: env.DB_USER || postgres,
+  host: env.DB_HOST || localhost,
+  database: env.DB_NAME || postgres,
+  password: env.DB_PASSWORD,
+  port: env.DB_PORT || 5432,
 });
-process.env.TOKEN_SECRET;
+
+env.TOKEN_SECRET;
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 function generateAccessToken(username) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
+  return sign(username, env.TOKEN_SECRET, { expiresIn: "1800s" });
 }
 
 // info
@@ -150,17 +154,17 @@ app.get("/api/zipcode/:id", (request, response) => {
 // รับ images
 app.get("/api/images/:filename", (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads/img", filename);
+  const filePath = join(__dirname, "uploads/img", filename);
 
-  if (fs.existsSync(filePath)) {
+  if (existsSync(filePath)) {
     if (filename === "0") {
-      res.sendFile(path.join(__dirname, "uploads/img", "og_image.png"));
+      res.sendFile(join(__dirname, "uploads/img", "og_image.png"));
     } else {
-      res.sendFile(path.join(__dirname, "uploads/img", filename));
+      res.sendFile(join(__dirname, "uploads/img", filename));
     }
   } else {
     // ส่งรูปภาพอื่นที่คุณต้องการกลับไป เช่น รูปภาพเริ่มต้นหรือรูปภาพใหม่
-    const fallbackFilePath = path.join(
+    const fallbackFilePath = join(
       __dirname,
       "uploads/img",
       "og_image.png"
@@ -172,13 +176,13 @@ app.get("/api/images/:filename", (req, res) => {
 // รับ chart_img
 app.get("/api/get/chart_img/:filename", (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads/chart_img", filename);
+  const filePath = join(__dirname, "uploads/chart_img", filename);
 
-  if (fs.existsSync(filePath)) {
+  if (existsSync(filePath)) {
     res.sendFile(filePath);
   } else {
     // ส่งรูปภาพอื่นที่คุณต้องการกลับไป เช่น รูปภาพเริ่มต้นหรือรูปภาพใหม่
-    const fallbackFilePath = path.join(
+    const fallbackFilePath = join(
       __dirname,
       "uploads/chart_img",
       "default.jpg"
@@ -190,10 +194,10 @@ app.get("/api/get/chart_img/:filename", (req, res) => {
 // delete/doc
 app.delete("/api/delete/chart_img/:filename", (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads/chart_img", filename);
+  const filePath = join(__dirname, "uploads/chart_img", filename);
 
   // ลบไฟล์
-  fs.unlink(filePath, (err) => {
+  unlink(filePath, (err) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error deleting file.");
@@ -206,7 +210,7 @@ app.delete("/api/delete/chart_img/:filename", (req, res) => {
 // download doc
 app.get("/api/download/doc/:filename", (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads/doc", filename);
+  const filePath = join(__dirname, "uploads/doc", filename);
 
   res.download(filePath, (err) => {
     if (err) {
@@ -220,10 +224,10 @@ app.get("/api/download/doc/:filename", (req, res) => {
 // delete/doc
 app.delete("/api/delete/doc/:filename", (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads/doc", filename);
+  const filePath = join(__dirname, "uploads/doc", filename);
 
   // ลบไฟล์
-  fs.unlink(filePath, (err) => {
+  unlink(filePath, (err) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error deleting file.");
@@ -400,7 +404,7 @@ app.post("/api/user/auth", (request, response) => {
         }
         const data = results.rows;
         if (data.length > 0) {
-          bcrypt.compare(password, data[0].password, (error, isMatch) => {
+          compare(password, data[0].password, (error, isMatch) => {
             const accountIsActive = data[0].active === 1 ? true : false;
 
             if (error) {
@@ -410,8 +414,8 @@ app.post("/api/user/auth", (request, response) => {
             }
 
             if (isMatch) {
-              process.env.TOKEN_SECRET;
-              token = jwt.sign(
+              env.TOKEN_SECRET;
+              token = sign(
                 {
                   id: data[0].id,
                   email: data[0].email,
@@ -423,24 +427,24 @@ app.post("/api/user/auth", (request, response) => {
                   subdistrict: data[0].subdistrict,
                   active: data[0].active,
                 },
-                process.env.TOKEN_SECRET,
+                env.TOKEN_SECRET,
                 { expiresIn: "1h" }
               );
 
               const res_json = accountIsActive
                 ? {
-                    status: 200,
-                    statusMsg: "เข้าสู่ระบบสำเร็จ",
-                    data: data,
-                    token: token,
-                  }
+                  status: 200,
+                  statusMsg: "เข้าสู่ระบบสำเร็จ",
+                  data: data,
+                  token: token,
+                }
                 : {
-                    status: 401,
-                    statusMsg:
-                      "บัญชีของคุณยังไม่ถูกเปิดใช้งาน ทีมงานของเรากำลังดำเนินการเปิดใช้งานบัญชีภายใน 5-10 นาที โปรดเข้าสู่ระบบอีกครั้ง หรือติดต่อเจ้าหน้าที่ได้ที่ช่องทาง [ใดๆ]",
-                    data: data,
-                    token: token,
-                  };
+                  status: 401,
+                  statusMsg:
+                    "บัญชีของคุณยังไม่ถูกเปิดใช้งาน ทีมงานของเรากำลังดำเนินการเปิดใช้งานบัญชีภายใน 5-10 นาที โปรดเข้าสู่ระบบอีกครั้ง หรือติดต่อเจ้าหน้าที่ได้ที่ช่องทาง [ใดๆ]",
+                  data: data,
+                  token: token,
+                };
               response.status(200).json(res_json);
             } else {
               // Passwords do not match
@@ -510,7 +514,7 @@ app.post("/api/user/register", async (request, response) => {
     });
   } else {
     try {
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hash(password, 10);
 
       const query = {
         text: "INSERT INTO users (title, fullname, position, address, phone, email, district, subdistrict, zipcode, community, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
@@ -532,9 +536,9 @@ app.post("/api/user/register", async (request, response) => {
       const results = await pool.query(query);
       const data = results.rows;
 
-      const token = jwt.sign(
+      const token = sign(
         { id: data[0].id, email: data[0].email, role: data[0].position },
-        process.env.TOKEN_SECRET,
+        env.TOKEN_SECRET,
         { expiresIn: "1h" }
       );
 
@@ -671,9 +675,8 @@ app.post("/api/upload/project", async (request, response) => {
     "ธันวาคม",
   ];
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   let date = thaiDateWithTime;
 
@@ -709,7 +712,7 @@ app.post("/api/upload/project", async (request, response) => {
 });
 
 // api/upload/img
-const storage_img = multer.diskStorage({
+const storage_img = diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/img");
   },
@@ -717,7 +720,7 @@ const storage_img = multer.diskStorage({
     // กำหนดชื่อไฟล์ใหม่
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + extname(file.originalname)
     );
   },
 });
@@ -738,7 +741,7 @@ app.post("/api/upload/img", upload_img.single("file"), (req, res) => {
 });
 
 // api/upload/doc
-const storage_doc = multer.diskStorage({
+const storage_doc = diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/doc");
   },
@@ -746,7 +749,7 @@ const storage_doc = multer.diskStorage({
     // กำหนดชื่อไฟล์ใหม่
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + extname(file.originalname)
     );
   },
 });
@@ -762,7 +765,7 @@ app.post("/api/upload/doc", upload_doc.single("file"), (req, res) => {
 });
 
 // api/upload/image
-const storage_image = multer.diskStorage({
+const storage_image = diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/chart_img");
   },
@@ -770,7 +773,7 @@ const storage_image = multer.diskStorage({
     // กำหนดชื่อไฟล์ใหม่
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + extname(file.originalname)
     );
   },
 });
@@ -859,9 +862,8 @@ app.post("/api/update/note_id", (request, response) => {
     "ธันวาคม",
   ];
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   note.date = thaiDateWithTime;
 
@@ -914,9 +916,8 @@ app.post("/api/update/status_id", (request, response) => {
 
   let thaiDate = `${day} ${thaiMonths[month - 1]} ${year + 543}`;
 
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   note.date = thaiDateWithTime;
 
@@ -979,9 +980,8 @@ app.post("/api/update/chat_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   list_update.date = thaiDateWithTime;
   list_update.id = generateRandomString(20);
@@ -1042,9 +1042,8 @@ app.post("/api/edit/chat_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_update FROM project WHERE id = $1",
@@ -1147,9 +1146,8 @@ app.post("/api/update/doc_id", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   // add date
   list_update.date = thaiDateWithTime;
@@ -1271,9 +1269,8 @@ app.post("/api/add/list_budget", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_budget FROM project WHERE id = $1",
@@ -1338,9 +1335,8 @@ app.post("/api/edit/list_budget", async (request, response) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ];
-  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${
-    year + 543
-  } ${hours}:${minutes}:${seconds}`;
+  let thaiDateWithTime = `${day} ${thaiMonths[month - 1]} ${year + 543
+    } ${hours}:${minutes}:${seconds}`;
 
   const query = {
     text: "SELECT list_budget FROM project WHERE id = $1",
@@ -1408,8 +1404,8 @@ const options = {
 const specs = swaggerJsdoc(options);
 app.use(
   "/api/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(specs, { explorer: true })
+  serve,
+  setup(specs, { explorer: true })
 );
 
 const server = app.listen(port, () => {

@@ -30,8 +30,8 @@ export default {
   },
   mounted() {
     const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
     this.id = this.$route.params.id;
     this.asyncData();
     setTimeout(() => {
@@ -51,7 +51,7 @@ export default {
         var decoded = jwt_decode(token);
 
         this.role = decoded.role;
-        this.email = decoded.email;
+        this.email = decoded.email || '';
         this.fullname = decoded.fullname;
         this.currentUserId = decoded.id;
       }

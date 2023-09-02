@@ -33,10 +33,10 @@ export default {
   },
   mounted() {
     const runtimeConfig = useRuntimeConfig();
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
     this.asyncData();
     this.id = this.$route.params.id;
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
     this.fetchChartImages();
   },
   watch: {
@@ -68,7 +68,7 @@ export default {
       if (token != null) {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
-        this.create_email = decoded.email;
+        this.create_email = decoded.email || '';
         this.fullname = decoded.fullname;
         this.user_id = decoded.id;
         console.log("decoded ", decoded);

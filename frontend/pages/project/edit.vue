@@ -33,10 +33,10 @@ export default {
     this.description = this.data_list_props.description;
   },
   mounted() {
-    this.asyncData();
     const runtimeConfig = useRuntimeConfig();
-    this.api_url = runtimeConfig.public.BASE_API_URL;
-    this.api_token = runtimeConfig.public.TOKEN_API;
+    this.api_url = runtimeConfig.public.baseApiUrl;
+    this.api_token = runtimeConfig.tokenApi;
+    this.asyncData();
     this.id = this.$route.params.id;
   },
   components: {
@@ -49,7 +49,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.owner_id = decoded.role;
-        this.create_email = decoded.email;
+        this.create_email = decoded.email || '';
         // console.log('decoded ',decoded)
       }
     },
