@@ -516,7 +516,7 @@ export default {
             <p class="m-0 p-0">{{ this.projects.note.date }}</p>
           </template>
 
-          <template v-if="this.currentUserId === this.ownerEmail">
+          <template v-if="email === ownerEmail">
             <div class="mb-3">
               <textarea class="form-control" rows="3" v-model="note">{{
                 this.projects.note.note
