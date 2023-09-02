@@ -68,7 +68,7 @@ export default {
       if (token != null) {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
-        this.create_email = decoded.email || '';
+        this.create_email = decoded.email || "";
         this.fullname = decoded.fullname;
         this.user_id = decoded.id;
         console.log("decoded ", decoded);
@@ -452,7 +452,13 @@ export default {
         </div>
 
         <template v-if="this.edit == false">
-          <div v-if="create_email === ownerEmail" class="col-md-10 p-2">
+          <div
+            v-if="
+              ((role === 1 || role === 5) && create_email === ownerEmail) ||
+              role === 4
+            "
+            class="col-md-10 p-2"
+          >
             <div
               class="p-2"
               style="background-color: rgb(221, 221, 221); border-radius: 10px"
