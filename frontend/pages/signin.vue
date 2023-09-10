@@ -38,14 +38,7 @@ export default {
             // เข้าสู่ระบบเรียบร้อยแล้ว และบัญชีเปิดใช้งานเรียบร้อย
             if (res_json.status === 200 && accountIsActive) {
               sessionStorage.setItem("auth-token", res_json.token);
-              Swal.fire({
-                icon: "success",
-                title: "",
-                text: res_json.statusMsg,
-                timer: 1500,
-              }).then((result) => {
-                this.$router.push("/");
-              });
+              this.$router.push("/");
             } else if (res_json.status === 401 && !accountIsActive) {
               Swal.fire({
                 icon: "info",
