@@ -484,6 +484,7 @@ export default {
           <p class="fw-bold">การมีส่วนรวมจากชุมชน</p>
           <!-- role != 1 -->
           <p
+            class="note-entry"
             v-if="
               this.projects.note.note == '' ||
               this.projects.note.note == 'ไม่มีโน๊ต'
@@ -500,7 +501,7 @@ export default {
                 this.projects.note.note != '')
             "
           >
-            <p>{{ this.projects.note.note }}</p>
+            <p class="note-entry">{{ this.projects.note.note }}</p>
             <p class="p-0 m-0">
               ลงชื่อ : {{ this.projects.note.sign }} (คณะกรรมการชุมชน)
             </p>
@@ -728,6 +729,10 @@ export default {
 .btn-outline-secondary:hover {
   background-color: white !important;
   color: #606060;
+}
+
+.note-entry {
+  overflow-wrap: break-word;
 }
 .c-1 {
   /* background-color: rgb(121, 121, 121); */
