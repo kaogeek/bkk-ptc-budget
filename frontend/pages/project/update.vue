@@ -71,7 +71,6 @@ export default {
         this.create_email = decoded.email || "";
         this.fullname = decoded.fullname;
         this.user_id = decoded.id;
-        console.log("decoded ", decoded);
       }
     },
     async api_get_chart_img(filename) {
@@ -87,7 +86,6 @@ export default {
         const res = await axios.get(url, options);
         if (res.status === 200) {
           const imageUrl = URL.createObjectURL(res.data);
-          // console.log(imageUrl)
           return imageUrl;
         } else {
           Swal.fire({
@@ -115,7 +113,6 @@ export default {
 
         if (res.status === 200) {
           this.data_list = res.data.data[0].list_update.data;
-          // console.log('....',res.data.data[0].list_update.data)
         } else {
           Swal.fire({
             icon: "error",
@@ -199,7 +196,6 @@ export default {
           },
         };
         const res = await axios.post(url, json, options);
-        console.log(res.status);
 
         if (res.status === 200) {
           const Toast = Swal.mixin({
@@ -290,7 +286,6 @@ export default {
       this.title = item.title;
       this.content = item.content;
       this.item = item;
-      // console.log('item',this.item.img_name)
     },
     async button_edit_chat(i) {
       if (i === 0) {
