@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 
 export default {
   props: {
-    data_list_props: { type: Array, required: true },
-    ownerEmail: { type: Number, required: true },
+    data_list_props: { type: Object, required: true },
+    ownerEmail: { type: String, required: true },
   },
   data() {
     return {
@@ -60,7 +60,7 @@ export default {
       if (token != null) {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
-        this.create_email = decoded.email || '';
+        this.create_email = decoded.email || "";
         this.fullname = decoded.fullname;
         this.userId = decoded.owner_id;
         // console.log("decoded ", decoded);
@@ -434,17 +434,15 @@ export default {
   <div class="container m-0 p-0 pt-2">
     <div class="row ef">
       <div class="col-md-10 ef">
-        <span>ตารางแผนการใช้เงินสำหรับโครงการ</span>
-        <span>{{ this.data_list.name }}</span>
+        <p>ตารางแผนการใช้เงินสำหรับโครงการ{{ data_list.name }}</p>
 
         <!-- table -->
         <div>
           <!-- Edit -->
           <template
             v-if="
-              (this.edit_table == false &&
-                this.edit_item == false &&
-                this.ownerEmail == this.create_email) ||
+              this.edit_table == false &&
+              this.edit_item == false &&
               this.role == 4
             "
           >
@@ -589,7 +587,7 @@ export default {
         </template>
 
         <p v-if="this.data_list.file_doc.data.length == 0" class="fw-bold pt-4">
-          ไม่มีเอกสารการที่อัพโหลด
+          ไม่มีเอกสารที่อัพโหลด
         </p>
         <p v-else class="fw-bold pt-4">เอกสารการเก็บข้อมูล</p>
         <template
