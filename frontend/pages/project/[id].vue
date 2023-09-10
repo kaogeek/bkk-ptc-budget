@@ -483,31 +483,32 @@ export default {
         >
           <p class="fw-bold">การมีส่วนรวมจากชุมชน</p>
           <!-- role != 1 -->
-          <p
-            class="note-entry"
-            v-if="
-              this.projects.note.note == '' ||
-              this.projects.note.note == 'ไม่มีโน๊ต'
-            "
-          >
-            ไม่มีโน๊ต
-          </p>
-
-          <template
-            v-if="
-              (this.role != 1 && this.role != 5) ||
-              email === ownerEmail ||
-              (this.projects.note.note != 'ไม่มีโน๊ต' &&
-                this.projects.note.note != '')
-            "
-          >
-            <p class="note-entry">{{ this.projects.note.note }}</p>
-            <p class="p-0 m-0">
-              ลงชื่อ : {{ this.projects.note.sign }} (คณะกรรมการชุมชน)
+          <div class="mb-3">
+            <p
+              class="note-entry"
+              v-if="
+                this.projects.note.note == '' ||
+                this.projects.note.note == 'ไม่มีโน๊ต'
+              "
+            >
+              ไม่มีโน๊ต
             </p>
-            <br />
-            <p class="m-0 p-0">{{ this.projects.note.date }}</p>
-          </template>
+
+            <template
+              v-if="
+                (this.role != 1 && this.role != 5) ||
+                email === ownerEmail ||
+                (this.projects.note.note != 'ไม่มีโน๊ต' &&
+                  this.projects.note.note != '')
+              "
+            >
+              <p class="note-entry">{{ this.projects.note.note }}</p>
+              <p class="p-0 m-0">
+                ลงชื่อ : {{ this.projects.note.sign }} (คณะกรรมการชุมชน)
+              </p>
+              <p class="m-0 p-0">{{ this.projects.note.date }}</p>
+            </template>
+          </div>
 
           <template v-if="(role === 1 || role === 5) && email === ownerEmail">
             <div class="mb-3">
@@ -515,23 +516,6 @@ export default {
                 this.projects.note.note
               }}</textarea>
             </div>
-            <template
-              v-if="
-                this.projects.note.note != 'ไม่มีโน๊ต' &&
-                this.projects.note.note != ''
-              "
-            >
-              <p v-if="this.projects.note.role == 1" class="p-0 m-0">
-                ลงชื่อ : {{ this.projects.note.sign }} (คณะกรรมการชุมชน)
-              </p>
-              <br />
-              <p v-if="this.projects.note.role == 5" class="p-0 m-0">
-                ลงชื่อ : {{ this.projects.note.sign }} (เจ้าหน้าที่
-                ศูนย์เด็กเล็ก)
-              </p>
-              <br />
-              <p class="m-0 p-0">{{ this.projects.note.date }}</p>
-            </template>
             <div
               v-if="this.projects.note.note != this.note"
               class="text-center"
