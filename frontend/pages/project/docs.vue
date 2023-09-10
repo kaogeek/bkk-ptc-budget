@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 
 export default {
   props: {
-    data_list_props: { type: Array, required: true },
-    ownerEmail: { type: Number, required: true },
+    data_list_props: { type: Object, required: true },
+    ownerEmail: { type: String, required: true },
   },
   data() {
     return {
