@@ -20,7 +20,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.fullname = decoded.fullname;
-        this.email = decoded.email || '';
+        this.email = decoded.email || "";
         // console.log('>>>',decoded)
       }
     },
@@ -68,11 +68,13 @@ export default {
         >
       </a>
 
-      <div class="col-md-auto text-end" v-if="role == 1 || role == 5">
-        <!-- Hidden since it's unfinished -->
-        <!-- <NuxtLink to="/manage-projects" class="btn me-2">
+      <div
+        class="col-md-auto text-end"
+        v-if="role == 1 || role == 4 || role == 5"
+      >
+        <NuxtLink v-if="role === 4" to="/manage-projects" class="btn me-2">
           จัดการโครงการ
-        </NuxtLink> -->
+        </NuxtLink>
         <button
           type="button"
           class="btn btn-outline-primary me-2"
