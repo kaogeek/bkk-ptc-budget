@@ -489,8 +489,6 @@ export default {
           <!-- role != 1 -->
           <p
             v-if="
-              (this.role != 1 && this.role != 5) ||
-              email === ownerEmail ||
               this.projects.note.note == '' ||
               this.projects.note.note == 'ไม่มีโน๊ต'
             "
