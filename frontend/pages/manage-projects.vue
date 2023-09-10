@@ -391,19 +391,20 @@ export default {
                   <span class="multiline">{{ item.short_description }}</span>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary me-2"
-                    style="
-                      background: rgb(239, 77, 78);
-                      border-radius: 4px;
-                      color: rgb(255, 255, 255);
-                      border-color: rgb(239, 77, 78);
-                      font-size: 14px;
-                    "
-                  >
-                    {{ projectStatus[item.status_id - 1].name }}
-                  </button>
+                  <router-link :to="'/project/' + item.id">
+                    <button
+                      class="btn btn-outline-primary me-2"
+                      style="
+                        background: rgb(239, 77, 78);
+                        border-radius: 4px;
+                        color: rgb(255, 255, 255);
+                        border-color: rgb(239, 77, 78);
+                        font-size: 14px;
+                      "
+                    >
+                      {{ projectStatus[item.status_id - 1].name }}
+                    </button>
+                  </router-link>
                 </td>
               </tr>
             </template>
