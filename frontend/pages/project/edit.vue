@@ -13,7 +13,6 @@ export default {
       id: null,
       role: null,
       create_email: null,
-      hashtag: "",
       selectedFile: null,
       owner_id: null,
       name: "",
@@ -28,7 +27,6 @@ export default {
   },
   created() {
     this.name = this.data_list_props.name;
-    this.hashtag = this.data_list_props.hashtag;
     this.short_description = this.data_list_props.short_description;
     this.description = this.data_list_props.description;
   },
@@ -49,7 +47,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.owner_id = decoded.role;
-        this.create_email = decoded.email || '';
+        this.create_email = decoded.email || "";
         // console.log('decoded ',decoded)
       }
     },
@@ -59,7 +57,6 @@ export default {
         const params = {};
         const json = {
           name: this.name,
-          hashtag: this.hashtag,
           short_description: this.short_description,
           description: this.description,
           og_image: this.og_image,
@@ -159,37 +156,8 @@ export default {
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="projectbudgetyear" class="col-sm-2 col-form-label"
-                  >ปีงบประมาณ</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="projectbudgetyear"
-                    placeholder="ปีงบประมาณ"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="projectname" class="col-sm-2 col-form-label"
-                  >แฮชแท็ก</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="projectname"
-                    placeholder="แฮชแท็ก"
-                    required
-                    v-model="hashtag"
-                  />
-                </div>
-              </div>
-              <div class="row mb-3">
                 <label for="projectgoal" class="col-sm-2 col-form-label"
-                  >รุปภาพ</label
+                  >รูปภาพ</label
                 >
                 <div class="col-sm-10">
                   <input
