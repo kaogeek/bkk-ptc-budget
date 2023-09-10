@@ -434,8 +434,7 @@ export default {
   <div class="container m-0 p-0 pt-2">
     <div class="row ef">
       <div class="col-md-10 ef">
-        <span>ตารางแผนการใช้เงินสำหรับโครงการ</span>
-        <span>{{ this.data_list.name }}</span>
+        <p>ตารางแผนการใช้เงินสำหรับโครงการ{{ data_list.name }}</p>
 
         <!-- table -->
         <div>
