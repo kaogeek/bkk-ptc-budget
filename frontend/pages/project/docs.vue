@@ -60,7 +60,7 @@ export default {
       if (token != null) {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
-        this.create_email = decoded.email || '';
+        this.create_email = decoded.email || "";
         this.fullname = decoded.fullname;
         this.userId = decoded.owner_id;
         // console.log("decoded ", decoded);
@@ -442,9 +442,8 @@ export default {
           <!-- Edit -->
           <template
             v-if="
-              (this.edit_table == false &&
-                this.edit_item == false &&
-                this.ownerEmail == this.create_email) ||
+              this.edit_table == false &&
+              this.edit_item == false &&
               this.role == 4
             "
           >
