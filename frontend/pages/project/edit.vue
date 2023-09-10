@@ -6,7 +6,7 @@ import Editor from "@tinymce/tinymce-vue";
 
 export default {
   props: {
-    data_list_props: { type: Array, required: true },
+    data_list_props: { type: Object, required: true },
   },
   data() {
     return {
