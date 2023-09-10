@@ -588,7 +588,7 @@ export default {
         </template>
 
         <p v-if="this.data_list.file_doc.data.length == 0" class="fw-bold pt-4">
-          ไม่มีเอกสารการที่อัพโหลด
+          ไม่มีเอกสารที่อัพโหลด
         </p>
         <p v-else class="fw-bold pt-4">เอกสารการเก็บข้อมูล</p>
         <template
