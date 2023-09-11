@@ -8,6 +8,7 @@ x-postgres: &postgres-env
 x-app-env: &app-env
   NODE_ENV: "${NODE_ENV}"
   TOKEN_SECRET: "${TOKEN_SECRET}"
+  APP_DOMAIN: "${APP_DOMAIN}"
 x-backend-env: &backend-env
   API_PORT: "${API_PORT}"
   DB_USER: "${DB_USER}"
@@ -76,7 +77,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.services.backend.loadbalancer.server.port=8090
-      - "traefik.http.routers.backend.rule=Host(`api.dev.pb.grtn.org`)"
+      - "traefik.http.routers.backend.rule=Host(`api.${APP_DOMAIN}`)"
       - traefik.http.routers.backend.entrypoints=web-443
       - traefik.http.routers.backend.middlewares=cors-backend
       - "traefik.http.middlewares.cors-backend.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
@@ -101,7 +102,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.services.frontend.loadbalancer.server.port=3000
-      - "traefik.http.routers.frontend.rule=Host(`dev.pb.grtn.org`)"
+      - "traefik.http.routers.frontend.rule=Host(`${APP_DOMAIN}`)"
       - traefik.http.routers.frontend.entrypoints=web-443
       - traefik.http.routers.frontend.middlewares=cors-frontend
       - "traefik.http.middlewares.cors-frontend.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
