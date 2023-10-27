@@ -27,7 +27,7 @@
     "bootstrap-icons": "^1.10.5",
     "defu": "^6.1.2",
     "formiojs": "^4.16.0",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "node-fetch": "^3.3.2",
     "nuxt-tailvue": "^1.0.95",
     "sweetalert2": "^11.7.27",
