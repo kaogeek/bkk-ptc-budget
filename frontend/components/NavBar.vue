@@ -148,7 +148,7 @@ export default {
             เข้าสู่ระบบ
           </button>
         </NuxtLink>
-        <NuxtLink v-if="this.email === ''" to="../register">
+        <!-- <NuxtLink v-if="this.email === ''" to="../register">
           <button
             type="button"
             class="btn btn-outline-secondary me-2"
@@ -161,7 +161,7 @@ export default {
           >
             สมัครสมาชิก
           </button>
-        </NuxtLink>
+        </NuxtLink> -->
         <NuxtLink v-if="this.email != ''" to="../signout">
           <button
             type="button"

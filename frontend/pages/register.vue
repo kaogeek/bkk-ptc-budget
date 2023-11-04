@@ -1,10 +1,10 @@
 <script>
 import Swal from "sweetalert2";
-const link_API = "https://api.dev.pb.grtn.org/";
 
 export default {
   data() {
     return {
+      api_url: "",
       districts: [],
       districtOption: "",
       subdistricts: [],
@@ -13,7 +13,7 @@ export default {
         zip_code: "",
       },
       roles: [],
-      communities: [],
+      communities: null,
       communitiesOption: "",
       form: {
         title: "",
@@ -28,10 +28,13 @@ export default {
         community: "",
         password: "",
       },
+      newCommunityMessage: "",
     };
   },
   mounted() {
     // api/districts
+    const runtimeConfig = useRuntimeConfig();
+    this.api_url = runtimeConfig.public.baseApiUrl;
     this.fetchDistrictData();
     this.fetchRoleData();
   },
@@ -39,7 +42,7 @@ export default {
     // api/districts
     async fetchDistrictData() {
       try {
-        const response = await fetch(link_API + "api/districts");
+        const response = await fetch(this.api_url + "api/districts");
         const data = await response.json();
         this.districts = data["data"];
       } catch (error) {
@@ -58,7 +61,7 @@ export default {
     },
     async fetchSubDistrictData(id) {
       try {
-        const response = await fetch(link_API + "api/subdistrict/" + id);
+        const response = await fetch(this.api_url + "api/subdistrict/" + id);
         const data = await response.json();
         this.subdistricts = data["data"];
       } catch (error) {
@@ -68,7 +71,9 @@ export default {
     // ชุมชน
     async fetchCommunityData(id) {
       try {
-        const response = await fetch(link_API + "api/community/district/" + id);
+        const response = await fetch(
+          this.api_url + "api/community/district/" + id
+        );
         const data = await response.json();
         this.communities = data["data"];
       } catch (error) {
@@ -79,7 +84,7 @@ export default {
     // ตำแหน่ง
     async fetchRoleData() {
       try {
-        const response = await fetch(link_API + "api/role");
+        const response = await fetch(this.api_url + "api/role");
         const data = await response.json();
         this.roles = data["data"];
       } catch (error) {
@@ -90,11 +95,38 @@ export default {
     // รหัสไปรษณีย์
     async fetchZipCodeData(id) {
       try {
-        const response = await fetch(link_API + "api/zipcode/" + id);
+        const response = await fetch(this.api_url + "api/zipcode/" + id);
         const data = await response.json();
         this.form.zipcode = data["data"][0].zip_code;
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async communityNameToId(name) {
+      let community = this.communities.filter(
+        (community) => community.communityname === name
+      );
+
+      if (community.length <= 0) {
+        const response = await fetch(this.api_url + "api/community/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            community: name,
+            districtId: this.form.district,
+            subDistrictId: +this.form.subdistrict,
+          }),
+        });
+        const newCommunity = await response.json();
+
+        if (newCommunity.status === 200) {
+          return newCommunity.data[0].id;
+        }
+      } else {
+        return community[0].id;
       }
     },
 
@@ -114,12 +146,13 @@ export default {
         this.form.password != ""
       ) {
         try {
-          const response = await fetch(link_API + "api/user/register", {
+          const community = await this.communityNameToId(this.form.community);
+          const response = await fetch(this.api_url + "api/user/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(this.form),
+            body: JSON.stringify({ ...this.form, community }),
           });
 
           if (response.status === 200) {
@@ -167,7 +200,18 @@ export default {
         });
       }
     },
+    newCommunity() {
+      if (this.communities && this.form.community) {
+        this.newCommunityMessage = this.communities.some(
+          (community) => community.communityname === this.form.community
+        )
+          ? ""
+          : `"${this.form.community}" ไม่มีในระบบของเรา การสมัครใช้งานจะนำชุมชนนี้เข้าสู่ระบบทันที กรุณาตรวจสอบข้อมูลก่อนสมัคร`;
+      }
+    },
   },
+  computed: {},
+  watch: {},
 };
 </script>
 
@@ -301,8 +345,38 @@ export default {
                       />
                     </div>
                     <div class="form-outline mb-4">
-                      <label style="margin-bottom: 15px">ชุมชน</label>
-                      <select
+                      <label for="communities" style="margin-bottom: 15px"
+                        >ชุมชน</label
+                      >
+
+                      <!-- TODO: A community input box with autocomplete if exists, add new one if otherwise -->
+
+                      <input
+                        class="form-control"
+                        list="communitiesOptions"
+                        id="communities"
+                        placeholder="ชุมชน <ชื่อชุมชน>"
+                        v-model="form.community"
+                        @blur="newCommunity"
+                      />
+                      <datalist id="communitiesOptions">
+                        <option
+                          v-for="community in communities"
+                          :value="community.communityname"
+                          :data-value="community.id"
+                        ></option>
+                      </datalist>
+
+                      <div
+                        id="communities"
+                        class="alert alert-warning mt-3"
+                        role="alert"
+                        v-if="this.newCommunityMessage"
+                      >
+                        {{ this.newCommunityMessage }}
+                      </div>
+
+                      <!-- <select
                         class="select form-control"
                         readonly
                         v-model="form.community"
@@ -315,7 +389,7 @@ export default {
                         >
                           {{ community.communityname }}
                         </option>
-                      </select>
+                      </select> -->
                     </div>
                     <div class="form-outline mb-4">
                       <label style="margin-bottom: 15px">รหัสผ่าน</label>
