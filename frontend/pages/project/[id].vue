@@ -376,7 +376,7 @@ export default {
 
         <!-- img -->
         <div v-if="this.edit == false" class="pt-2">
-          <img style="width: 100%; height: auto" :src="imageData" alt="" />
+          <img class="project-image" :src="imageData" alt="" />
         </div>
 
         <div style="padding-top: 30px; padding-bottom: 10px">
@@ -725,5 +725,11 @@ export default {
 
 .c-2 {
   border: 2px solid rgb(0, 88, 110);
+}
+
+.project-image {
+  width: 100%;
+  max-height: 30rem;
+  object-fit: contain;
 }
 </style>
