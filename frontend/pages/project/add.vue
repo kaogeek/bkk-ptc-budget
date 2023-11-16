@@ -48,7 +48,7 @@ export default {
         var decoded = jwt_decode(token);
         this.role = decoded.role;
         this.owner_id = decoded.role;
-        this.create_email = decoded.email || '';
+        this.create_email = decoded.email || "";
         this.api_get_community(decoded.community);
         this.api_get_district(decoded.district);
       }
@@ -213,7 +213,7 @@ export default {
               </div>
               <div class="row mb-3">
                 <label for="projectgoal" class="col-sm-2 col-form-label"
-                  >รุปภาพ</label
+                  >รูปภาพ</label
                 >
                 <div class="col-sm-10">
                   <input
