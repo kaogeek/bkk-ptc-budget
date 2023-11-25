@@ -29,6 +29,7 @@ export default {
         password: "",
       },
       newCommunityMessage: "",
+      showPassword: false,
     };
   },
   mounted() {
@@ -393,13 +394,28 @@ export default {
                     </div>
                     <div class="form-outline mb-4">
                       <label style="margin-bottom: 15px">รหัสผ่าน</label>
-                      <input
-                        type="password"
-                        id="password"
-                        class="form-control"
-                        placeholder="รหัสผ่าน"
-                        v-model="form.password"
-                      />
+                      <div class="input-group">
+                        <input
+                          :type="showPassword ? 'text' : 'password'"
+                          id="password"
+                          class="form-control"
+                          placeholder="รหัสผ่าน"
+                          v-model="form.password"
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          id="button-addon2"
+                          @click="showPassword = !showPassword"
+                        >
+                          <i
+                            class="bi"
+                            :class="
+                              showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'
+                            "
+                          ></i>
+                        </button>
+                      </div>
                     </div>
                     <div class="text-center">
                       <button
