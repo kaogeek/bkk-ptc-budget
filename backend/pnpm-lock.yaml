@@ -65,8 +65,8 @@ devDependencies:
     specifier: ^8.10.2
     version: 8.10.2
   '@types/swagger-jsdoc':
-    specifier: ^6.0.1
-    version: 6.0.1
+    specifier: ^6.0.4
+    version: 6.0.4
   '@types/swagger-ui-express':
     specifier: ^4.1.3
     version: 4.1.3
@@ -282,8 +282,8 @@ packages:
       '@types/node': 20.5.8
     dev: true
 
-  /@types/swagger-jsdoc@6.0.1:
-    resolution: {integrity: sha512-+MUpcbyxD528dECUBCEVm6abNuORdbuGjbrUdHDeAQ+rkPuo2a+L4N02WJHF3bonSSE6SJ3dUJwF2V6+cHnf0w==}
+  /@types/swagger-jsdoc@6.0.4:
+    resolution: {integrity: sha512-W+Xw5epcOZrF/AooUM/PccNMSAFOKWZA5dasNyMujTwsBkU74njSJBpvCCJhHAJ95XRMzQrrW844Btu0uoetwQ==}
     dev: true
 
   /@types/swagger-ui-express@4.1.3:
